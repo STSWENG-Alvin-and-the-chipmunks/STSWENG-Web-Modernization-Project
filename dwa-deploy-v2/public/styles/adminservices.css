@@ -1,0 +1,198 @@
+.adminservices-manage {
+  background-color: rgba(255, 255, 255, 0.9);
+  background-image: url('/assets/adminaccountbg.png');
+  background-size: cover;
+  background-position: center;
+  margin-left: 15vw; 
+  margin-top: 10%; 
+  height: 90%; 
+  width: calc(100% - 15vw); 
+  padding: 20px;
+  font-family: Glacial Indifference, -apple-system, Roboto, Helvetica, sans-serif;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto; 
+}
+
+.adminservices-title {
+  color: #0d0d0d;
+  font-size: 75px;
+  font-weight: 700;
+}
+
+.adminservices-divider {
+  border: 1px solid #0d0d0d;
+  margin-bottom: 25px;
+}
+
+.adminservices-content {
+  width: 100%; 
+  display: flex;
+  gap: 20px;
+}
+
+.adminservices-list {
+  flex-grow: 1; 
+  max-width: 30%; 
+  background-color: #ededed;
+  border-radius: 20px;
+  padding: 20px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 80vh; 
+  overflow-y: auto; 
+}
+
+.adminservices-list-header{
+  border-bottom: solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.service-icon {
+  width: 50px;
+  height: auto;
+  display: block;
+  margin: 5px;
+}
+
+.adminservices-item {
+  color: #000;
+  font-size: 25px;
+  margin-bottom: 20px; 
+  padding: 10px;
+  width: 100%; 
+  text-align: center;
+  border-radius: 10px; 
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.adminservices-item:hover {
+  background-color: #f0f0f0; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+.adminservices-new-btn {
+  color: #BA9731;
+  font-size: 25px;
+  margin-bottom: 20px; 
+  padding: 10px;
+  width: 100%; 
+  text-align: center;
+  border-radius: 10px; 
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.adminservices-new-btn img{
+  margin-right: 10px;
+}
+
+.adminservices-new-btn:hover {
+  background-color: #f0f0f0; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+
+.adminservices-edit-form {
+  flex-grow: 2; 
+  background-color: #ededed;
+  border-radius: 20px;
+  padding: 17px;
+}
+
+.adminservices-form-header {
+  border-bottom: solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.adminservices-form-header h2 {
+  color: #ba9731;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.adminservices-form-group {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.adminservices-form-group label {
+  display: inline-block;
+  font-size: 25px;
+  color: #000;
+  width: 100%;
+}
+
+.adminservices-form-input,
+.adminservices-form-textarea {
+  display: block;
+  width: 100%; 
+  border: 1px solid #cfcfcf;
+  background-color: #f2f2f2;
+  font-size: 16px;
+  padding: 5px;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.adminservices-form-textarea {
+  height: 80px;
+}
+
+.adminservices-btns {
+  position: relative;
+  display: flex;
+  gap: 5px;
+}
+
+.adminservices-save-btn{
+  width: 85px;
+  height: 33px;
+  line-height: 10px;
+  border-radius: 25px; 
+  background-color: #D4A017; 
+  color: white;
+  border: none; 
+  text-align: center; 
+  padding: 10px 20px; 
+  font-size: 16px; 
+  font-family: Arial, sans-serif; 
+  position: relative;
+  margin-top: -14px;
+}
+
+.adminservices-save-btn:hover {
+  background-color: white;
+  color: #D4A017;
+}
+
+.adminservices-delete-btn {
+  width: 85px;
+  height: 33px;
+  line-height: 10px;
+  border-radius: 25px; 
+  background-color: #E63946; 
+  color: white; 
+  border: none;
+  text-align: center; 
+  padding: 10px 20px; 
+  font-size: 16px; 
+  font-family: Arial, sans-serif; 
+  position: relative;
+  margin-top: -14px;
+}
+
+.adminservices-delete-btn:hover {
+  background-color: white;
+  color: #E63946;
+}
+
+.d-none {
+  display: none !important;
+}

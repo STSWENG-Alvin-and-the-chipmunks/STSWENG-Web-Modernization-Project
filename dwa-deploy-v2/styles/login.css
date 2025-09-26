@@ -1,0 +1,242 @@
+body {
+    background-image: url(/assets/Account-BG.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+@media only screen and (max-width: 767px) {
+    body {
+        background-image: url(/assets/Account-BG-Mobile.png);
+    }
+}
+
+.div-1 {
+    padding: 60px 10px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.LoginContainer {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 700px;
+    background-color: #f2f2f2;
+    padding-inline: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .LoginContainer {
+        max-width: 600px;
+        padding-inline: 15px;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .LoginContainer {
+        max-width: 400px;
+        padding-inline: 10px;
+        margin-top: 10px;
+    }
+}
+
+.login-header {
+    color: black;
+    margin-top: 60px;
+    font-family: var(--tertiary-font);
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 700;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .login-header {
+        margin-top: 40px;
+        font-size: clamp(2rem, 5vw, 3rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .login-header {
+        font-size: clamp(1.5rem, 6vw, 2rem);
+        margin-top: 20px;
+    }
+}
+
+.div-15 {
+    color: black;
+    margin-top: 40px;
+    font: 24px var(--tertiary-font);
+}
+
+@media (max-width: 991px) {
+    .div-15 {
+        margin-top: 20px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .div-15 {
+        margin-top: 15px;
+        font-size: 18px;
+    }
+}
+
+.username-content,
+.password-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+    color: var(--primary-color);
+    max-width: 600px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .username-content,
+    .password-content {
+        gap: 4px;
+        max-width: 450px; 
+    }
+}
+
+@media (max-width: 576px) {
+    .username-content,
+    .password-content {
+        gap: 4px;
+        max-width: 300px;
+    }
+}
+
+.img-4, .img-5 {
+    width: 30px;
+}
+
+.input {
+    font-family: var(--tertiary-font);
+    flex-grow: 1;
+    padding: 8px;
+    font-size: clamp(0.9rem, 4vw, 1.5rem);
+    border: none;
+    outline: none;
+    width: 100%;
+    background-color: #f2f2f2;
+}
+
+.user-info {
+    width: clamp(500px, 100%, 600px);
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .user-info {
+        width: 90%;
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .user-info {
+        width: 95%;
+        padding: 0 10px;
+    }
+}
+
+.div-18, .div-22 {
+    border-color: var(--primary-color);
+    border-style: solid;
+    border-width: 1px;
+    background-color: var(--primary-color);
+    margin-top: 6px;
+    width: 100%;
+    height: 1px;
+}
+
+.div-19 {
+    color: black;
+    margin-top: 30px;
+    font: 24px var(--tertiary-font);
+}
+
+@media (max-width: 991px) {
+    .div-19 {
+        margin-top: 20px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .div-19 {
+        margin-top: 15px;
+        font-size: 18px;
+    }
+}
+
+.div-23 {
+    border-radius: 6px;
+    background-color: var(--primary-color);
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f2f2f2;
+    padding: 15px 0;
+    font: 24px var(--tertiary-font);
+    text-align: center;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .div-23 {
+        font-size: 20px;
+        padding: 10px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .div-23 {
+        font-size: 18px;
+        padding: 8px 0;
+    }
+}
+
+.signup {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    margin: 30px 0 20px;
+}
+
+@media (max-width: 576px) {
+    .signup {
+        margin: 20px 0 10px;
+    }
+}
+
+.signup p {
+    color: var(--primary-color);
+    font-family: var(--tertiary-font);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+}
+
+.signup a {
+    color: var(--secondary-color);
+    font-family: var(--tertiary-font);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    text-decoration: none; 
+    padding-bottom: 15px; 
+}

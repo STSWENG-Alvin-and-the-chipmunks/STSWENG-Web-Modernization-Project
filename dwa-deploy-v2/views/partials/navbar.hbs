@@ -1,0 +1,65 @@
+<!-- Mobile Menu Icon-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- Nav Bar -->
+<div class="nav-parent" id="myTopnav">
+    <div class="nav-logo">
+        <a class="main" href="/home"><img class="logo-img" src="/assets/dz-light.png" alt="Logo"></a>
+    </div>
+
+    <div class="nav-options">
+        <a class="main active" href="/home">Home</a>
+        <div class="dropdown">
+            <a class="dropdown-parent">Services</a>
+            <div class="dropdown-child">
+                <a href="/services?type=Cuts">Cuts</a>
+                <a href="/services?type=Styling">Styling</a>
+                <a href="/services?type=Coloring">Coloring</a>
+                <a href="/services?type=Treatments">Treatments</a>
+            </div>
+        </div>
+        <a class="main" href="/promos">Promos</a>
+        <a class="main" href="https://simplybeauty.ph">Shop</a>
+        <a class="main" href="/newsletter">Newsletter</a>
+        <div class="dropdown">
+            <a class="main">Locations</a>
+            <div class="dropdown-child">
+                {{#each branches}}
+                    <a href="/branches/{{this.branchName}}" data-branch-name="{{this.branchName}}">Dot Zero Hair Studio - {{this.branchName}}</a>
+                {{/each}}
+            </div>
+        </div>
+        <a class = "main" href="/about">About Us</a>
+        <a class = "main" href = '/login'>Login</a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
+    </a>
+</div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+    <a class="main active" href="/home">Home</a>
+    <a href="javascript:void(0);" onclick="toggleDropdown('servicesDropdown')">Services</a>
+    <div class="dropdown-child" id="servicesDropdown">
+        <a href="/services?type=Cuts">Cuts</a>
+        <a href="/services?type=Styling">Styling</a>
+        <a href="/services?type=Coloring">Coloring</a>
+        <a href="/services?type=Treatments">Treatments</a>
+    </div>
+    <a class="main" href="/promos">Promos</a>
+    <a class="main" href="https://simplybeauty.ph">Shop</a>
+    <a class="main" href="/newsletter">Newsletter</a>
+    <a href="javascript:void(0);" onclick="toggleDropdown('locationsDropdown')">Locations</a>
+    <div class="dropdown-child" id="locationsDropdown">
+        {{#each branches}}
+            <a href="/branches/{{this.branchName}}" data-branch-name="{{this.branchName}}">Dot Zero Hair Studio - {{this.branchName}}</a>
+        {{/each}}
+    </div>
+    <a class="main" href="/about">About Us</a>
+    <a href='/login'>
+        Account
+    </a>
+</div>

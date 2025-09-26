@@ -1,0 +1,500 @@
+/* Global Variables */
+:root {
+    --tertiary-font: 'Glacial Indifference', -apple-system, Roboto, Helvetica, sans-serif;
+    --secondary-font: 'Teachers';
+    --primary-font: 'Playfair Display';
+    --primary-color: #0d0d0d;
+    --secondary-color: #BA9731;
+    --tertiary-color: #f2f2f2;
+}
+body {
+    overflow-x: hidden;
+}
+
+/* Section Styles */
+.first-section {
+    position: relative;
+    background-image: url('../assets/dzm.jpg');
+    background-size: cover;
+}
+
+.filter {
+    position: absolute;
+    background-color: rgba(13, 13, 13, 0.7);
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.first-section-logo {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10% 0;
+    z-index: 2;
+}
+
+.first-section-logo img {
+    max-width: 50%;
+}
+
+/* About and Connect Sections */
+.about-section, .connect-section {
+    position: relative;
+    background-color: white;
+    background-image: url('../assets/bg-light.png');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.about-text, .connect-content {
+    padding: 10% 0;
+    width: 60%;
+    text-align: center;
+}
+
+.about-text a {
+    font-size: 1.2em;
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+
+.T1, .T2 {
+    font-family: var(--primary-font);
+    font-size: clamp(2.5rem, 4vw, 5rem);
+}
+
+.T1 {
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+
+.connect-section {
+    height: 100vh;
+}
+
+/* Services Section */
+.services-section {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    background-color: var(--primary-color);
+}
+
+.services-text {
+    color: var(--tertiary-color);
+    padding: 5% 0;
+    width: 60%;
+    text-align: center;
+
+}
+
+#white-hr {
+    width: 50%;
+    height: 1px;
+    background-color: var(--tertiary-color);
+    margin: 0 auto;
+}
+
+.services-btn {
+    color: var(--tertiary-color);
+    background-color: var(--primary-color);
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 1.3em;
+    font-family: var(--secondary-font);
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    position: relative;
+}
+
+.services-btn::after {
+    content: '>';
+    color: var(--tertiary-color);
+    font-size: 1.3em;
+    margin-left: 10px;
+}
+
+/* Grid Layout */
+.services-container {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    gap: 10%;
+}
+
+.service-item {
+    max-width: 230px;
+    min-width: 100px;
+    font-family: var(--primary-font);
+    padding-inline: 10%;
+}
+
+.service-item img {
+    width: 30%;
+}
+
+.service-item h2 {
+    font-size: clamp(1rem, 3vh, 3rem);
+    text-align: center;
+}
+
+/* Social Media Section */
+.social-media {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.social-media a {
+    color: var(--primary-color);
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.social-media img {
+    width: 6%;
+    margin-right: 10px;
+}
+
+.social-media span {
+    vertical-align: middle;
+}
+
+/* Branch Section */
+.branch-section {
+    position: relative;
+    background-color: var(--tertiary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    flex-direction: column;
+    min-height: 900px;
+    width: 100%;
+}
+
+.branch-content {
+    padding: 5%;
+    text-align: center;
+    overflow: hidden;
+}
+
+.T3 {
+    font-family: var(--primary-font);
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 3.5em;
+}
+
+#black-hr {
+    width: 50%;
+    height: 1px;
+    background-color: black;
+    margin: 0 auto;
+}
+
+/* Grid Container */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 3% 5%;
+}
+
+.grid-item {
+    padding: 20px;
+    text-align: center;
+}
+
+.grid-item img {
+    width: 30%;
+}
+
+/* Address */
+.address {
+    text-align: left;
+}
+
+.col-head {
+    font-family: var(--secondary-font);
+    font-size: 1.8em;
+}
+
+.address b {
+    font-family: var(--secondary-font);
+    font-size: 0.8em;
+    color: var(--primary-color);
+}
+
+.address p {
+    font-size: 0.7em;
+    color: var(--primary-color);
+}
+
+/* Consultation Section */
+.consultation-section {
+    position: relative;
+    background-image: url('../assets/bg-dark.png');
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    color: var(--tertiary-color);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.consultation-text {
+    padding: 5%;
+    width: 60%;
+}
+
+.consultation-text h1, .consultation-text a {
+    font-family: var(--primary-font);
+}
+
+.consultation-text h1 {
+    font-size: 3.5em;
+}
+
+.consultation-text a {
+    color: var(--secondary-color);
+    font-size: 1.1em;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .first-section-logo {
+        padding: 20% 0;
+    }
+
+    .first-section-logo img {
+        width: 70%;
+    }
+
+    .about-section, .services-section {
+        padding: 10% 0;
+    }
+
+    .about-text, .services-text {
+        width: 80%;
+        font-size: 0.9rem;
+    }
+
+    .service-item img {
+        width: 40%;
+    }
+
+    .connect-section {
+        padding: 5% 0;
+        height: auto;
+    }
+
+    .connect-content {
+        width: 90%;
+        padding: 5% 0;
+    }
+
+    .social-media {
+        margin-top: 15px;
+    }
+
+    .social-media a {
+        margin: 10px 0;
+        font-size: 1em;
+    }
+
+    .social-media img {
+        width: 8%;
+        margin-right: 5px;
+    }
+
+    .social-media span {
+        font-size: 1em;
+    }
+
+    .branch-section, .consultation-section {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .first-section {
+        background-size: cover;
+        background-position: center;
+    }
+
+    .first-section-logo {
+        padding: 30% 0;
+    }
+
+    .first-section-logo img {
+        width: 80%;
+    }
+
+    .about-section, .services-section {
+        padding: 5% 0;
+    }
+
+    .about-text, .services-text {
+        width: 90%;
+        font-size: 0.9rem;
+    }
+
+    .services-container {
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+        justify-content: center;
+        gap: 0%;
+    }
+
+    .service-item h2 {
+        font-size: clamp(1rem, 2vh, 2rem);
+    }
+
+    .service-item img {
+        width: 50%;
+    }
+
+    .connect-section {
+        padding: 10% 0;
+        height: auto;
+    }
+
+    .connect-content {
+        width: 90%;
+        padding: 2% 0;
+    }
+
+    .social-media {
+        margin-top: 10px;
+    }
+
+    .social-media a {
+        margin: 8px 0;
+        font-size: 1em;
+    }
+
+    .social-media img {
+        width: 10%;
+        margin-right: 5px;
+    }
+
+    .social-media span {
+        font-size: 1em;
+    }
+
+    .branch-section, .consultation-section {
+        display: none;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+@media (max-width: 320px) {
+    body, html {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    .first-section {
+        background-size: cover;
+        width: 100%;
+    }
+
+    .first-section-logo {
+        padding: 30% 0;
+        width: 100%;
+    }
+
+    .first-section-logo img {
+        width: 100%;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .about-section, .services-section {
+        padding: 5% 0;
+        width: 100%;
+    }
+
+    .about-text, .services-text {
+        width: 90%;
+        font-size: 0.9rem;
+        margin: 0 auto;
+    }
+
+    .services-container {
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+        justify-content: center;
+        gap: 0%;
+    }
+
+    .service-item h2 {
+        font-size: clamp(1rem, 2vh, 2rem);
+        margin: 0;
+    }
+
+    .service-item img {
+        width: 40%;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .connect-section {
+        padding: 10% 0;
+        height: auto;
+        width: 100%;
+    }
+
+    .connect-content {
+        width: 90%;
+        padding: 2% 0;
+        margin: 0 auto;
+    }
+
+    .social-media {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .social-media a {
+        margin: 8px 0;
+        font-size: 1em;
+    }
+
+    .social-media img {
+        width: 10%;
+        margin-right: 5px;
+    }
+
+    .social-media span {
+        font-size: 1em;
+    }
+
+    .branch-section, .consultation-section {
+        display: none;
+    }
+}

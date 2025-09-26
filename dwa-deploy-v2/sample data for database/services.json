@@ -1,0 +1,291 @@
+[
+  {
+    "serviceName":"Standard Haircut with shampoo and blowdry",
+    "serviceType":"Cuts",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "normal": "₱500"
+    },
+    "cutOffTime":"8:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Standard Haircut with Express Head Spa",
+    "serviceType":"Cuts",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "normal": "₱1100"
+    },
+    "cutOffTime":"8:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Director’s Cut",
+    "serviceType":"Cuts",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "normal": "₱1500"
+    },
+    "cutOffTime":"8:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Director’s Cut with Express Head Spa",
+    "serviceType":"Cuts",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "normal": "₱2100"
+    },
+    "cutOffTime":"8:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Fringe Hair Cut",
+    "serviceType":"Cuts",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "normal": "₱2100"
+    },
+    "cutOffTime":"8:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Shampoo and Blow Dry",
+    "serviceType":"Styling",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "normal": "₱500"
+    },
+    "cutOffTime":"8:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Hair Ironing",
+    "serviceType":"Styling",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "normal": "₱1100"
+    },
+    "cutOffTime":"8:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Hair Curling",
+    "serviceType":"Styling",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "normal": "₱1500"
+    },
+    "cutOffTime":"8:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Hair Up-do",
+    "serviceType":"Styling",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "normal": "₱2100"
+    },
+    "cutOffTime":"8:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Fringe Hair Cut",
+    "serviceType":"Styling",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "normal": "₱2100"
+    },
+    "cutOffTime":"8:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Roots Basic Hair Color",
+    "serviceType":"Coloring",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "matrix": "₱900",
+      "elgon": "₱1200",
+      "ordeve": "₱1800"
+    },
+    "cutOffTime":"6:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Long Regrowth Basic Hair Color",
+    "serviceType":"Coloring",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "matrix": "₱1200",
+      "elgon": "₱1500",
+      "ordeve": "₱2200"
+    },
+    "cutOffTime":"6:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Short Basic Hair Color",
+    "serviceType":"Coloring",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "matrix": "₱1500",
+      "elgon": "₱1500 to ₱1800",
+      "ordeve": "₱2200 to ₱2600"
+    },
+    "cutOffTime":"6:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Medium Basic Hair Color",
+    "serviceType":"Coloring",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "matrix": "₱1800 to ₱2000",
+      "elgon": "₱2000 to ₱2500",
+      "ordeve": "₱3000 to ₱4000"
+    },
+    "cutOffTime":"6:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Long Basic Hair Color",
+    "serviceType":"Coloring",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "matrix": "₱2400 to ₱3000",
+      "elgon": "₱2800 to ₱3200",
+      "ordeve": "₱3800 to ₱4300"
+    },
+    "cutOffTime":"6:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Keratherapy (Brazilian Keratin)",
+    "serviceType":"Treatments",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "short": "₱1800 to ₱2200",
+      "medium": "₱2200 to ₱2500",
+      "long": "₱2500 to ₱3000",
+      "extraLong": "₱3000 to ₱3600"
+    },
+    "cutOffTime":"6:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Linkage Moisturizing Treatment",
+    "serviceType":"Treatments",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "short": "₱2350 to ₱2500",
+      "medium": "₱2750 to ₱3000",
+      "long": "₱3300 to ₱3500",
+      "extraLong": "₱3850 to up"
+    },
+    "cutOffTime":"6:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  },
+  {
+    "serviceName":"Keratherapy Cocoa",
+    "serviceType":"Treatments",
+    "serviceDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "serviceImages": [
+      "assets/promo1.png",
+      "assets/promo3.png",
+      "assets/promo7.png"
+    ],
+    "pricing": {
+      "short": "₱2550 to ₱3100",
+      "medium": "₱3200 to ₱3750",
+      "long": "₱3900 to ₱4600",
+      "extraLong": "₱4750 to up"
+    },
+    "cutOffTime":"6:00 PM",
+    "branches":"All DOT ZERO Hair Studio Branches"
+  }
+]

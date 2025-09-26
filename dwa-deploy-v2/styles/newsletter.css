@@ -1,0 +1,139 @@
+.newsletter-container {
+  background-color: #141414;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 60px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+@media (max-width: 991px) {
+  .newsletter-container {
+    padding: 100px 20px;
+  }
+}
+
+.newsletter-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 65px;
+  width: 100%;
+  max-width: 1145px;
+}
+
+@media (max-width: 991px) {
+  .newsletter-content {
+    margin-top: 40px;
+    max-width: 100%;
+  }
+}
+
+.newsletter-title {
+  text-align: center;
+  font-size: 80px;
+  font-family: var(--primary-font), sans-serif;
+}
+
+@media (max-width: 991px) {
+  .newsletter-title {
+    font-size: 36px;
+    max-width: 100%;
+  }
+}
+
+.newsletter-description {
+  color: var(--secondary-color);
+  text-align: center;
+  margin-top: 100px;
+  font: 300 25px var(--tertiary-font), sans-serif;
+}
+
+@media (max-width: 991px) {
+  .newsletter-description {
+    font-size: 20px;
+    margin-top: 40px;
+    max-width: 100%;
+  }
+}
+
+.form-label {
+  font-family: var(--primary-font), sans-serif;
+  margin-top: 50px;
+  color: white;
+  text-align: left;
+  width: 100%;
+}
+
+@media (max-width: 991px) {
+  .form-label {
+    font-size: 18px;
+    margin-top: 30px;
+    max-width: 100%;
+  }
+}
+
+.form-input {
+  background-color: var(--tertiary-color);
+  margin-top: 5px;
+  height: 60px;
+  width: 100%;
+  border: none;
+  padding: 0 15px;
+}
+
+@media (max-width: 991px) {
+  .form-input {
+    height: 50px;
+    max-width: 100%;
+  }
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.submit-button {
+  font-family: var(--tertiary-font), sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border: none;
+  padding: 20px 60px;
+  margin-top: 100px;
+  width: 300px;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+  text-align: center;
+  align-self: center;
+}
+
+.submit-button:hover {
+  background-color: #deb84f;
+}
+
+@media (max-width: 991px) {
+  .submit-button {
+    font-size: 16px;
+    margin-top: 20px;
+    padding: 15px 30px;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

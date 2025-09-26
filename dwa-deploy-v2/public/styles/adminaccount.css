@@ -1,0 +1,180 @@
+.adminaccount-manage {
+    margin-left: 15vw; 
+    margin-top: 10%; 
+    height: 90%; 
+    width: calc(100% - 15vw); 
+    padding: 20px;
+    font-family: Glacial Indifference, -apple-system, Roboto, Helvetica, sans-serif;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto; 
+    background-color: rgba(255, 255, 255, 0.9);
+    background-image: url('/assets/adminaccountbg.png');
+    background-size: cover;
+    background-position: center;
+    overflow-y: hidden;
+}
+
+.adminaccount-title {
+    color: #0d0d0d;
+    font-size: 75px;
+    font-weight: 700;
+}
+
+.adminaccount-divider {
+    border: 1px solid #0d0d0d;
+  margin-bottom: 25px;
+}
+
+.adminaccount-content {
+    width: 100%; 
+    display: flex;
+    gap: 20px;
+}
+
+.adminaccount-edit-form {
+    flex-grow: 1;
+    background-color: #ededed;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.adminaccount-form-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid black;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.adminaccount-form-header h2 {
+    color: #ba9731;
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.adminaccount-icons {
+    position: relative;
+    display: flex;
+    gap: 5px;
+}
+
+.adminaccount-edit-icon {
+    width: 85px;
+    height: 33px;
+    line-height: 10px;
+    border-radius: 25px; 
+    background-color: #D4A017; 
+    color: white;
+    border: none; 
+    text-align: center; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    font-family: Arial, sans-serif; 
+    position: relative;
+    margin-top: -14px;
+}
+
+.adminaccount-edit-icon:hover {
+    background-color: white;
+    color: #D4A017;
+}
+
+.adminaccount-cancel-icon {
+    width: 85px;
+    height: 33px;
+    line-height: 10px;
+    border-radius: 25px; 
+    background-color: #E63946; 
+    color: white; 
+    border: none;
+    text-align: center; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    font-family: Arial, sans-serif; 
+    position: relative;
+    margin-top: -14px;
+}
+
+.adminaccount-cancel-icon:hover {
+    background-color: white;
+    color: #E63946;
+}
+
+.adminaccount-form-divider {
+    border: 0;
+    height: 1px;
+    background: #ddd;
+    margin-top: 10px;
+}
+
+.adminaccount-form-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    margin-left: 250px;
+    width: 75%;
+}
+
+.adminaccount-form-group label {
+    font-size: 25px;
+    color: #000;
+    flex-basis: 30%;
+}
+
+.adminaccount-form-input,
+.adminaccount-form-textarea {
+    flex-grow: 1;
+    border: 1px solid #cfcfcf;
+    background-color: #f2f2f2;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    width: calc(100% - 20px); 
+}
+
+.adminaccount-form-input:focus,
+.adminaccount-form-textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.adminaccount-form-textarea {
+    resize: vertical;
+}
+
+.error {
+    color: red;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.success {
+    color: green;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.img-thumbnail {
+    margin-left: -220px;
+    margin-top: -320px;
+    margin-bottom: 250px;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#imageToCrop {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+

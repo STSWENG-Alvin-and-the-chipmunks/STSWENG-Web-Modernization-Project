@@ -1,0 +1,65 @@
+ <!-- Branches Page -->
+
+<div class="hair-studio">
+  <div class="header">
+    <h1 class="title">
+      <span>DOT ZERO Hair Studio -</span>
+      <span style="color: rgba(186, 151, 49, 1)">{{branch.branchName}}</span>
+    </h1>
+    <div class="content-wrapper">
+      <div class="content-container">
+        <div class="text-column">
+          <div class="text-content">
+            <p class="address">{{branch.branchLocation}}</p>
+            <p class="location-description">{{branch.branchDescription}}</p>
+            <p class="additional-info">{{branch.branchAdditionalDescription}}</p>
+          </div>
+        </div>
+        <div class="image-column">
+            <img loading="lazy" src="{{branch.locationImage}}" class="studio-image" alt="DOT ZERO Hair Studio - branch" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="info-section">
+    <img loading="lazy" src="/assets/serviceinfobg.png" class="background-image-branches" alt="" />
+    <div class="info-container">
+      <div class="info-content">
+        <img loading="lazy" src="/assets/ClockIcon.svg" alt="clockicon" />
+        <p>Operating Hours: {{branch.operatingHours}}</p>
+      </div>
+      <div class="info-content">
+        <img loading="lazy" src="/assets/landline.svg" alt="contacticon" />
+        <p>Contact Numbers: {{branch.landLineNumbers}},&nbsp;{{branch.mobileNumbers}}</p>
+      </div>
+      <div class="info-content">
+        <img loading="lazy" src="/assets/FbIcon.svg" class="FbIcon" alt="fbicon" />
+        <p class="facebook-link">
+             <a href="{{branch.fbLink}}" class="facebook-custom-link" target="_blank">{{branch.fbLink}}</a>
+        </p>
+      </div>
+      <div class="info-content">
+        <img loading="lazy" src="/assets/StylingIcon.svg" class="StylingIcon" alt="styleicon" />
+        <p>Number of Styling Stations: {{branch.numberOfStations}}</p>
+      </div>
+      <div class="info-content">
+        <img loading="lazy" src="/assets/ClientIcon.svg" class="ClientIcon" alt="ClientIcon" />
+        <p>Maximum Client Occupancy: {{branch.maxClientOccupancy}}</p>
+      </div>
+      <div class="info-content">
+        <img loading="lazy" src="/assets/Restroom.svg" class="restroom-icon" alt="Restroom facility icon" />
+        <p>Restroom: {{branch.restroom}}</p>
+      </div>
+      <div class="info-content">
+        <img loading="lazy" src="/assets/Wifi.svg" class="wifi-icon" alt="WiFi availability icon" />
+        <p>WiFi:{{branch.wifi}}</p>
+      </div>
+      <div class="info-content">
+        <img loading="lazy" src="/assets/Car.svg" class="parking-icon" alt="Parking icon" />
+        <p>Parking: {{branch.parkingLocation}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <!-- End of Branches Page -->

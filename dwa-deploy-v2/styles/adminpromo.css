@@ -1,0 +1,273 @@
+.adminpromo-manage {
+  background-color: rgba(255, 255, 255, 0.9);
+  background-image: url('/assets/adminaccountbg.png');
+  background-size: cover;
+  background-position: center;
+  margin-left: 15vw; 
+  margin-top: 10%; 
+  height: 90%; 
+  width: calc(100% - 15vw); 
+  padding: 20px;
+  font-family: Glacial Indifference, -apple-system, Roboto, Helvetica, sans-serif;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto; 
+}
+
+.adminpromo-title {
+  color: #0d0d0d;
+  font-size: 75px;
+  font-weight: 700;
+}
+
+.adminpromo-divider {
+  border: 1px solid #0d0d0d;
+  margin-bottom: 25px;
+}
+
+.adminpromo-content {
+  width: 100%; 
+  display: flex;
+  gap: 20px;
+}
+
+.adminpromo-list {
+  flex-grow: 1; 
+  max-width: 30%; 
+  background-color: #ededed;
+  border-radius: 20px;
+  padding: 20px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.adminpromo-list-header{
+  border-bottom: solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.promos-icon {
+  width: 50px;
+  height: auto;
+  display: block;
+  margin: 5px;
+}
+
+.adminpromo-item {
+  color: #000;
+  font-size: 25px;
+  margin-bottom: 20px; 
+  padding: 10px;
+  width: 100%; 
+  text-align: center;
+  border-radius: 10px; 
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.adminpromo-item:hover {
+  background-color: #f0f0f0; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.adminpromo-new-btn {
+  color: #BA9731;
+  font-size: 25px;
+  margin-bottom: 20px; 
+  padding: 10px;
+  width: 100%; 
+  text-align: center;
+  border-radius: 10px; 
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.adminpromo-new-btn img{
+  margin-right: 10px;
+}
+
+.adminpromo-new-btn:hover {
+  background-color: #f0f0f0; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.adminpromo-edit-form {
+  flex-grow: 2; 
+  background-color: #ededed;
+  border-radius: 20px;
+  padding: 17px;
+}
+
+.adminpromo-form-header {
+  border-bottom: solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.adminpromo-form-header h2 {
+  color: #ba9731;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.adminpromo-icons {
+  position: relative;
+  display: flex;
+  gap: 5px;
+}
+
+.adminpromo-delete-icon {
+  width: 85px;
+  height: 33px;
+  line-height: 10px;
+  border-radius: 25px; 
+  background-color: #E63946; 
+  color: white; 
+  border: none;
+  text-align: center; 
+  padding: 10px 20px; 
+  font-size: 16px; 
+  font-family: Arial, sans-serif; 
+  position: relative;
+  margin-top: -14px;
+}
+
+.adminpromo-delete-icon:hover {
+  background-color: white;
+  color: #E63946;
+}
+
+.adminpromo-edit-icon {
+  width: 85px;
+  height: 33px;
+  line-height: 10px;
+  border-radius: 25px; 
+  background-color: #D4A017; 
+  color: white;
+  border: none; 
+  text-align: center; 
+  padding: 10px 20px; 
+  font-size: 16px; 
+  font-family: Arial, sans-serif; 
+  position: relative;
+  margin-top: -14px;
+}
+
+.adminpromo-edit-icon:hover {
+  background-color: white;
+  color: #D4A017;
+}
+
+.adminpromo-form-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 25px;
+  color: #000;
+  flex-basis: 30%;
+}
+
+.adminpromo-form-input, .adminpromo-form-textarea {
+  flex-grow: 1;
+  border: 1px solid #cfcfcf;
+  background-color: #f2f2f2;
+  font-size: 16px;
+  padding: 5px;
+}
+
+.adminpromo-form-textarea {
+  height: 80px;
+}
+
+.adminpromo-pricing-title {
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 991px) {
+  .adminpromo-content {
+      flex-direction: column;
+  }
+
+  .adminpromo-list, .adminpromo-edit-form {
+      width: 100%;
+  }
+
+  .adminpromo-title {
+      font-size: 40px;
+  }
+
+  .adminpromo-new-btn {
+      padding: 15px 40px;
+  }
+}
+
+.popup {
+  display: none; 
+  position: fixed; 
+  z-index: 1000; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.popup-content {
+  background-color: #0D0D0D;
+  color: white;
+  margin: 15% auto; 
+  padding: 20px;
+  width: 70%; 
+  max-width: 800px; 
+  text-align: center; 
+  border-radius: 10px;
+}
+
+.close-btn {
+  color: #F2F2F2;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: #BA9731;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-confirm {
+  background-color: #BA9731;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-confirm:hover, .btn-cancel:hover {
+  opacity: 0.8;
+}

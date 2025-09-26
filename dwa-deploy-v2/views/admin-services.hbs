@@ -1,0 +1,115 @@
+<!-- Admin Service Page -->
+
+<div class="adminservices-manage">
+    <h1 class="adminservices-title">Manage Services</h1>
+    <hr class="adminservices-divider">
+    <div class="adminservices-content">
+        <div class="adminservices-list">
+            <div class="adminservices-list-header">
+                <img src="/assets/ServiceIcon-SVG.svg" class="service-icon">
+                <h3>SERVICES</h3>
+            </div>
+            <div class="adminservices-new-btn" data-id="new">
+                <img src="/assets/Plus-SVG.svg" alt="Plus Icon"> New Service
+            </div>
+            {{#each services}}
+                <div class="adminservices-item" data-id="{{this._id}}">
+                    {{this.serviceName}}
+                </div>
+            {{/each}}
+        </div>
+        <div class="adminservices-edit-form" style="display: none;">
+            <form id="servicesForm" action="/services" method="post" enctype="multipart/form-data" style="display: none;">
+                <div class="adminservices-form-header">
+                    <h2>Edit Information</h2>
+                    <div class="adminservices-btns">
+                        <button type="button" id="deleteBtn" class="adminservices-delete-btn">Delete</button>
+                        <button type="submit" class="adminservices-save-btn">Save</button>
+                    </div>
+                </div>
+                <div id="error-message" class="error-message" style="display: none; color: red; margin-bottom: 10px;"></div>
+                <input type="hidden" id="serviceId" name="id">
+                <div class="adminservices-form-group">
+                    <label for="serviceName">Service Name:</label>
+                    <input type="text" id="serviceName" name="serviceName" class="adminservices-form-input" required>
+                </div>
+                <div class="adminservices-form-group">
+                    <label for="serviceType">Service Type:</label>
+                    <select id="serviceTypeDropdown" name="serviceTypeDropdown" class="adminservices-form-input d-none" required>
+                        <option value="">Select Service Type</option>
+                        <option value="Cuts">Cuts</option>
+                        <option value="Styling">Styling</option>
+                        <option value="Treatments">Treatments</option>
+                        <option value="Coloring">Coloring</option>
+                    </select>
+                    <input type="text" id="serviceType" name="serviceType" class="adminservices-form-input d-none" required>
+                </div>
+                <div class="adminservices-form-group">
+                    <label for="serviceDescription">Description:</label>
+                    <textarea id="serviceDescription" name="serviceDescription" class="adminservices-form-textarea" required></textarea>
+                </div>
+                <div class="adminservices-form-group">
+                    <label for="serviceImages">Images:</label>
+                    <input type="file" id="serviceImages" name="serviceImages" class="adminservices-form-input" multiple>
+                    <div id="imagePreviewContainer"></div>
+                </div>
+                <div id="pricingFields" class="adminservices-form-group">
+                    <div id="normalPriceField" class="adminservices-form-group d-none">
+                        <label for="normalPrice">Price:</label>
+                        <input type="text" id="normalPrice" name="pricingNormal" class="adminservices-form-input" pattern="^(?=.*\d)[\d\w\s\W]*$" title="Input must include numbers">
+                    </div>
+                    <div id="pricingShortField" class="adminservices-form-group d-none">
+                        <label for="pricingShort">Pricing Short:</label>
+                        <input type="text" id="pricingShort" name="pricingShort" class="adminservices-form-input" pattern="^(?=.*\d)[\d\w\s\W]*$" title="Input must include numbers">
+                    </div>
+                    <div id="pricingMediumField" class="adminservices-form-group d-none">
+                        <label for="pricingMedium">Pricing Medium:</label>
+                        <input type="text" id="pricingMedium" name="pricingMedium" class="adminservices-form-input" pattern="^(?=.*\d)[\d\w\s\W]*$" title="Input must include numbers">
+                    </div>
+                    <div id="pricingLongField" class="adminservices-form-group d-none">
+                        <label for="pricingLong">Pricing Long:</label>
+                        <input type="text" id="pricingLong" name="pricingLong" class="adminservices-form-input" pattern="^(?=.*\d)[\d\w\s\W]*$" title="Input must include numbers">
+                    </div>
+                    <div id="pricingExtraLongField" class="adminservices-form-group d-none">
+                        <label for="pricingExtraLong">Pricing Extra Long:</label>
+                        <input type="text" id="pricingExtraLong" name="pricingExtraLong" class="adminservices-form-input" pattern="^(?=.*\d)[\d\w\s\W]*$" title="Input must include numbers">
+                    </div>
+                    <div id="pricingMatrixField" class="adminservices-form-group d-none">
+                        <label for="pricingMatrix">Pricing Matrix:</label>
+                        <input type="text" id="pricingMatrix" name="pricingMatrix" class="adminservices-form-input" pattern="^(?=.*\d)[\d\w\s\W]*$" title="Input must include numbers">
+                    </div>
+                    <div id="pricingElgonField" class="adminservices-form-group d-none">
+                        <label for="pricingElgon">Pricing Elgon:</label>
+                        <input type="text" id="pricingElgon" name="pricingElgon" class="adminservices-form-input" pattern="^(?=.*\d)[\d\w\s\W]*$" title="Input must include numbers">
+                    </div>
+                    <div id="pricingOrdeveField" class="adminservices-form-group d-none">
+                        <label for="pricingOrdeve">Pricing Ordeve:</label>
+                        <input type="text" id="pricingOrdeve" name="pricingOrdeve" class="adminservices-form-input" pattern="^(?=.*\d)[\d\w\s\W]*$" title="Input must include numbers">
+                    </div>
+                </div>
+                <div class="adminservices-form-group">
+                    <label for="cutOffTime">Cut-off Time:</label>
+                    <input type="text" id="cutOffTime" name="cutOffTime" class="adminservices-form-input" required>
+                </div>
+                <div class="adminservices-form-group">
+                    <label for="branches">Branches:</label>
+                    <input type="text" id="branches" name="branches" class="adminservices-form-input" required>
+                </div>
+                <div id="error-message" style="display: none; color: red;"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Delete Confirmation Popup -->
+<div id="serviceConfirmPopup" class="popup">
+  <div class="popup-content">
+    <span class="close-btn">&times;</span>
+    <h2>CONFIRM DELETE SERVICE?</h2>
+    <button id="cancelDelete" class="btn-cancel">Cancel</button>
+    <button id="confirmDelete" class="btn-confirm">Delete Service</button>
+  </div>
+</div>
+
+<!-- End of Admin Service Page -->

@@ -1,0 +1,18 @@
+[
+  {
+    "branchName":"Makati",
+    "branchLocation":"1020 Arnaiz Avenue, 2nd floor, Dona Concepcion Building, San Lorenzo Village, Makati, 1223 Metro Manila",
+    "branchDescription": " The salon is located along Arnaiz Avenue, across from the Dusit Thani Hotel, within walking distance from EDSA road and the MRT station.",
+    "branchAdditionalDescription":" It is in the same building as Yakiniku Sakura Restaurant near RCBC and BDO. Slightly across Park Square Mall. Walking distance from Crown Regency Hotel and one block away from Slimmers World International.",
+    "locationImage": "/uploads/Branch Address Image.png",
+    "operatingHours": "9am - 7pm, Daily",
+    "mobileNumbers": "0939-502-6449 (Call Only)",
+    "landLineNumbers":"0288334045",
+    "fbLink":"https://facebook.com/DotZeroHairStudioByMars",
+    "numberOfStations": 16,
+    "maxClientOccupancy": 24,
+    "restroom": "Yes",
+    "wifi":"Yes",
+    "parkingLocation":"Commercial Building Slotted Parking Space and Street Parking"
+  }
+]

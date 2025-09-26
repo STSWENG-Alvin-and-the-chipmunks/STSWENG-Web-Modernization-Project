@@ -1,0 +1,74 @@
+<!-- Admin Account Page-->
+
+<div class="adminaccount-manage" style="background-image: url('/assets/adminaccountbg.png'); background-size: cover;">
+    <h1 class="adminaccount-title">Manage Account</h1>
+    <hr class="adminaccount-divider">
+    <div class="adminaccount-content">
+        <form id="accountForm" method="post" action="/admin-account" class="adminaccount-edit-form">
+            <div class="adminaccount-form-header">
+                <h2> Edit Details </h2>
+                <div class="adminaccount-icons">
+                    <button type="submit" class="adminaccount-edit-icon">Save</button>
+                </div>
+            </div>
+            <hr class="adminaccount-form-divider">
+            <input type="hidden" id="userId" name="id" value="{{user._id}}">
+            <div class="adminaccount-form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="adminaccount-form-input" value="{{user.username}}" required>
+            </div>
+            <div class="adminaccount-form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="adminaccount-form-input" value="{{user.email}}" required>
+            </div>
+            <div class="adminaccount-form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" name="newPassword" class="adminaccount-form-input">
+            </div>
+            <div class="adminaccount-form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="adminaccount-form-input">
+                <div id="passwordErrorMessage" style="color: red; display: none;"></div>
+            </div>
+            <div class="adminaccount-form-group">
+                <label for="profilePic">Profile Picture</label>
+                <input type="file" class="form-control" id="profilePic" name="profilePic" accept="image/*">
+                <div id="profilePicErrorMessage" style="color: red; display: none;"></div>
+            </div>
+            <div class="adminaccount-form-group">
+                <img id="previewImage" src="{{user.profilePic}}" alt="Profile Picture" class="img-thumbnail" style="max-width: 150px;">
+            </div>
+            <div class="adminaccount-form-group">
+                <button type="button" id="cropButton" class="btn btn-secondary" style="display:none;">Crop</button>
+            </div>
+            {{#if errorMessage}}
+            <p id="errorMessage" class="error">{{errorMessage}}</p>
+            {{/if}}
+            {{#if successMessage}}
+            <p id="successMessage" class="success">{{successMessage}}</p>
+            {{/if}}
+        </form>
+
+        <!-- Modal for cropping -->
+
+        <div class="modal fade" id="cropModal" tabindex="-1" aria-labelledby="cropModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cropModalLabel">Save Image</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                <div class="modal-body">
+                    <div class="image-container">
+                        <img id="imageToCrop" class="img-fluid">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="saveCropButton" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+</div>
+
+<!-- End of Admin Account Page-->

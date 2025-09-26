@@ -1,0 +1,43 @@
+.adminlanding-container {
+    background-color: #f2f2f2;
+}
+
+.adminlanding-wrapper {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.adminlanding-content {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+    width: 100%;
+    margin-left: 20px;
+}
+
+.hero-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+    max-width: 100%;
+}
+
+@media (max-width: 991px) {
+    .adminlanding-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+    }
+
+    .adminlanding-content {
+        width: 100%; 
+        margin-left: 0; 
+    }
+
+    .hero-image {
+        max-width: 100%; 
+        height: auto;
+    }
+}

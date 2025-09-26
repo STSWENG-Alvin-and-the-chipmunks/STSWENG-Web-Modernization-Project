@@ -1,0 +1,221 @@
+/* About Us Section */
+.aboutus {
+    width: 100%;
+    height: 50%;
+    padding: 10% 5%;
+    display: flex;
+    background-image: url('../assets/bg-light.png');
+    background-size: auto;
+    background-color: white;
+}
+
+.aboutus .left {
+    width: 50%;
+    padding: 0% 5%;
+}
+
+
+.aboutus .left p{
+    padding-top: 5%;
+}
+
+.aboutus .right {
+    width: 50%;
+    padding: 0% 5%;
+}
+
+.aboutus .right img {
+    width: 100%;
+    height: auto;
+    margin-top: 150px;
+    object-fit: contain;
+}
+
+
+/* Mission, Vision, History Section */
+.mission-vision-history {
+    padding: 0 5%;
+    padding-top: 5%;
+    display: flex;
+    background-color: var(--primary-color);
+}
+
+.mission-vision-history .left {
+    width: 100%;
+    color: var(--tertiary-color);
+    align-items: left;
+    text-align: left;
+}
+
+.mission-vision-history .right {
+    width: 50%;
+}
+
+.mission-vision-history .right img {
+    margin-top: 50px;
+    width: 45%;
+    padding: 5%;
+    object-fit: cover;
+}
+
+.mission, .vision, .history {
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    text-align: left;
+    display: flexbox;
+}
+
+.img-mobile {
+    display: none;
+    position: relative;
+    height: auto;
+    width: 200px;
+}
+
+.img1 {
+    position: relative;
+    top: -9%;
+    left: 15%;
+    height: 40%;
+    width: 200%;
+}
+
+.img2 {
+    position: relative;
+    top: 20%;
+    left: -5%;
+    height: 40%;
+    width: 150%;
+    margin-left: 5%;
+}
+
+.img3 {
+    position: relative;
+    top: 0%;
+    left: 15%;
+    height: 40%;
+    width: 150%;
+}
+
+/* Industry Section */
+.industry {
+    padding: 5% 5%;
+    display: flex;
+    background-image: url('../assets/bg-light.png');
+    background-size: auto;
+    background-color: white;
+}
+
+.industry .left {
+    width: 30%;
+}
+
+.industry .left img {
+    width: 80%;
+    height: 90%;
+    margin-top: 30px;
+    object-fit: contain;
+}
+
+.industry .right {
+    width: 70%;
+}
+
+/* Future Section */
+.future {
+    padding-inline: 6%;
+    padding-top: 3%;
+    display: flex;
+    background-color: var(--tertiary-color);
+}
+
+.future .left {
+    width: 70%;
+}
+
+.future .right {
+    width: 30%;
+}
+
+.future .right img {
+    width: 100%;
+    height: 90%;
+    padding: 5% 5%;
+    object-fit: contain;
+}
+
+/* Responsiveness */
+@media (max-width: 767px) {
+    .aboutus, .mission-vision-history, .industry, .future {
+        flex-direction: column;
+        text-align: center;
+        padding: 5%;
+        width: 100%;
+    }
+
+    .aboutus .left, .aboutus .right,
+    .mission-vision-history .left, .mission-vision-history .right,
+    .industry .left, .industry .right,
+    .future .left, .future .right {
+        width: 100%;
+        padding: 0;
+    }
+
+    .mission-vision-history .left{
+        text-align: center;
+    }
+
+    .aboutus .right {
+        order: -1;
+    }
+
+    .aboutus .right img {
+        width: 100%;
+        height: auto;
+        margin-top: 70px;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        margin-bottom: 20px;
+    }
+    .mission-vision-history .right img,
+    .industry .left img,
+    .future .right img {
+        width: 100%;
+        height: auto;
+        margin-top: 0;
+    }
+
+    .mission, .vision, .history {
+        text-align: center;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    .img-mobile {
+        display: block;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .img1, .img2, .img3 {
+        display: none;
+    }
+
+    .industry .left {
+        order: +1;
+    }
+
+}
+
+/* Typography */
+.mission-vision-history h1, .left h1, .right h1 {
+    font-family: var(--primary-font);
+    color: var(--secondary-color);
+    font-size: clamp(1em, 10vw, 3em);
+}
+
+.left p, .right p {
+    font-family: var(--secondary-font);
+    font-size: clamp(0.8rem, 3vw, 1.1rem);
+}

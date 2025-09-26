@@ -1,0 +1,98 @@
+<!-- Admin Promos Page -->
+
+<div class="adminpromo-manage">
+    <h1 class="adminpromo-title">Manage Promotions</h1>
+    <hr class="adminpromo-divider">
+    <div class="adminpromo-content">
+        <div class="adminpromo-list">
+            <div class="adminpromo-list-header">
+                <img src="/assets/PromotionIcon-SVG.svg" class="promos-icon">
+                <h3>PROMOTIONS</h3>
+            </div>
+            <div class="adminpromo-new-btn" data-id="new">
+                <img src="/assets/Plus-SVG.svg" alt="Plus Icon"> New Promo
+            </div>
+            {{#each promos}}
+                <div class="adminpromo-item" data-id="{{this._id}}">{{this.name}}</div>
+            {{/each}}
+        </div>
+        <form id="promoForm" method="post" action="/promos" enctype="multipart/form-data" class="adminpromo-edit-form" style="display: none;">
+            <div class="adminpromo-form-header">
+                <h2>Edit Information</h2>
+                <div class="adminpromo-icons">
+                    <button type="button" id="deleteBtn" class="adminpromo-delete-icon">Delete</button>
+                    <button type="submit" class="adminpromo-edit-icon">Save</button>
+                </div>
+            </div>
+            <input type="hidden" id="promoId" name="promoId">
+            <input type="hidden" id="formMode" name="formMode" value="create">
+            <div class="adminpromo-form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" class="adminpromo-form-input" required>
+            </div>
+            <div class="adminpromo-form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" class="adminpromo-form-textarea" required></textarea>
+            </div>
+            <div class="adminpromo-form-group">
+                <label for="promoImage">Image</label>
+                <input type="file" id="promoImage" name="promoImage" class="adminpromo-form-input" accept="image/*" required>
+                <div id="imagePreviewContainer"></div>
+            </div>
+            <div class="adminpromo-form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" class="adminpromo-form-input" required>
+            </div>
+            <div class="adminpromo-form-group">
+                <label for="branches">Branches</label>
+                <input type="text" id="branches" name="branches" class="adminpromo-form-input" required>
+            </div>
+            <div class="adminpromo-form-group">
+                <label for="contents">Contents</label>
+                <textarea id="contents" name="contents" class="adminpromo-form-textarea" required></textarea>
+            </div>
+            <div class="adminpromo-form-group">
+                <label for="validity">Validity</label>
+                <input type="text" id="validity" name="validity" class="adminpromo-form-input" required>
+            </div>
+            <div class="adminpromo-form-group">
+                <label for="pricingShort">Pricing Short</label>
+                <input type="text" id="pricingShort" name="pricingShort" class="adminpromo-form-input" pattern="^(?=.*\d)[\d\w\s\W]*$" title="Input must include numbers" required>
+            </div>
+            <div class="adminpromo-form-group">
+                <label for="pricingMedium">Pricing Medium</label>
+                <input type="text" id="pricingMedium" name="pricingMedium" class="adminpromo-form-input" pattern="^(?=.*\d)[\d\w\s\W]*$" title="Input must include numbers" required>
+            </div>
+            <div class="adminpromo-form-group">
+                <label for="pricingLong">Pricing Long</label>
+                <input type="text" id="pricingLong" name="pricingLong" class="adminpromo-form-input" pattern="^(?=.*\d)[\d\w\s\W]*$" title="Input must include numbers" required>
+            </div>
+            <div class="adminpromo-form-group">
+                <label for="pricingExtraLong">Pricing Extra Long</label>
+                <input type="text" id="pricingExtraLong" name="pricingExtraLong" class="adminpromo-form-input" pattern="^(?=.*\d)[\d\w\s\W]*$" title="Input must include numbers" required>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Delete Confirmation Popup -->
+
+<div id="confirmPopup" class="popup">
+  <div class="popup-content">
+    <span class="close-btn">&times;</span>
+    <h2>CONFIRM DELETE PROMOTION?</h2>
+    <button id="cancelDelete" class="btn-cancel">Cancel</button>
+    <button id="confirmDelete" class="btn-confirm">Delete Promotion</button>
+  </div>
+</div>
+
+
+    <!-- Error Modal for Duplicate Promo Name -->
+<div id="duplicateErrorModal" class="popup">
+        <div class="popup-content">
+            <p id="duplicateErrorMessage">Promo name already exists. Please choose a different name.</p>
+            <button id="closeDuplicateError" class="btn-cancel">Close</button>
+        </div>
+</div>
+
+<!-- End of Admin Promos Page -->

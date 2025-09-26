@@ -1,0 +1,133 @@
+<!-- Promo Page -->
+
+<div class="promo-section">  
+  <!-- custom-carousel Start -->
+  <div id="promocustom-carousel" class="carousel slide promo-slider" data-bs-ride="carousel">
+    <ol class="carousel-indicators">
+      {{#each promos}}
+        <li data-bs-target="#promocustom-carousel" data-bs-slide-to="{{@index}}" class="{{#if @first}}active{{/if}}"></li>
+      {{/each}}
+    </ol>
+    <div class="carousel-inner">
+      {{#each promos}}
+        <div class="carousel-item {{#if @first}}active{{/if}}">
+          <div class="slide-content">
+            <img loading="lazy" src="{{this.imageUrl}}" alt="Promo-Content" />
+          </div>
+        </div>
+      {{/each}}
+    </div>
+    <a class="carousel-control-prev" href="#promocustom-carousel" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#promocustom-carousel" role="button" data-bs-slide="next">
+
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </a>
+  </div>
+
+  <!-- custom-carousel End -->
+
+  <div class="promo-content">
+    <h1 class="promo-title">PROMOS</h1>
+    <div class="promo-divider"></div>
+    <div class="promo-grid">
+      {{#if promos.length}}
+      {{#each promos}}
+        <div class="promo-card">
+          <div class="card-content">
+            <img src="{{this.imageUrl}}" alt="DOTZERO Hair Studio Promo" class="card-image" />
+            <div class="card-details">
+              <h2 class="card-title">DOTZERO Hair Studio</h2>
+              <div class="location-info">
+                <img src="assets/locationicon.svg" alt="" class="location-icon" />
+                <p class="location-text">{{this.location}}</p>
+              </div>
+              <div class="card-separator"></div>
+              <p class="promo-name">{{this.name}}</p>
+              <button type="button" class="details-button" data-bs-toggle="modal" data-bs-target="#promoModal-{{@index}}">
+                Details
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for each Promo -->
+        <div class="modal fade" id="promoModal-{{@index}}" tabindex="-1" aria-labelledby="promoModalLabel-{{@index}}" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-body">
+                <img loading="lazy" src="assets/modalbg.png" class="backgroundimg" alt="" />
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-card">
+                  <div class="modal-load">
+                    <div class="modal-name">{{this.name}}</div><div class="modaldivider"></div>
+                    <div class="modal-description">{{this.description}}</div>
+                    <div class="pricingpromo-title"><b>Pricing Details</b></div>
+                    <div class="pricingpromo-container">
+                      <div class="hair-length-list">
+                        <div class="hair-length-items">
+                          <div class="hair-length">Short Hair</div>
+                          <div class="hair-length-medium">Medium Hair</div>
+                          <div class="hair-length-long">Long Hair</div>
+                          <div class="hair-length-extra-long">Extra-Long Hair</div>
+                        </div>
+                      </div>
+                      <div class="price-list">
+                        <div class="pricepromo">{{this.pricing.short}}</div>
+                        <div class="price-medium">{{this.pricing.medium}}</div>
+                        <div class="price-long">{{this.pricing.long}}</div>
+                        <div class="price-extra-long">{{this.pricing.extraLong}}</div>
+                      </div>
+                    </div>
+                    <div class="details-table">
+                    <div class="details-row">
+                        <div class="details-label">Branches</div>
+                        <div class="details-info">{{this.branches}}</div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">Validity</div>
+                        <div class="details-info">{{this.validity}}</div>
+                    </div>
+                    </div>
+                    <div class="offer-details">{{this.contents}}</div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      {{/each}}
+
+    </div>
+    {{else}}
+    <!-- Error Modal -->
+<div class="modal fade" id="noPromosModal" tabindex="-1" aria-labelledby="noPromosModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">No Active Promotions</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>There are currently no active promotions available.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+    <div class="no-promo-message">
+        <p>There are currently no active promotions available.</p>
+    </div>
+    {{/if}}
+</div>
+</div>
+
+
+<!-- End of Promo Page -->
+

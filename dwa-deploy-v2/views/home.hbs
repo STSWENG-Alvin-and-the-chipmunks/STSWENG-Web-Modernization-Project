@@ -1,0 +1,132 @@
+<!-- Home Page-->
+
+<div class="main-parent">
+    
+    <div class="first-section">
+        <div class="filter"></div>
+
+        <div class="first-section-logo">
+            <img src="assets/me-light.png">
+        </div>
+    </div>
+
+    <div class="about-section">
+        <div class="about-text">
+            <h1 class="T1">About Us</h1>
+            <br> <br> <br>
+            <p>MARS is a Group of Salons with seven branches throughout Metro Manila. It was founded in 2013 in a small subdivision in Muntinlupa, Metro Manila. The company began its journey with a 3-seater salon and has opened up multiple locations in Putatan, Alabang, Las Piñas, Makati, and Quezon City throughout the years. Within the MARS Group of Salons, there are two distinct subcategories of salons: DOT ZERO Hair Studio and MARS Effect Hair Studio. These two subcategories serve and are directed to different markets, each with its own branding and positioning.</p>
+            <br> <br> <br>
+            <a href="/about">Learn More</a>
+        </div>
+    </div>
+
+    <div class="services-section">
+        <div class="services-text">
+            <h1 class="T2">Services</h1>
+            <br> <br> <hr id="white-hr"> <br> <br>
+            <p>Our services include cuts, coloring, treatments, and more. We offer a wide range of services to cater to your hair needs. Our team of professional stylists are here to help you achieve the look you desire. </p>
+            <br> <br> <br>
+
+            <div class="services-container">
+                <div class="service-item">
+                    <img src="assets/cut.svg">
+                    <br> <br> <br>
+                    <h2>Cuts & Styling</h2>
+                </div>
+                <div class="service-item">
+                    <img src="assets/coloring.svg">
+                    <br> <br> <br>
+                    <h2>Coloring</h2>
+                </div>
+                <div class="service-item">
+                    <img src="assets/treatment.svg">
+                    <br> <br> <br>
+                    <h2>Treatments</h2>
+                </div>
+            </div>
+
+                <br> <br> <br>
+        </div>
+    </div>
+
+   <div class="connect-section">
+   <div class="connect-content">
+        <h1 class="T1">Connect with Us</h1>
+        <br>
+        <div class="social-media">
+            <a href="https://www.instagram.com/dotzerohairstudio/" target="_blank">
+                <img src="assets/instagram.svg">
+                <span>@dotzerohairstudio</span>
+            </a>
+            <a href="https://www.tiktok.com/dotzerohairstudio/" target="_blank">
+                <img src="assets/tiktok.svg">
+                <span>@dotzerohairstudio</span>
+            </a>
+            <a href="https://www.facebook.com/DotZeroHairStudioByMars/" target="_blank">
+                <img src="assets/facebook.svg">
+                <span>DotZeroHairStudioByMars</span>
+            </a>
+        </div>
+    </div>
+    </div>
+
+    <div class="branch-section">
+        <div class="branch-content">
+            <h1 class="T3">Branch Locations</h1>
+            <br> <br> <hr id="black-hr"> <br> <br>
+
+            <div class="grid-container">
+                <div class="grid-item">
+                    <img src="assets/location.svg">
+                    <br> <br> <br>
+                    <p class="col-head">Location</p>
+                </div>
+                <div class="grid-item">
+                    <img src="assets/time.svg">
+                    <br> <br> <br>
+                    <p class="col-head">Business Hours</p>
+                </div>
+                <div class="grid-item">
+                    <img src="assets/mobile.svg">
+                    <br> <br> <br>
+                    <p class="col-head">Mobile</p>
+                </div>
+                <div class="grid-item">
+                    <img src="assets/landline.svg">
+                    <br> <br> <br>
+                    <p class="col-head">Landline</p>
+                </div>
+                {{#each branches}}
+                <div class="grid-item address">
+                    <b>{{this.branchName}}</b> <br>
+                    <p>{{this.branchLocation}}</p>
+                </div>
+                <div class="grid-item">
+                    <p>{{this.operatingHours}}</p>
+                </div>
+                <div class="grid-item">
+                    <p>{{this.mobileNumbers}}</p>
+                </div>
+                <div class="grid-item">
+                    <p>{{this.landLineNumbers}}</p>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+    <div class="consultation-section">
+        <div class="consultation-text">
+            <h1 class="T4">Visit us for a <a style="color: rgba(186, 151, 49, 1);">Free Hair consultation</a>!</h1>
+            <br> <br> <br>
+            <p style="font-weight: bold;">
+            We offer <span style="color: rgba(186, 151, 49, 1);">free hair consultation</span>. 
+            You may drop by any time before 7:00 pm. We are open seven days week. Also, you can send a private message to our facebook or instagram account.
+            </p>
+            <br> <br> <br>
+            <p>Please note that all quotes provided to you either over the phone, email, or direct messaging are for estimation purposes only. We still need to assess your hair in person before the work is guaranteed. We will be provide you with the actual cost upfront by your stylist so that you can decide from thereon.</p>
+        </div>
+    </div>
+</div>
+
+<!-- End of Home Page-->

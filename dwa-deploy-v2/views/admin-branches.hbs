@@ -1,0 +1,117 @@
+<!-- Admin Branches Page -->
+
+<div class="adminbranches-manage">
+    <h1 class="adminbranches-title">Manage Branches</h1>
+    <hr class="adminbranches-divider">
+    <div class="adminbranches-content">
+        <div class="adminbranches-list">
+            <div class="adminbranches-list-header">
+                <img src="/assets/branches-icon.svg" class="branches-icon">
+                <h3>BRANCHES</h3>
+            </div>
+            <div class="adminbranches-new-btn" data-id="new">
+                <img src="/assets/Plus-SVG.svg" alt="Plus Icon"> New Branch
+            </div>
+            {{#each branches}}
+                <div class="adminbranches-item" data-id="{{this._id}}">
+                    {{this.branchName}}
+                </div>
+            {{/each}}
+        </div>
+        <div class="adminbranches-edit-form"  style="display: none;">
+            <form id="branchForm" method="post" action="/branches" enctype="multipart/form-data" style="display: none;">
+                <div class="adminbranches-form-header">
+                    <h2>Edit Information</h2>
+                    <div class="adminbranches-btns">
+                        <button type="button" id="deleteBtn" class="adminbranches-delete-btn">Delete</button>
+                        <button type="submit" class="adminbranches-save-btn">Save</button>
+                    </div>
+                </div>
+                <input type="hidden" id="branchId" name="id">
+                <div class="adminbranches-form-group">
+                    <label for="branchName">Branch Name</label>
+                    <input type="text" id="branchName" name="branchName" class="adminbranches-form-input" required>
+                </div>
+                <div class="adminbranches-form-group">
+                    <label for="branchLocation">Branch Location</label>
+                    <input type="text" id="branchLocation" name="branchLocation" class="adminbranches-form-input" required>
+                </div>
+                <div class="adminbranches-form-group">
+                    <label for="branchDescription">Branch Description</label>
+                    <textarea id="branchDescription" name="branchDescription" class="adminbranches-form-textarea" required></textarea>
+                </div> 
+                <div class="adminbranches-form-group">
+                    <label for="branchAdditionalDescription">Additional Description</label>
+                    <textarea id="branchAdditionalDescription" name="branchAdditionalDescription" class="adminbranches-form-textarea" required></textarea>
+                </div>
+                <div class="adminbranches-form-group">
+                    <label for="locationImage">Location Image</label>
+                    <input type="file" id="locationImage" name="locationImage" class="adminbranches-form-input" accept="image/*" required>
+                    <div id="imagePreviewContainer"></div>
+                </div>
+                <div class="adminbranches-form-group">
+                    <label for="operatingHours">Operating Hours</label>
+                    <input type="text" id="operatingHours" name="operatingHours" class="adminbranches-form-input" required>
+                </div>
+                <div class="adminbranches-form-group">
+                    <label for="landLineNumbers">Landline</label>
+                    <input type="text" id="landLineNumbers" name="landLineNumbers" class="adminbranches-form-input" required>
+                </div>
+                <div class="adminbranches-form-group">
+                    <label for="mobileNumbers">Mobile Numbers</label>
+                    <input type="text" id="mobileNumbers" name="mobileNumbers" class="adminbranches-form-input" required>
+                </div>
+                <div class="adminbranches-form-group">
+                    <label for="fbLink">Facebook Link</label>
+                    <input type="text" id="fbLink" name="fbLink" class="adminbranches-form-input" required>
+                </div>
+                <div class="adminbranches-form-group">
+                    <label for="numberOfStations">Number of Stations</label>
+                    <input type="number" id="numberOfStations" name="numberOfStations" class="adminbranches-form-input" min="0" required>
+                </div>
+                <div class="adminbranches-form-group">
+                    <label for="maxClientOccupancy">Max Client Occupancy</label>
+                    <input type="number" id="maxClientOccupancy" name="maxClientOccupancy" class="adminbranches-form-input" min="0" required>
+                </div>
+                <div class="adminbranches-form-group">
+                    <label for="restroom">Restroom</label>
+                    <select id="restroom" name="restroom" class="adminbranches-form-input">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="adminbranches-form-group">
+                    <label for="wifi">WiFi</label>
+                    <select id="wifi" name="wifi" class="adminbranches-form-input">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="adminbranches-form-group">
+                    <label for="parkingLocation">Parking Location</label>
+                    <input type="text" id="parkingLocation" name="parkingLocation" class="adminbranches-form-input" required>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+ 
+ <!-- Delete Confirmation Popup -->
+<div id="BranchesConfirmPopup" class="popup">
+  <div class="popup-content">
+    <span class="close-btn">&times;</span>
+    <h2>CONFIRM DELETE BRANCH?</h2>
+    <button id="cancelDelete" class="btn-cancel">Cancel</button>
+    <button id="confirmDelete" class="btn-confirm">Delete Branch</button>
+  </div>
+</div>
+
+<!-- Duplicate Name Error Modal -->
+<div id="duplicateErrorModal" class="popup">
+    <div class="popup-content">
+        <p id="duplicateErrorMessage">Branch name already exists. Please choose a different name.</p>
+        <button id="closeDuplicateError" class="btn-cancel">Close</button>
+    </div>
+</div>
+
+<!-- End of Admin Branches Page -->

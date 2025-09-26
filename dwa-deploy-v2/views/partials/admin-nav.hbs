@@ -1,0 +1,36 @@
+<!-- Admin Navigation Bar -->
+
+<div class="nav-ad">
+    <div class="nav-ad-options">
+        <a class = "main" href="/home">Home</a>
+
+        <div class="dropdown">
+            <a class="dropdown-parent">Services</a>
+            <div class="dropdown-child">
+                <a href="/services?type=Cuts">Cuts</a>
+                <a href="/services?type=Styling">Styling</a>
+                <a href="/services?type=Coloring">Coloring</a>
+                <a href="/services?type=Treatments">Treatments</a>
+            </div>
+        </div>
+
+        <a class = "main" href="/promos">Promos</a>
+        <a class = "main" href="https://simplybeauty.ph">Shop</a>
+        <a class = "main" href="/newsletter">Newsletter</a>
+
+        <div class="dropdown">
+            <a class="main">Locations</a>
+            <div class="dropdown-child">
+                {{#each branches}}
+                    <a href="/branches/{{this.branchName}}" data-branch-name="{{this.branchName}}">Dot Zero Hair Studio - {{this.branchName}}</a>
+                {{/each}}
+            </div>
+        </div>
+        
+        <a class = "main" href="/about">About Us</a>
+        <a class = "main"> <img src="{{user.profilePic}}" alt="Profile Picture" class="rounded-circle" width="30" height="30"></a>
+    </div>
+
+</div>
+
+<!-- End of Admin Navigation Bar -->

@@ -1,0 +1,137 @@
+[
+  {
+      "name": "Feel Good Promo",
+      "description": "Brazilian blowout Express, color, and 15-foil highlights",
+      "imageUrl": "assets/promo1.png",
+      "location": "Quezon City, Makati (1020 Arnaiz Ave.), Alabang (Festival Mall), SM Southmall, Las Pinas, & Village Square Mall, Las Pinas",
+      "branches": "All dot zero and Mars Effect Hair Studio",
+      "contents": "This offer uses limited Elgon, Matrix, and Ordeve Color, shades as well as a deluxe pre-lightener",
+      "validity": "April 30, 2024",
+      "pricing": {
+          "short": "₱3000 to 3650",
+          "medium": "₱4000 to 4750",
+          "long": "₱4900 to 5450",
+          "extraLong": "₱5600 to 6350"
+      }
+  },
+  {
+      "name": "Summer Special",
+      "description": "Haircut and Color for the summer season",
+      "imageUrl": "assets/promo2.png",
+      "location": "Cebu City, Davao City, Cagayan de Oro, Taguig City, Quezon City",
+      "branches": "Sunshine Hair Studio and Moonlight Salon",
+      "contents": "Includes a free consultation and color touch-up",
+      "validity": "April 30, 2024",
+      "pricing": {
+          "short": "₱3000 to 3650",
+          "medium": "₱4000 to 4750",
+          "long": "₱4900 to 5450",
+          "extraLong": "₱5600 to 6350"
+      }
+  },
+  {
+      "name": "Holiday Glam 1",
+      "description": "Full makeover package for the holiday season",
+      "imageUrl": "assets/promo3.png",
+      "location": "Pasig City, Mandaluyong City, San Juan City, Makati City",
+      "branches": "Glamour Hub and Shine Bright Salon",
+      "contents": "Includes hair styling, makeup, and manicure",
+      "validity": "April 30, 2024",
+      "pricing": {
+          "short": "₱3000 to 3650",
+          "medium": "₱4000 to 4750",
+          "long": "₱4900 to 5450",
+          "extraLong": "₱5600 to 6350"
+      }
+  },
+  {
+      "name": "Holiday Glam 2",
+      "description": "Full makeover package for the holiday season",
+      "imageUrl": "assets/promo4.png",
+      "location": "Pasig City, Mandaluyong City, San Juan City, Makati City",
+      "branches": "Glamour Hub and Shine Bright Salon",
+      "contents": "Includes hair styling, makeup, and manicure",
+      "validity": "April 30, 2024",
+      "pricing": {
+          "short": "₱3000 to 3650",
+          "medium": "₱4000 to 4750",
+          "long": "₱4900 to 5450",
+          "extraLong": "₱5600 to 6350"
+      }
+  },
+  {
+      "name": "Holiday Glam 3",
+      "description": "Full makeover package for the holiday season",
+      "imageUrl": "assets/promo5.png",
+      "location": "Pasig City, Mandaluyong City, San Juan City, Makati City",
+      "branches": "Glamour Hub and Shine Bright Salon",
+      "contents": "Includes hair styling, makeup, and manicure",
+      "validity": "April 30, 2024",
+     "pricing": {
+          "short": "₱3000 to 3650",
+          "medium": "₱4000 to 4750",
+          "long": "₱4900 to 5450",
+          "extraLong": "₱5600 to 6350"
+      }
+  },
+  {
+      "name": "Holiday Glam 4",
+      "description": "Full makeover package for the holiday season",
+      "imageUrl": "assets/promo6.png",
+      "location": "Pasig City, Mandaluyong City, San Juan City, Makati City",
+      "branches": "Glamour Hub and Shine Bright Salon",
+      "contents": "Includes hair styling, makeup, and manicure",
+      "validity": "April 30, 2024",
+      "pricing": {
+          "short": "₱3000 to 3650",
+          "medium": "₱4000 to 4750",
+          "long": "₱4900 to 5450",
+          "extraLong": "₱5600 to 6350"
+      }
+  },
+  {
+      "name": "Holiday Glam 5",
+      "description": "Full makeover package for the holiday season",
+      "imageUrl": "assets/promo7.png",
+      "location": "Pasig City, Mandaluyong City, San Juan City, Makati City",
+      "branches": "Glamour Hub and Shine Bright Salon",
+      "contents": "Includes hair styling, makeup, and manicure",
+      "validity": "April 30, 2024",
+      "pricing": {
+          "short": "₱3000 to 3650",
+          "medium": "₱4000 to 4750",
+          "long": "₱4900 to 5450",
+          "extraLong": "₱5600 to 6350"
+      }
+  },
+  {
+      "name": "Holiday Glam 6",
+      "description": "Full makeover package for the holiday season",
+      "imageUrl": "assets/promo8.png",
+      "location": "Pasig City, Mandaluyong City, San Juan City, Makati City",
+      "branches": "Glamour Hub and Shine Bright Salon",
+      "contents": "Includes hair styling, makeup, and manicure",
+      "validity": "April 30, 2024",
+      "pricing": {
+          "short": "₱3000 to 3650",
+          "medium": "₱4000 to 4750",
+          "long": "₱4900 to 5450",
+          "extraLong": "₱5600 to 6350"
+      }
+  },
+  {
+      "name": "Holiday Glam 7",
+      "description": "Full makeover package for the holiday season",
+      "imageUrl": "assets/promo9.png",
+      "location": "Pasig City, Mandaluyong City, San Juan City, Makati City",
+      "branches": "Glamour Hub and Shine Bright Salon",
+      "contents": "Includes hair styling, makeup, and manicure",
+      "validity": "April 30, 2024",
+      "pricing": {
+          "short": "₱3000 to 3650",
+          "medium": "₱4000 to 4750",
+          "long": "₱4900 to 5450",
+          "extraLong": "₱5600 to 6350"
+      }
+  }
+]
