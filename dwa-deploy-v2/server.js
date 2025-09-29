@@ -52,7 +52,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 /******************DATABASE CONNECTION************************/
 const connectDB = async () => {
     try {
-        const uri = 'mongodb+srv://ae_db_user:We23K5110qLgvVMc@dwa-v2.w0xkabx.mongodb.net/?retryWrites=true&w=majority&appName=dwa-v2';
+        // const uri = 'mongodb+srv://ae_db_user:We23K5110qLgvVMc@dwa-v2.w0xkabx.mongodb.net/?retryWrites=true&w=majority&appName=dwa-v2';
+        const uri = 'mongodb+srv://Admin:x2gxEPljHYDDeXDq@cluster0.dzx0s6g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
         
         await mongoose.connect(uri, {
         });
