@@ -22,14 +22,13 @@ The goal is to provide a dynamic, intuitive, and secure web platform that enhanc
 ### Prerequisites
 
 1.  **Node.js** (latest LTS recommended)
-2.  **npm** (comes with Node.js)
-3.  A configured **MongoDB connection string** (already updated in `server.js` or set via environment variables).
+2.  A configured **MongoDB connection string** (already updated in `server.js` or set via environment variables).
 
 ### Installation and Setup
 
 1.  **Clone the repository:**
     ```bash
-    git clone <your-repo-url>
+    git clone https://github.com/0niiSean/STSWENG-Web-Modernization-Project.git
     cd MARS-Group-Salon-Web-Modernization-Project
     ```
 
