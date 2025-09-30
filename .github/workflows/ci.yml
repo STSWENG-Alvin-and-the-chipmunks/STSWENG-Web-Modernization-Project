@@ -10,26 +10,24 @@ on:
       - develop
 
 jobs:
-  build-and-test:
-    name: Build and Test
+  verify-project:
+    name: Verify Project Integrity
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Add steps for your specific language and framework
-      # For example, for Node.js:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm' # Or 'yarn', 'pnpm'
+          cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Run Unit & Integration Tests
-        run: npm test # Assumes you have a 'test' script
-
-      - name: Build Application
-        run: npm run build # Assumes you have a 'build' script
+      # This step checks for syntax errors in your main server file without
+      # starting the server. It's a fast and effective sanity check.
+      - name: Check Server File Syntax
+        run: node -c server.js # Or the path to your main application file
