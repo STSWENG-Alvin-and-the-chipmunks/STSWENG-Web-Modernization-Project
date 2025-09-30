@@ -29,7 +29,7 @@ The goal is to provide a dynamic, intuitive, and secure web platform that enhanc
 1.  **Clone the repository:**
     ```bash
     git clone https://github.com/0niiSean/STSWENG-Web-Modernization-Project.git
-    cd MARS-Group-Salon-Web-Modernization-Project/dwa-deploy-v2
+    cd MARS-Group-Salon-Web-Modernization-Project
     ```
 
 2.  **Install dependencies:**
