@@ -1,0 +1,52 @@
+name: Release and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to create tags and releases
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js # Example for Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # This step could perform a production build and package assets
+      - name: Production Build
+        run: |
+          npm install
+          npm run build
+
+      # This step automatically determines the next version and creates a tag
+      - name: Create Version Tag and Release
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: "patch" # Or 'minor'
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+
+  # Optional: Add deployment job
+  deploy-to-production:
+    name: Deploy to Production
+    needs: create-release # This job runs only after a release is created
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        # Add your deployment steps here (e.g., to AWS, Azure, Vercel)
+        run: echo "Deploying version ${{ needs.create-release.outputs.tag_name }} to production..."
