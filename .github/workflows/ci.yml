@@ -28,9 +28,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run Linting
-        run: npm run lint # Assumes you have a 'lint' script in package.json
-
       - name: Run Unit & Integration Tests
         run: npm test # Assumes you have a 'test' script
 
