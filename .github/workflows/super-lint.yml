@@ -1,0 +1,34 @@
+name: Super-Linter
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - feature/*
+      - hotfix/*
+
+permissions:
+  contents: read
+  packages: read
+  statuses: write
+
+jobs:
+  lint-codebase:
+    name: Lint Codebase
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          # Fetch all history for a deeper linting analysis
+          fetch-depth: 0
+
+      - name: Run Super-Linter
+        uses: super-linter/super-linter@v6
+        env:
+          # Set to 'true' to fail the workflow if linting issues are found
+          VALIDATE_ALL_CODEBASE: true
+          # Your default branch
+          DEFAULT_BRANCH: develop
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
