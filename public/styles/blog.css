@@ -1,0 +1,177 @@
+.blog-post {
+  background-color: white;
+  border: 1px solid #e5e7eb; /* gray-200 */
+  border-radius: 0.5rem; /* rounded-lg */
+  transition: border-color 0.2s ease;
+}
+
+.blog-post:hover {
+  border-color: #d1d5db; /* gray-300 */
+}
+
+.blog-post-inner {
+  display: flex;
+  gap: 0.5rem; /* gap-2 */
+  padding: 0.75rem; /* p-3 */
+}
+
+/* Vote section */
+.vote-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding-top: 0.25rem;
+}
+
+.vote-button {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.vote-button:hover {
+  background-color: #f3f4f6; /* gray-100 */
+}
+
+.vote-count {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Content section */
+.content-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: #6b7280; /* muted-foreground */
+  margin-bottom: 0.25rem;
+}
+
+.subreddit {
+  font-weight: 600;
+  color: #111827; /* text-foreground */
+}
+
+.post-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.25rem;
+  cursor: pointer;
+}
+
+.post-title:hover {
+  color: #2563eb; /* primary */
+}
+
+.post-preview {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  line-height: 1.5rem;
+}
+
+/* Actions */
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-button {
+  height: 1.75rem;
+  padding: 0 0.5rem;
+  font-size: 0.75rem;
+  border: none;
+  border-radius: 0.25rem;
+  background: none;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  background-color: #f3f4f6;
+}
+
+/* Thumbnail */
+.thumbnail {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== Blog Page Layout ===== */
+
+.blog-page {
+  min-height: 100vh;
+  background-color: #f9fafb; /* gray-50 */
+}
+
+/* Header */
+.blog-header {
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb; /* gray-200 */
+}
+
+.blog-header-inner {
+  max-width: 72rem; /* 6xl */
+  margin: 0 auto;
+  padding: 1rem 1rem; /* py-4 px-4 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.blog-title {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700;
+}
+
+.blog-nav {
+  display: flex;
+  gap: 1.5rem; /* gap-6 */
+}
+
+.nav-link {
+  font-size: 0.875rem;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #2563eb; /* primary */
+}
+
+/* Main Content */
+.blog-main {
+  max-width: 56rem; /* 4xl */
+  margin: 0 auto;
+  padding: 1.5rem 1rem; /* py-6 px-4 */
+}
+
+.blog-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* space-y-3 */
+}

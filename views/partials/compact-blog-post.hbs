@@ -1,0 +1,42 @@
+<div class="blog-post">
+  <div class="blog-post-inner">
+    {{!-- Vote Section --}}
+    <div class="vote-section">
+      <button type="button" class="vote-button" aria-label="Upvote">▲</button>
+      <span class="vote-count">{{upvotes}}</span>
+      <button type="button" class="vote-button" aria-label="Downvote">▼</button>
+    </div>
+
+    {{!-- Content Section --}}
+    <div class="content-section">
+      {{!-- Post Meta --}}
+      <div class="post-meta">
+        <span class="subreddit">{{subreddit}}</span>
+        <span>•</span>
+        <span>Posted by u/{{username}}</span>
+        <span>•</span>
+        <span>{{timeAgo}}</span>
+      </div>
+
+      {{!-- Title --}}
+      <h2 class="post-title">{{title}}</h2>
+
+      {{!-- Content Preview --}}
+      <p class="post-preview">{{content}}</p>
+
+      {{!-- Actions --}}
+      <div class="post-actions">
+        <button type="button" class="action-button">{{comments}} Comments</button>
+        <button type="button" class="action-button">Share</button>
+        <button type="button" class="action-button">Save</button>
+      </div>
+    </div>
+
+    {{!-- Thumbnail --}}
+    {{#if thumbnail}}
+      <div class="thumbnail">
+        <img src="{{thumbnail}}" alt="" width="80" height="80" />
+      </div>
+    {{/if}}
+  </div>
+</div>

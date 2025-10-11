@@ -1,0 +1,69 @@
+[
+    {
+        "subreddit": "r/webdev",
+        "username": "techguru42",
+        "timeAgo": "5h",
+        "title": "Just launched my first SaaS product after 6 months of development",
+        "content": "After countless late nights and debugging sessions, I finally launched my project management tool. The response has been incredible! Here's what I learned along the way...",
+        "upvotes": 2847,
+        "comments": 342,
+        "thumbnail": "/laptop-coding.jpg"
+    },
+    {
+        "subreddit": "r/programming",
+        "username": "codemaster",
+        "timeAgo": "8h",
+        "title": "Why I switched from React to Next.js and never looked back",
+        "content": "Server components, built-in routing, and amazing performance out of the box. Here's my experience making the switch and why I think every React developer should consider it...",
+        "upvotes": 1923,
+        "comments": 287,
+        "thumbnail": "/nextjs-logo.png"
+    },
+    {
+        "subreddit": "r/design",
+        "username": "pixelperfect",
+        "timeAgo": "12h",
+        "title": "Redesigned our company's design system from scratch",
+        "content": "Took 3 months but we now have a cohesive, accessible design system that scales across all our products. Here are the key decisions we made...",
+        "upvotes": 1654,
+        "comments": 198,
+        "thumbnail": "/design-system-colors.jpg"
+    },
+    {
+        "subreddit": "r/technology",
+        "username": "aiexplorer",
+        "timeAgo": "1d",
+        "title": "Built an AI-powered code review tool that caught 40% more bugs",
+        "content": "Using GPT-4 and custom training data, our tool now catches edge cases that human reviewers often miss. The results have been impressive...",
+        "upvotes": 3421,
+        "comments": 512
+    },
+    {
+        "subreddit": "r/startups",
+        "username": "founder_life",
+        "timeAgo": "2d",
+        "title": "From side project to $10k MRR in 6 months - Here's what I learned",
+        "content": "Started as a weekend project, now it's my full-time business. Happy to answer questions about the journey, marketing strategies, and technical decisions...",
+        "upvotes": 5234,
+        "comments": 876,
+        "thumbnail": "/startup-growth-chart.jpg"
+    },
+    {
+        "subreddit": "r/javascript",
+        "username": "jsdev99",
+        "timeAgo": "3d",
+        "title": "TypeScript 5.5 features that will change how you write code",
+        "content": "The latest TypeScript release includes some game-changing features. Let's dive into the ones that matter most for day-to-day development...",
+        "upvotes": 1432,
+        "comments": 234
+    },
+    {
+        "subreddit": "r/webdev",
+        "username": "frontend_wizard",
+        "timeAgo": "4d",
+        "title": "CSS Grid vs Flexbox: When to use which in 2025",
+        "content": "After years of debate, here's my definitive guide on choosing between Grid and Flexbox based on real-world scenarios and performance considerations...",
+        "upvotes": 2156,
+        "comments": 445
+    }
+]
