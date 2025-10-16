@@ -97,6 +97,30 @@ app.get('/about', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+app.get('/blog', async (req, res) => {
+    try {
+        const branches = await Branches.find();
+
+        // ✅ Load posts.json
+        const postsPath = path.join(__dirname, 'sample data for database', 'posts.json');
+        const postsData = JSON.parse(fs.readFileSync(postsPath, 'utf8'));
+
+        // ✅ Render blog.hbs and pass posts to it
+        res.render('blog', { 
+            title: 'Blog',
+            navTransparent: false,
+            isLoginOrAdmin: false,
+            isAdminPages: false,
+            branches,
+            posts: postsData.posts || postsData // Handle either { posts: [...] } or [...] format
+        });
+    } catch (err) {
+        console.error('Error fetching blog posts:', err);
+        res.status(500).send('Server error');
+    }
+});
+
+
 
 app.get('/promos', async (req, res) => {
     try {
