@@ -7,7 +7,7 @@ const createBlogPost = async (req, res) => {
     const { title, slug, content, tags, isPublished } = req.body;
     
     // Check if slug already exists
-    const existingPost = await BlogPost.findOne({ slug });
+    const existingPost = await BlogPost.findOne({ slug: { $eq: slug } });
     if (existingPost) {
       return res.status(400).json({ 
         success: false, 
