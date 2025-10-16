@@ -1044,6 +1044,31 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// public/script.js
+
+document.addEventListener('DOMContentLoaded', () => {
+  const createPostBtn = document.getElementById('createPostBtn');
+  const createPostModal = document.getElementById('createPostModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+
+  // This will now work because the modal HTML exists on the page
+  if (createPostBtn && createPostModal && closeModalBtn) {
+    createPostBtn.addEventListener('click', () => {
+      createPostModal.style.display = 'flex';
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      createPostModal.style.display = 'none';
+    });
+
+    createPostModal.addEventListener('click', (event) => {
+      if (event.target === createPostModal) {
+        createPostModal.style.display = 'none';
+      }
+    });
+  }
+});
+
 /******************MOBILE MENU************************/
 document.addEventListener('DOMContentLoaded', function () {
     const mobileMenu = document.getElementById("mobileMenu");

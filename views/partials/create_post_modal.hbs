@@ -1,0 +1,21 @@
+{{!-- Modal for Creating a Post --}}
+<div id="createPostModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Create New Post</h2>
+      <button id="closeModalBtn" class="modal-close-btn">&times;</button>
+    </div>
+    <form class="modal-form">
+      <div class="form-group">
+        <label for="postTitle">Title</label>
+        <input type="text" id="postTitle" name="title" required>
+      </div>
+      <div class="form-group">
+        <label for="postContent">Content</label>
+        <textarea id="postContent" name="content" rows="6" required></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Submit Post</button>
+    </form>
+  </div>
+  <script src="/script.js"></script>
+</div>

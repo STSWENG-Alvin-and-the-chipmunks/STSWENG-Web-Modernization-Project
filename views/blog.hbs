@@ -1,0 +1,23 @@
+<div class="blog-page">
+  {{!-- Header --}}
+  <header class="blog-header">
+    <div class="blog-header-inner">
+      <h1 class="blog-title">Blog</h1>
+      <nav class="blog-nav">
+        <a href="/" class="nav-link">Home</a>
+        <button type="button" id="createPostBtn" class="nav-link create-post-btn">Create Post</button>
+      </nav>
+    </div>
+  </header>
+
+  {{!-- Main Content --}}
+  <main class="blog-main">
+    <div class="blog-posts">
+      {{#each posts}}
+        {{> compact-blog-post this}}
+      {{/each}}
+    </div>
+  </main>
+
+  {{> create_post_modal}}
+</div>
