@@ -160,7 +160,8 @@ app.get('/services', async (req, res) => {
         const branches = await Branches.find(); 
         
         res.render('services', { title: 'Services', navTransparent: false, isLoginOrAdmin: false, isAdminPages: false, services, branches });
-    } catch (err) {
+    // eslint-disable-next-line no-unused-vars
+    } catch (_err) {
         res.status(500).send('Server error');
     }
 });
@@ -432,7 +433,7 @@ app.post('/promos/delete/:id', async (req, res) => {
 //SERVICES
 app.post('/services', async (req, res) => {
     const {
-        serviceName, serviceType, serviceDescription,
+        serviceName, serviceDescription, // serviceType,
         pricingShort = null, pricingMedium = null, pricingLong = null, pricingExtraLong = null,
         pricingMatrix = null, pricingElgon = null, pricingOrdeve = null, pricingNormal = null, 
         cutOffTime, branches
