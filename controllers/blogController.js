@@ -1,5 +1,6 @@
 const BlogPost = require('../models/BlogPost');
 const path = require('path');
+const sanitize = require('sanitize-filename');
 
 // Create new blog post
 const createBlogPost = async (req, res) => {
@@ -22,9 +23,24 @@ const createBlogPost = async (req, res) => {
       const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
       
       if (validImageTypes.includes(file.mimetype)) {
-        const uploadPath = path.join(__dirname, '../public/uploads', file.name);
+        const sanitizedFileName = sanitize(file.name);
+        if (!sanitizedFileName) {
+          return res.status(400).json({ 
+            success: false, 
+            message: 'Invalid filename.' 
+          });
+        }
+        const uploadDir = path.resolve(__dirname, '../public/uploads');
+        const uploadPath = path.join(uploadDir, sanitizedFileName);
+        // Optionally check:
+        if (!uploadPath.startsWith(uploadDir)) {
+          return res.status(400).json({ 
+            success: false, 
+            message: 'Path traversal attempt detected.' 
+          });
+        }
         await file.mv(uploadPath);
-        coverImage = `/uploads/${file.name}`;
+        coverImage = `/uploads/${sanitizedFileName}`;
       } else {
         return res.status(400).json({ 
           success: false, 
