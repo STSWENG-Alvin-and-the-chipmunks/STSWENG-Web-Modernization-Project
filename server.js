@@ -13,6 +13,9 @@ const auth = require('./auth');
 const app = express();
 const port = process.env.PORT || 8000;
 
+/******************ROUTES************************/
+const blogRoutes = require('./routes/blogRoutes');
+
 /******************SCHEMAS************************/
 const User = require('./models/User');
 const Promo = require('./models/Promo');
@@ -48,6 +51,7 @@ app.engine('hbs', handlebars.engine);
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api/blogposts', blogRoutes);
 
 /******************DATABASE CONNECTION************************/
 const connectDB = async () => {
@@ -156,7 +160,8 @@ app.get('/services', async (req, res) => {
         const branches = await Branches.find(); 
         
         res.render('services', { title: 'Services', navTransparent: false, isLoginOrAdmin: false, isAdminPages: false, services, branches });
-    } catch (err) {
+    // eslint-disable-next-line no-unused-vars
+    } catch (_err) {
         res.status(500).send('Server error');
     }
 });
@@ -428,7 +433,7 @@ app.post('/promos/delete/:id', async (req, res) => {
 //SERVICES
 app.post('/services', async (req, res) => {
     const {
-        serviceName, serviceType, serviceDescription,
+        serviceName, serviceDescription, // serviceType,
         pricingShort = null, pricingMedium = null, pricingLong = null, pricingExtraLong = null,
         pricingMatrix = null, pricingElgon = null, pricingOrdeve = null, pricingNormal = null, 
         cutOffTime, branches

@@ -511,8 +511,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('branchForm');
     const deleteBtn = document.getElementById('deleteBtn');
     const locationImageInput = document.getElementById('locationImage');
-    const imagePreview = document.getElementById('imagePreview');
-    const existingImagePreview = document.getElementById('existingImagePreview');
+    // const imagePreview = document.getElementById('imagePreview');
+    // const existingImagePreview = document.getElementById('existingImagePreview');
     const popup = document.getElementById('BranchesConfirmPopup');
     const closePopupBtn = document.querySelector('.popup .close-btn');
     const cancelDeleteBtn = document.getElementById('cancelDelete');
@@ -719,9 +719,9 @@ window.addEventListener('load', function() {
 //DYNAMIC RENDERING OF LOCATIONS LIST
 document.addEventListener('DOMContentLoaded', function () {
     const dropdownItems = document.querySelectorAll('.dropdown-child a[data-branch-name]');
-    const branchItems = document.querySelectorAll('.adminbranches-item, .adminbranches-new-btn');
-    const form = document.getElementById('branchForm');
-    const deleteBtn = document.getElementById('deleteBtn');
+    // const branchItems = document.querySelectorAll('.adminbranches-item, .adminbranches-new-btn');
+    // const form = document.getElementById('branchForm');
+    // const deleteBtn = document.getElementById('deleteBtn');
 
     // Handle dropdown item clicks
     dropdownItems.forEach(item => {
@@ -751,7 +751,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Ensure close button functionality
-        var closeModalButtons = errorModalElement.querySelectorAll('.btn-close, .btn-secondary');
+        const closeModalButtons = errorModalElement.querySelectorAll('.btn-close, .btn-secondary');
         closeModalButtons.forEach(button => {
             button.addEventListener('click', function () {
                 errorModal.hide();
@@ -769,10 +769,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Ensure modals only close with btn-close for all modals
     const modals = document.querySelectorAll('.modal');
     modals.forEach(modal => {
-        var bsModal = new bootstrap.Modal(modal, {
-            backdrop: 'static',
-            keyboard: false
-        });
+      //  var bsModal = new bootstrap.Modal(modal, {
+        //    backdrop: 'static',
+         //   keyboard: false
+        //});
         modal.addEventListener('click', function (event) {
             if (event.target === modal) {
                 event.stopPropagation();
@@ -794,7 +794,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Ensure close button functionality
-        var closeModalButtons = successModalElement.querySelectorAll('.btn-close, .btn-primary');
+        const closeModalButtons = successModalElement.querySelectorAll('.btn-close, .btn-primary');
         closeModalButtons.forEach(button => {
             button.addEventListener('click', function () {
                 successModal.hide();
