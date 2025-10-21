@@ -1,6 +1,7 @@
 const BlogPost = require('../models/BlogPost');
 const path = require('path');
 const sanitize = require('sanitize-filename');
+const fs = require('fs/promises'); // for file deletion
 
 // Create new blog post
 const createBlogPost = async (req, res) => {
@@ -18,35 +19,8 @@ const createBlogPost = async (req, res) => {
 
     // Handle cover image URL
     let coverImage = '';
-    if (req.files && req.files.coverImage) {
-      const file = req.files.coverImage;
-      const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
-      
-      if (validImageTypes.includes(file.mimetype)) {
-        const sanitizedFileName = sanitize(file.name);
-        if (!sanitizedFileName) {
-          return res.status(400).json({ 
-            success: false, 
-            message: 'Invalid filename.' 
-          });
-        }
-        const uploadDir = path.resolve(__dirname, '../public/uploads');
-        const uploadPath = path.join(uploadDir, sanitizedFileName);
-        // Optionally check:
-        if (!uploadPath.startsWith(uploadDir)) {
-          return res.status(400).json({ 
-            success: false, 
-            message: 'Path traversal attempt detected.' 
-          });
-        }
-        await file.mv(uploadPath);
-        coverImage = `/uploads/${sanitizedFileName}`;
-      } else {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'Invalid file type. Only JPEG, PNG, and GIF are allowed.' 
-        });
-      }
+    if (req.file) {
+      coverImage = `/uploads/${req.file.filename}`;
     }
 
     const blogPost = new BlogPost({
@@ -149,6 +123,100 @@ const getBlogPostBySlug = async (req, res) => {
       message: 'Server error',
       error: error.message 
     });
+  }
+};
+
+// Update blog post by slug
+const updateBlogPost = async (req, res) => {
+  try {
+    const { title, slug, content, tags, isPublished } = req.body;
+    const blogPost = await BlogPost.findOne({ slug: req.params.slug });
+
+    if (!blogPost) {
+      return res.status(404).json({ success: false, message: 'Blog post not found' });
+    }
+
+    // Authorization check: Ensure the user is the author
+    if (blogPost.author.toString() !== req.user.id) {
+        return res.status(403).json({ success: false, message: 'User not authorized' });
+    }
+
+    // If the slug is being updated, check if the new one is unique
+    if (slug && slug !== blogPost.slug) {
+        const existingPost = await BlogPost.findOne({ slug });
+        if (existingPost) {
+            return res.status(400).json({ success: false, message: 'New slug already exists' });
+        }
+        blogPost.slug = slug;
+    }
+    
+    // Handle new cover image upload
+    if (req.file) {
+      // If there's an old image, delete it
+      if (blogPost.coverImage) {
+        const oldImagePath = path.join(__dirname, '../public', blogPost.coverImage);
+        try {
+          await fs.unlink(oldImagePath);
+        } catch (err) {
+          console.error("Error deleting old image:", err.message);
+        }
+      }
+      blogPost.coverImage = `/uploads/${req.file.filename}`;
+    }
+
+    // Update fields
+    blogPost.title = title || blogPost.title;
+    blogPost.content = content || blogPost.content;
+    blogPost.tags = tags ? (Array.isArray(tags) ? tags : tags.split(',')) : blogPost.tags;
+    if (isPublished !== undefined) {
+      blogPost.isPublished = isPublished === 'true';
+    }
+
+    const updatedPost = await blogPost.save();
+
+    res.json({ 
+      success: true, 
+      message: 'Blog post updated successfully', 
+      data: updatedPost 
+    });
+
+  } catch (error) {
+    console.error('Error updating blog post:', error);
+    res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+};
+
+// Delete blog post by slug
+const deleteBlogPost = async (req, res) => {
+  try {
+    const blogPost = await BlogPost.findOne({ slug: req.params.slug });
+
+    if (!blogPost) {
+      return res.status(404).json({ success: false, message: 'Blog post not found' });
+    }
+
+    // Authorization check
+    if (blogPost.author.toString() !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'User not authorized' });
+    }
+
+    // Delete cover image from server if it exists
+    if (blogPost.coverImage) {
+      const imagePath = path.join(__dirname, '../public', blogPost.coverImage);
+      try {
+        await fs.unlink(imagePath);
+      } catch (err) {
+        console.error("Error deleting image:", err.message);
+      }
+    }
+
+    await blogPost.deleteOne(); // Use deleteOne() on the document
+
+    res.json({ success: true, message: 'Blog post deleted successfully' });
+
+  } catch (error) {
+    console.error('Error deleting blog post:', error);
+    res.status(500).json({ success: false, message: 'Server error', error: error.message });
   }
 };
 

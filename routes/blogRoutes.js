@@ -6,7 +6,9 @@ const router = express.Router();
 const {
   createBlogPost,
   getBlogPosts,
-  getBlogPostBySlug
+  getBlogPostBySlug,
+  updateBlogPost,
+  deleteBlogPost
 } = require('../controllers/blogController');
 const auth = require('../auth');
 
@@ -40,7 +42,9 @@ const upload = multer({
 const validatePost = [
   body('title').notEmpty().withMessage('Title is required.'),
   body('content').notEmpty().withMessage('Content is required.'),
-  body('author').notEmpty().withMessage('Author is required.'),
+  // Author is now set from auth token, so validation isn't needed here.
+  // Kept for consistency if it has other uses.
+  body('author').optional(),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -59,5 +63,11 @@ router.get('/', getBlogPosts);
 
 // Get single blog post by slug (public)
 router.get('/:slug', getBlogPostBySlug);
+
+// Update blog post by slug (protected)
+router.put('/:slug', auth, upload.single('coverImage'), validatePost, updateBlogPost);
+
+// Delete blog post by slug (protected)
+router.delete('/:slug', auth, deleteBlogPost);
 
 module.exports = router;
