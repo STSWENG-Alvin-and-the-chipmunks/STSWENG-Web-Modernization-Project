@@ -54,9 +54,19 @@ const validatePost = [
   },
 ];
 
+// --- Role-based authorization middleware ---
+const authorizeRoles = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({ success: false, message: 'Access denied' });
+    }
+    next();
+  };
+};
+
 // Create new blog post (protected - admin/manager only)
 //router.post('/', auth, createBlogPost);
-router.post('/', auth, upload.single('coverImage'), validatePost, createBlogPost);
+router.post('/', auth, authorizeRoles('Admin', 'Manager'), upload.single('coverImage'), validatePost, createBlogPost);
 
 // Get all published blog posts (public)
 router.get('/', getBlogPosts);
@@ -65,9 +75,9 @@ router.get('/', getBlogPosts);
 router.get('/:slug', getBlogPostBySlug);
 
 // Update blog post by slug (protected)
-router.put('/:slug', auth, upload.single('coverImage'), validatePost, updateBlogPost);
+router.put('/:slug', auth, authorizeRoles('Admin', 'Manager'), upload.single('coverImage'), validatePost, updateBlogPost);
 
 // Delete blog post by slug (protected)
-router.delete('/:slug', auth, deleteBlogPost);
+router.delete('/:slug', auth, authorizeRoles('Admin', 'Manager'), deleteBlogPost);
 
 module.exports = router;

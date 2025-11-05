@@ -223,5 +223,7 @@ const deleteBlogPost = async (req, res) => {
 module.exports = {
   createBlogPost,
   getBlogPosts,
-  getBlogPostBySlug
+  getBlogPostBySlug,
+  updateBlogPost,
+  deleteBlogPost
 };
