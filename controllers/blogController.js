@@ -143,7 +143,7 @@ const updateBlogPost = async (req, res) => {
 
     // If the slug is being updated, check if the new one is unique
     if (slug && slug !== blogPost.slug) {
-        const existingPost = await BlogPost.findOne({ slug });
+        const existingPost = await BlogPost.findOne({ slug: { $eq: slug } });
         if (existingPost) {
             return res.status(400).json({ success: false, message: 'New slug already exists' });
         }
