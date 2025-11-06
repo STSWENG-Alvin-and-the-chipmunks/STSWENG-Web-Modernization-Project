@@ -2,6 +2,7 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const multer = require('multer');
 const path = require('path');
+const rateLimit = require('express-rate-limit'); // Add express-rate-limit import
 const router = express.Router();
 const {
   createBlogPost,
@@ -12,6 +13,14 @@ const {
 } = require('../controllers/blogController');
 const auth = require('../auth');
 
+
+// --- Rate limiting for create (POST) blog post route ---
+// Limit to 10 requests per hour per IP
+const createBlogPostLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10,
+  message: 'Too many blog posts created from this IP, please try again after an hour'
+});
 
 // --- Multer setup for file uploads ---
 const storage = multer.diskStorage({
@@ -66,7 +75,15 @@ const authorizeRoles = (...allowedRoles) => {
 
 // Create new blog post (protected - admin/manager only)
 //router.post('/', auth, createBlogPost);
-router.post('/', auth, authorizeRoles('Admin', 'Manager'), upload.single('coverImage'), validatePost, createBlogPost);
+router.post(
+  '/',
+  createBlogPostLimiter, // Apply rate limiter to POST route
+  auth,
+  authorizeRoles('Admin', 'Manager'),
+  upload.single('coverImage'),
+  validatePost,
+  createBlogPost
+);
 
 // Get all published blog posts (public)
 router.get('/', getBlogPosts);
