@@ -1,0 +1,38 @@
+{{!-- TEMP inline styles to ensure it looks right; you can move this to /public/css/blog.css later --}}
+<style>
+  .blog-wrap{max-width:900px;margin:0 auto;padding:24px 20px 60px;}
+  .blog-tabs{display:flex;align-items:center;gap:20px;margin-bottom:18px;}
+  .blog-tabs .active{font-weight:700;color:#b9a05a}
+  .blog-tabs a{color:#9aa0a6;text-decoration:none}
+  .blog-list{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .bk-card{padding:18px 16px;border-bottom:1px solid #efefef;background:#fff}
+  .bk-card:last-child{border-bottom:none}
+  .bk-card:hover{background:#fafafa}
+  .bk-meta{display:flex;align-items:center;gap:10px;color:#666;font-size:12px;margin-bottom:6px}
+  .bk-avatar{width:24px;height:24px;border-radius:999px;background:#ddd}
+  .bk-dot{width:6px;height:6px;border-radius:50%;background:#d0d0d0;display:inline-block}
+  .bk-title{font-size:20px;font-weight:700;color:#1a1a1a;margin:2px 0 4px;line-height:1.3}
+  .bk-link{color:#1a1a1a;text-decoration:none}
+  .bk-link:hover{color:#b9a05a}
+  .bk-sub{color:#6b7280;font-size:14px;margin:0}
+  .bk-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .bk-tag{background:#f1f3f4;color:#555;font-size:11px;padding:4px 8px;border-radius:999px}
+</style>
+
+<section class="blog-wrap under-fixed-nav">
+  <div class="blog-tabs">
+    <span class="active">List</span>
+    <a href="/bookmarks">Bookmarks</a>
+    <button class="blog-create">Create</button>
+  </div>
+  {{#if blogpost.length}}
+    <div class="blog-list">
+      {{#each blogpost}}
+        {{> bookmark-card this}}
+      {{/each}}
+    </div>
+  {{else}}
+    <p>No blog posts available.</p>
+  {{/if}}
+</section>
+

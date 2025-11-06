@@ -1,0 +1,112 @@
+[
+  {
+    "title": "10 Ways to Improve Your Salon’s Customer Experience",
+    "slug": "improve-salon-customer-experience",
+    "coverImage": "/uploads/blog1.jpg",
+    "content": "Delivering a premium customer experience is key to building loyalty. From personalized consultations to post-service follow-ups, here are ten proven ways to elevate every client visit.",
+    "author": "672a8b3d4f1a8d2b345c1a23",
+    "tags": ["salon", "customer-experience", "tips"],
+    "isPublished": true,
+    "createdAt": "2025-10-10T08:30:00Z",
+    "updatedAt": "2025-10-10T08:30:00Z"
+  },
+  {
+    "title": "The Future of Hair Coloring: Trends for 2026",
+    "slug": "future-hair-coloring-trends-2026",
+    "coverImage": "/uploads/blog2.jpg",
+    "content": "From vivid pastels to eco-friendly dyes, discover what’s shaping the next generation of hair color trends in salons worldwide.",
+    "author": "672a8b3d4f1a8d2b345c1a23",
+    "tags": ["hair", "color", "trends"],
+    "isPublished": true,
+    "createdAt": "2025-10-15T09:00:00Z",
+    "updatedAt": "2025-10-15T09:00:00Z"
+  },
+  {
+    "title": "5 Marketing Ideas to Grow Your Salon Business",
+    "slug": "marketing-ideas-salon-business",
+    "coverImage": "/uploads/blog3.jpg",
+    "content": "Social media, referral programs, and local partnerships are your secret weapons. Here’s how to attract and retain clients using creative marketing.",
+    "author": "672a8b3d4f1a8d2b345c1a23",
+    "tags": ["marketing", "business", "salon"],
+    "isPublished": true,
+    "createdAt": "2025-10-20T12:45:00Z",
+    "updatedAt": "2025-10-20T12:45:00Z"
+  },
+  {
+    "title": "How to Build a Strong Salon Team Culture",
+    "slug": "build-strong-salon-team-culture",
+    "coverImage": "/uploads/blog4.jpg",
+    "content": "Team morale can make or break your salon’s success. Learn leadership strategies to keep your stylists motivated and aligned with your vision.",
+    "author": "672a8b3d4f1a8d2b345c1a23",
+    "tags": ["team", "leadership", "culture"],
+    "isPublished": true,
+    "createdAt": "2025-10-22T11:20:00Z",
+    "updatedAt": "2025-10-22T11:20:00Z"
+  },
+  {
+    "title": "A Beginner’s Guide to Scalp Care Treatments",
+    "slug": "beginners-guide-scalp-care",
+    "coverImage": "/uploads/blog5.jpg",
+    "content": "Healthy hair starts with a healthy scalp. Discover professional treatments and home-care tips your clients will love.",
+    "author": "672a8b3d4f1a8d2b345c1a23",
+    "tags": ["scalp", "haircare", "guide"],
+    "isPublished": true,
+    "createdAt": "2025-10-25T10:00:00Z",
+    "updatedAt": "2025-10-25T10:00:00Z"
+  },
+  {
+    "title": "Why Sustainable Beauty Products Matter",
+    "slug": "sustainable-beauty-products",
+    "coverImage": "/uploads/blog6.jpg",
+    "content": "Consumers are demanding eco-conscious products. Learn how switching to sustainable brands can benefit your salon and the planet.",
+    "author": "672a8b3d4f1a8d2b345c1a23",
+    "tags": ["sustainability", "eco-friendly", "beauty"],
+    "isPublished": true,
+    "createdAt": "2025-10-28T14:00:00Z",
+    "updatedAt": "2025-10-28T14:00:00Z"
+  },
+  {
+    "title": "Top 7 Tools Every Modern Hairstylist Needs",
+    "slug": "tools-every-modern-hairstylist-needs",
+    "coverImage": "/uploads/blog7.jpg",
+    "content": "Upgrade your station with tools that improve precision, efficiency, and client satisfaction. Here’s our 2025 stylist toolkit guide.",
+    "author": "672a8b3d4f1a8d2b345c1a23",
+    "tags": ["tools", "hairstylist", "equipment"],
+    "isPublished": true,
+    "createdAt": "2025-10-30T09:45:00Z",
+    "updatedAt": "2025-10-30T09:45:00Z"
+  },
+  {
+    "title": "Creating the Perfect Salon Lighting Setup",
+    "slug": "perfect-salon-lighting-setup",
+    "coverImage": "/uploads/blog8.jpg",
+    "content": "Lighting affects everything from mood to color accuracy. Here’s how to design the ideal lighting layout for your space.",
+    "author": "672a8b3d4f1a8d2b345c1a23",
+    "tags": ["design", "lighting", "salon"],
+    "isPublished": true,
+    "createdAt": "2025-11-02T13:15:00Z",
+    "updatedAt": "2025-11-02T13:15:00Z"
+  },
+  {
+    "title": "How to Price Your Salon Services Competitively",
+    "slug": "price-your-salon-services",
+    "coverImage": "/uploads/blog9.jpg",
+    "content": "Finding the right balance between profit and customer value can be tricky. Learn a data-driven approach to pricing your salon services.",
+    "author": "672a8b3d4f1a8d2b345c1a23",
+    "tags": ["pricing", "strategy", "business"],
+    "isPublished": true,
+    "createdAt": "2025-11-03T16:00:00Z",
+    "updatedAt": "2025-11-03T16:00:00Z"
+  },
+  {
+    "title": "Boost Bookings with Seasonal Promo Campaigns",
+    "slug": "boost-bookings-seasonal-promos",
+    "coverImage": "/uploads/blog10.jpg",
+    "content": "Holidays are your biggest opportunity to attract clients. Learn how to design irresistible seasonal promos and convert walk-ins into loyal customers.",
+    "author": "672a8b3d4f1a8d2b345c1a23",
+    "tags": ["promotions", "marketing", "seasonal"],
+    "isPublished": true,
+    "createdAt": "2025-11-05T11:30:00Z",
+    "updatedAt": "2025-11-05T11:30:00Z"
+  }
+]

@@ -1,0 +1,26 @@
+<article class="bk-card">
+  <div class="bk-meta">
+    <div class="bk-avatar"></div>
+    <span class="bk-author">{{author}}</span>
+    <span class="bk-dot"></span>
+    <span class="bk-date">{{createdAt}}</span>
+  </div>
+
+  <h3 class="bk-title">
+    {{#if slug}}
+      <a class="bk-link" href="/blog/{{slug}}">{{title}}</a>
+    {{else}}
+      {{title}}
+    {{/if}}
+  </h3>
+
+  {{#if content}}
+    <p class="bk-sub">{{content}}</p>
+  {{/if}}
+
+  {{#if tags}}
+    <div class="bk-tags">
+      {{#each tags}}<span class="bk-tag">#{{this}}</span>{{/each}}
+    </div>
+  {{/if}}
+</article>

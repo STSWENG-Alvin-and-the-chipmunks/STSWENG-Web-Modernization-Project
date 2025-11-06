@@ -22,7 +22,7 @@ const Promo = require('./models/Promo');
 const Service = require('./models/Service');
 const Branches = require('./models/Branches');
 const Subscriber = require('./models/Subscriber');
-
+const BlogPost = require('./models/BlogPost');
 /******************MIDDLEWARE************************/
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -145,6 +145,25 @@ app.get('/newsletter', async (req, res) => {
         console.error('Error fetching branches:', err);
         res.status(500).send('Server error');
     }
+});
+
+app.get('/bloglistview', async (req, res) => {
+    try {
+    const branches = await Branches.find();
+    const blogpost = await BlogPost.find({ isPublished: true }).sort({ createdAt: -1 }); // or your dummy data
+
+    res.render('blog-list-view', {
+      title: 'Blog',
+      navTransparent: false,
+      isLoginOrAdmin: false,
+      isAdminPages: false,
+      branches,
+      blogpost
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
 });
 
 app.get('/services', async (req, res) => {
