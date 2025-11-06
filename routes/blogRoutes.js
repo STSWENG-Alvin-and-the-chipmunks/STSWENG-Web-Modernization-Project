@@ -22,6 +22,14 @@ const createBlogPostLimiter = rateLimit({
   message: 'Too many blog posts created from this IP, please try again after an hour'
 });
 
+// --- Rate limiting for update (PUT) blog post route ---
+// Limit to 10 requests per hour per IP for updates as well
+const updateBlogPostLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10,
+  message: 'Too many blog post updates from this IP, please try again after an hour'
+});
+
 // --- Multer setup for file uploads ---
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -92,7 +100,7 @@ router.get('/', getBlogPosts);
 router.get('/:slug', getBlogPostBySlug);
 
 // Update blog post by slug (protected)
-router.put('/:slug', auth, authorizeRoles('Admin', 'Manager'), upload.single('coverImage'), validatePost, updateBlogPost);
+router.put('/:slug', updateBlogPostLimiter, auth, authorizeRoles('Admin', 'Manager'), upload.single('coverImage'), validatePost, updateBlogPost);
 
 // Delete blog post by slug (protected)
 router.delete('/:slug', auth, authorizeRoles('Admin', 'Manager'), deleteBlogPost);
