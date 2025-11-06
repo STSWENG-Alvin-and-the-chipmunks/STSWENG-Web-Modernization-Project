@@ -30,6 +30,14 @@ const updateBlogPostLimiter = rateLimit({
   message: 'Too many blog post updates from this IP, please try again after an hour'
 });
 
+// --- Rate limiting for delete (DELETE) blog post route ---
+// Limit to 10 requests per hour per IP for deletes
+const deleteBlogPostLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10,
+  message: 'Too many blog post deletions from this IP, please try again after an hour'
+});
+
 // --- Multer setup for file uploads ---
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -103,6 +111,6 @@ router.get('/:slug', getBlogPostBySlug);
 router.put('/:slug', updateBlogPostLimiter, auth, authorizeRoles('Admin', 'Manager'), upload.single('coverImage'), validatePost, updateBlogPost);
 
 // Delete blog post by slug (protected)
-router.delete('/:slug', auth, authorizeRoles('Admin', 'Manager'), deleteBlogPost);
+router.delete('/:slug', deleteBlogPostLimiter, auth, authorizeRoles('Admin', 'Manager'), deleteBlogPost);
 
 module.exports = router;
