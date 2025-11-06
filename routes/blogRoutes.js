@@ -2,7 +2,7 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const multer = require('multer');
 const path = require('path');
-const rateLimit = require('express-rate-limit'); // Add express-rate-limit import
+const rateLimit = require('express-rate-limit');
 const router = express.Router();
 const {
   createBlogPost,
@@ -91,15 +91,7 @@ const authorizeRoles = (...allowedRoles) => {
 
 // Create new blog post (protected - admin/manager only)
 //router.post('/', auth, createBlogPost);
-router.post(
-  '/',
-  createBlogPostLimiter, // Apply rate limiter to POST route
-  auth,
-  authorizeRoles('Admin', 'Manager'),
-  upload.single('coverImage'),
-  validatePost,
-  createBlogPost
-);
+router.post('/', createBlogPostLimiter, auth, authorizeRoles('Admin', 'Manager'), upload.single('coverImage'), validatePost, createBlogPost);
 
 // Get all published blog posts (public)
 router.get('/', getBlogPosts);
