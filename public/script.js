@@ -1079,3 +1079,30 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+
+// Handle click-to-toggle for ellipsis menu
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.bk-menu-btn');
+  const menuRoot = e.target.closest('.bk-menu');
+
+  // If clicked the ellipsis button
+  if (btn) {
+    e.stopPropagation();
+    e.preventDefault();
+    const root = btn.closest('.bk-menu');
+    const wasOpen = root.classList.contains('open');
+    // Close all open menus first
+    document.querySelectorAll('.bk-menu.open').forEach(m => m.classList.remove('open'));
+    // Toggle current one
+    if (!wasOpen) root.classList.add('open');
+    btn.setAttribute('aria-expanded', String(!wasOpen));
+    return;
+  }
+
+  // If clicked inside the menu, do nothing
+  if (menuRoot) return;
+
+  // If clicked outside, close all menus
+  document.querySelectorAll('.bk-menu.open').forEach(m => m.classList.remove('open'));
+});

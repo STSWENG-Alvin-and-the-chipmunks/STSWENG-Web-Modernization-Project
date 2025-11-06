@@ -1,12 +1,12 @@
-:root { --nav-h: 96px; }        /* match your actual header height */
+:root { --nav-h: 96px; }        
 
-/* keep section padding too, so first render isn't under the nav */
+
 .blog-wrap.under-fixed-nav { padding-top: calc(var(--nav-h) + 12px); }
 
 .blog-tabs{
   position: sticky;
-  top: var(--nav-h);            /* stick right under the navbar */
-  z-index: 3000;                /* higher than .nav-parent */
+  top: var(--nav-h);            
+  z-index: 3000;               
   background: #fff;
   padding: 10px 12px;
   border-bottom: 1px solid #e8e8e8;
@@ -45,13 +45,25 @@
 }
 .blog-create:hover { background: #fafafa; }
 
-/* List container + cards (if you don’t have this yet) */
-.blog-list { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
-.bk-card { padding: 18px 16px; border-bottom: 1px solid #efefef; background: #fff; }
+.blog-list {
+  background: #fff;
+  border-radius: 10px;
+  overflow: visible !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.bk-card { 
+  position: relative; 
+  padding: 18px 16px; 
+  padding-right: 44px; 
+  border-bottom: 1px solid #efefef; 
+  background: #fff;
+  overflow: visible;                 
+}
+
 .bk-card:last-child { border-bottom: none; }
 .bk-card:hover { background: #fafafa; }
 
-/* Card internals (unchanged) */
+
 .bk-meta{display:flex;align-items:center;gap:10px;color:#666;font-size:12px;margin-bottom:6px}
 .bk-avatar{width:24px;height:24px;border-radius:999px;background:#ddd}
 .bk-dot{width:6px;height:6px;border-radius:50%;background:#d0d0d0;display:inline-block}
@@ -61,3 +73,59 @@
 .bk-sub{color:#6b7280;font-size:14px;margin:0}
 .bk-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .bk-tag{background:#f1f3f4;color:#555;font-size:11px;padding:4px 8px;border-radius:999px}
+
+.bk-card { position: relative; padding-right: 44px; }
+
+.bk-menu { position: absolute; top: 10px; right: 10px; }
+.bk-menu-btn {
+  width: 28px; height: 28px; border-radius: 999px;
+  border: 1px solid #e3e3e3; background: #fff; cursor: pointer;
+  display: grid; place-items: center; line-height: 0; font-size: 16px;
+  color: #777;
+  pointer-events: auto;
+}
+.bk-menu-btn:hover { background: #f6f6f6; }
+
+
+.bk-menu { position: absolute; top: 10px; right: 10px;}
+.bk-menu-btn {
+  width: 28px; height: 28px; border-radius: 999px;
+  border: 1px solid #e3e3e3; background: #fff; cursor: pointer;
+  display: grid; place-items: center; line-height: 0; font-size: 16px; color: #777;
+}
+.bk-menu-btn:hover { background: #f6f6f6; }
+
+
+.bk-menu-list {
+  position: absolute; top: 34px; right: 0;
+  min-width: 140px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+  padding: 6px;
+  list-style: none;
+  margin: 0;
+  display: none;                 
+  z-index: 9999;                 
+  pointer-events: auto;
+}
+
+.bk-menu.open .bk-menu-list { display: block; }  
+
+
+
+
+.bk-menu-list li { margin: 0; }
+.bk-menu-list a,
+.bk-menu-list button {
+  width: 100%; text-align: left; display: block;
+  padding: 8px 10px; border-radius: 6px; border: 0; background: none;
+  color: #333; font-size: 14px; cursor: pointer; text-decoration: none;
+}
+.bk-menu-list a:hover,
+.bk-menu-list button:hover { background: #f5f5f5; }
+
+.bk-menu-list .bk-delete { color: #b94a48; } 
+.bk-menu-list .bk-delete:hover { background: #fde8e8; }
+

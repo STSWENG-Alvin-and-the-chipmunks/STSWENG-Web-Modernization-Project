@@ -1,4 +1,14 @@
-<article class="bk-card">
+
+<article class="bk-card" data-id="{{_id}}" data-slug="{{slug}}">
+  <div class="bk-menu">
+    <button type="button" class="bk-menu-btn" aria-haspopup="true" aria-expanded="false">•••</button>
+    <ul class="bk-menu-list" role="menu">
+      <li role="menuitem"><a class="bk-edit" href="/admin/blog/edit/{{_id}}">Edit</a></li>
+      <li role="menuitem"><button type="button" class="bk-delete" data-id="{{_id}}" data-title="{{title}}">Delete</button></li>
+    </ul>
+  </div>
+
+  {{!-- existing content below --}}
   <div class="bk-meta">
     <div class="bk-avatar"></div>
     <span class="bk-author">{{author}}</span>
@@ -7,16 +17,11 @@
   </div>
 
   <h3 class="bk-title">
-    {{#if slug}}
-      <a class="bk-link" href="/blog/{{slug}}">{{title}}</a>
-    {{else}}
-      {{title}}
-    {{/if}}
+    <a class="bk-link" href="/blog/{{slug}}">{{title}}</a>  {{!-- no stretched-link --}}
   </h3>
 
-  {{#if content}}
-    <p class="bk-sub">{{content}}</p>
-  {{/if}}
+
+  {{#if content}}<p class="bk-sub">{{content}}</p>{{/if}}
 
   {{#if tags}}
     <div class="bk-tags">

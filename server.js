@@ -147,7 +147,7 @@ app.get('/newsletter', async (req, res) => {
     }
 });
 
-app.get('/bloglistview', async (req, res) => {
+app.get('/blog', async (req, res) => {
     try {
     const branches = await Branches.find();
     const blogpost = await BlogPost.find({ isPublished: true }).sort({ createdAt: -1 }); // or your dummy data
