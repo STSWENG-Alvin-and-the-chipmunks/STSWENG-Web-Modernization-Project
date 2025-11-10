@@ -63,17 +63,36 @@ const upload = multer({
   limits: { fileSize: 8 * 1024 * 1024 },
 });
 
-// --- Validation middleware ---
+// --- Validation middleware for CREATE ---
 const validatePost = [
   body('title').notEmpty().withMessage('Title is required.'),
   body('content').notEmpty().withMessage('Content is required.'),
-  // Author is now set from auth token, so validation isn't needed here.
-  // Kept for consistency if it has other uses.
-  body('author').optional(),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return next({ status: 400, message: 'Validation failed', errors: errors.array() });
+      // This sends a JSON error response
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Validation failed', 
+        errors: errors.array() 
+      });
+    }
+    next();
+  },
+];
+
+// --- Validation middleware for UPDATE ---
+const validatePostUpdate = [
+  body('title').optional().notEmpty().withMessage('Title cannot be empty.'),
+  body('content').optional().notEmpty().withMessage('Content cannot be empty.'),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Validation failed', 
+        errors: errors.array() 
+      });
     }
     next();
   },
@@ -100,7 +119,7 @@ router.get('/', getBlogPosts);
 router.get('/:slug', getBlogPostBySlug);
 
 // Update blog post by slug (protected)
-router.put('/:slug', updateBlogPostLimiter, auth, authorizeRoles('Admin', 'Manager'), upload.single('coverImage'), validatePost, updateBlogPost);
+router.put('/:slug', updateBlogPostLimiter, auth, authorizeRoles('Admin', 'Manager'), upload.single('coverImage'), validatePostUpdate, updateBlogPost);
 
 // Delete blog post by slug (protected)
 router.delete('/:slug', deleteBlogPostLimiter, auth, authorizeRoles('Admin', 'Manager'), deleteBlogPost);
