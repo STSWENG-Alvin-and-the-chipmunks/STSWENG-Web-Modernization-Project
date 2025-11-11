@@ -15,6 +15,7 @@ const port = process.env.PORT || 8000;
 
 /******************ROUTES************************/
 const blogRoutes = require('./routes/blogRoutes');
+const commentRoutes = require('./routes/commentRoutes');
 
 /******************SCHEMAS************************/
 const User = require('./models/User');
@@ -52,6 +53,7 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/blogposts', blogRoutes);
+app.use('/api/comments', commentRoutes);
 
 /******************DATABASE CONNECTION************************/
 const connectDB = async () => {
