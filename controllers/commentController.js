@@ -7,6 +7,17 @@ const createComment = async (req, res) => {
     const { content, blogId } = req.body;
     const author = req.user.id; // From auth middleware
 
+    // Validate blogId to prevent NoSQL injection
+    if (
+      typeof blogId !== 'string' ||
+      !blogId.match(/^[a-fA-F0-9]{24}$/)
+    ) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Invalid blogId' 
+      });
+    }
+
     // Check if the blog post exists
     const post = await BlogPost.findById(blogId);
     if (!post) {
