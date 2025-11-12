@@ -1,5 +1,5 @@
-
 <article class="bk-card" data-id="{{_id}}" data-slug="{{slug}}">
+
   <div class="bk-menu">
     <button type="button" class="bk-menu-btn" aria-haspopup="true" aria-expanded="false">•••</button>
     <ul class="bk-menu-list" role="menu">
@@ -8,24 +8,27 @@
     </ul>
   </div>
 
-  {{!-- existing content below --}}
-  <div class="bk-meta">
-    <div class="bk-avatar"></div>
-    <span class="bk-author">{{author}}</span>
-    <span class="bk-dot"></span>
-    <span class="bk-date">{{createdAt}}</span>
-  </div>
-
-  <h3 class="bk-title">
-    <a class="bk-link" href="/blog/{{slug}}">{{title}}</a>  {{!-- no stretched-link --}}
-  </h3>
-
-
-  {{#if content}}<p class="bk-sub">{{content}}</p>{{/if}}
-
-  {{#if tags}}
-    <div class="bk-tags">
-      {{#each tags}}<span class="bk-tag">#{{this}}</span>{{/each}}
+    <div class="bk-meta">
+      <div class="bk-avatar"></div>
+      <span class="bk-author">{{author}}</span>
+      <span class="bk-dot"></span>
+      <span class="bk-date">{{createdAt}}</span>
     </div>
-  {{/if}}
-</article>
+
+    <a class="bk-link-wrapper" href="/posts/{{_id}}">
+
+    <h3 class="bk-title">
+      {{title}}
+    </h3>
+    </a>
+
+    {{#if content}}<p class="bk-sub">{{content}}</p>{{/if}}
+
+    {{#if tags}}
+      <div class="bk-tags">
+        {{#each tags}}<span class="bk-tag">#{{this}}</span>{{/each}}
+      </div>
+    {{/if}}
+
+  </a>
+  </article>

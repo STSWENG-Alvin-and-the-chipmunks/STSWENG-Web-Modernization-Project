@@ -1,0 +1,81 @@
+<div class="article-wrapper">
+
+  {{#with post}}
+  <div class="blog-post-detail-page">
+
+    {{!-- 1. Hero Image & Caption --}}
+    <figure class="post-hero-image">
+      <img src="{{heroImage}}">
+
+      {{#if imageCredit}}
+      <figcaption class="post-hero-caption">
+        {{imageCredit}}
+      </figcaption>
+      {{/if}}
+    </figure>
+
+    {{!-- Container for the text content --}}
+    <main class="post-content-container">
+
+      {{!-- 2. Title --}}
+      <h1 class="post-main-title">{{title}}</h1>
+      
+      {{!-- 3. Subtitle --}}
+      {{#if subtitle}}
+      <p class="post-subtitle">{{subtitle}}</p>
+      {{/if}}
+
+      {{!-- 4. Author & Read Time --}}
+      <div class="post-author-meta">
+        <div class="author-avatar"></div>
+        <div class="author-info">
+          {{!-- This now points to the populated author's username --}}
+          {{#if author}}
+            <span class="author-name">{{author.username}}</span>
+          {{else}}
+            <span class="author-name">Unknown Author</span>
+          {{/if}}
+          <span class="meta-separator">•</span>
+          <span class="read-time">{{readTime}}</span>
+        </div>
+      </div>
+
+      {{!-- 5. Action Bar --}}
+      <div class="post-action-bar">
+        <div class="action-group">
+          <button class="action-icon" aria-label="Upvote">
+            <img src="/assets/Upvote.png" alt="Upvote"> {{upvotes}}
+          </button>
+          <button class="action-icon" aria-label="Comment">
+            <img src="/assets/Comment.png" alt="Comment"> {{comments}}
+          </button>
+        </div>
+        <div class="action-group">
+          {{!-- These buttons only have an icon --}}
+          <button class="action-icon" aria-label="Save post">
+            <img src="/assets/Save.png" alt="Save post">
+          </button>
+          <button class="action-icon" aria-label="Share post">
+            <img src="/assets/Share.png" alt="Share post">
+          </button>
+        </div>
+      </div>
+
+      {{!-- 6. Main Body Content --}}
+      <div class="post-body">
+        {{{content}}}
+      </div>
+
+    </main>
+  </div>
+  {{/with}}
+
+  {{!-- Comments Section --}}
+  <div class="post-content-container">
+    <div class="comments-section">
+      <h3>Comments</h3>
+      <p><i>(Comment section placeholder)</i></p>
+    </div>
+  </div>
+
+</div>

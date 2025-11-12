@@ -8,7 +8,13 @@
     "tags": ["salon", "customer-experience", "tips"],
     "isPublished": true,
     "createdAt": "2025-10-10T08:30:00Z",
-    "updatedAt": "2025-10-10T08:30:00Z"
+    "updatedAt": "2025-10-10T08:30:00Z",
+    "subtitle": "Full blog content for '10 Ways to Improve Your Salon’s Customer Experience' goes here...",
+    "readTime": "5 mins. read",
+    "heroImage": "/assets/aboutus.png",
+    "imageCredit": "Image by Paule, Mikael Angelo G.",
+    "upvotes": 2847,
+    "comments": 342
   },
   {
     "title": "The Future of Hair Coloring: Trends for 2026",
@@ -19,7 +25,13 @@
     "tags": ["hair", "color", "trends"],
     "isPublished": true,
     "createdAt": "2025-10-15T09:00:00Z",
-    "updatedAt": "2025-10-15T09:00:00Z"
+    "updatedAt": "2025-10-15T09:00:00Z",
+    "subtitle": "Full blog content for 'The Future of Hair Coloring: Trends for 2026' goes here...",
+    "readTime": "5 mins. read",
+    "heroImage": "/assets/aboutus.png",
+    "imageCredit": "Image by Paule, Mikael Angelo G.",
+    "upvotes": 2847,
+    "comments": 342
   },
   {
     "title": "5 Marketing Ideas to Grow Your Salon Business",
@@ -30,7 +42,13 @@
     "tags": ["marketing", "business", "salon"],
     "isPublished": true,
     "createdAt": "2025-10-20T12:45:00Z",
-    "updatedAt": "2025-10-20T12:45:00Z"
+    "updatedAt": "2025-10-20T12:45:00Z",
+    "subtitle": "Full blog content for '5 Marketing Ideas to Grow Your Salon Business' goes here...",
+    "readTime": "5 mins. read",
+    "heroImage": "/assets/aboutus.png",
+    "imageCredit": "Image by Paule, Mikael Angelo G.",
+    "upvotes": 2847,
+    "comments": 342
   },
   {
     "title": "How to Build a Strong Salon Team Culture",
@@ -41,7 +59,13 @@
     "tags": ["team", "leadership", "culture"],
     "isPublished": true,
     "createdAt": "2025-10-22T11:20:00Z",
-    "updatedAt": "2025-10-22T11:20:00Z"
+    "updatedAt": "2025-10-22T11:20:00Z",
+    "subtitle": "Full blog content for 'How to Build a Strong Salon Team Culture' goes here...",
+    "readTime": "4 mins. read",
+    "heroImage": "/assets/aboutus.png",
+    "imageCredit": "Image by Paule, Mikael Angelo G.",
+    "upvotes": 2847,
+    "comments": 342
   },
   {
     "title": "A Beginner’s Guide to Scalp Care Treatments",
@@ -52,7 +76,13 @@
     "tags": ["scalp", "haircare", "guide"],
     "isPublished": true,
     "createdAt": "2025-10-25T10:00:00Z",
-    "updatedAt": "2025-10-25T10:00:00Z"
+    "updatedAt": "2025-10-25T10:00:00Z",
+    "subtitle": "Full blog content for 'A Beginner’s Guide to Scalp Care Treatments' goes here...",
+    "readTime": "3 mins. read",
+    "heroImage": "/assets/aboutus.png",
+    "imageCredit": "Image by Paule, Mikael Angelo G.",
+    "upvotes": 2847,
+    "comments": 342
   },
   {
     "title": "Why Sustainable Beauty Products Matter",
@@ -63,7 +93,13 @@
     "tags": ["sustainability", "eco-friendly", "beauty"],
     "isPublished": true,
     "createdAt": "2025-10-28T14:00:00Z",
-    "updatedAt": "2025-10-28T14:00:00Z"
+    "updatedAt": "2025-10-28T14:00:00Z",
+    "subtitle": "Full blog content for 'Why Sustainable Beauty Products Matter' goes here...",
+    "readTime": "5 mins. read",
+    "heroImage": "/assets/aboutus.png",
+    "imageCredit": "Image by Paule, Mikael Angelo G.",
+    "upvotes": 2847,
+    "comments": 342
   },
   {
     "title": "Top 7 Tools Every Modern Hairstylist Needs",
@@ -74,7 +110,13 @@
     "tags": ["tools", "hairstylist", "equipment"],
     "isPublished": true,
     "createdAt": "2025-10-30T09:45:00Z",
-    "updatedAt": "2025-10-30T09:45:00Z"
+    "updatedAt": "2025-10-30T09:45:00Z",
+    "subtitle": "Full blog content for 'Top 7 Tools Every Modern Hairstylist Needs' goes here...",
+    "readTime": "6 mins. read",
+    "heroImage": "/assets/aboutus.png",
+    "imageCredit": "Image by Paule, Mikael Angelo G.",
+    "upvotes": 2847,
+    "comments": 342
   },
   {
     "title": "Creating the Perfect Salon Lighting Setup",
@@ -85,7 +127,13 @@
     "tags": ["design", "lighting", "salon"],
     "isPublished": true,
     "createdAt": "2025-11-02T13:15:00Z",
-    "updatedAt": "2025-11-02T13:15:00Z"
+    "updatedAt": "2025-11-02T13:15:00Z",
+    "subtitle": "Full blog content for 'Creating the Perfect Salon Lighting Setup' goes here...",
+    "readTime": "4 mins. read",
+    "heroImage": "/assets/aboutus.png",
+    "imageCredit": "Image by Paule, Mikael Angelo G.",
+    "upvotes": 2847,
+    "comments": 342
   },
   {
     "title": "How to Price Your Salon Services Competitively",
@@ -96,7 +144,13 @@
     "tags": ["pricing", "strategy", "business"],
     "isPublished": true,
     "createdAt": "2025-11-03T16:00:00Z",
-    "updatedAt": "2025-11-03T16:00:00Z"
+    "updatedAt": "2025-11-03T16:00:00Z",
+     "subtitle": "Full blog content for 'How to Price Your Salon Services Competitively' goes here...",
+    "readTime": "5 mins. read",
+    "heroImage": "/assets/aboutus.png",
+    "imageCredit": "Image by Paule, Mikael Angelo G.",
+    "upvotes": 2847,
+    "comments": 342
   },
   {
     "title": "Boost Bookings with Seasonal Promo Campaigns",
@@ -107,6 +161,12 @@
     "tags": ["promotions", "marketing", "seasonal"],
     "isPublished": true,
     "createdAt": "2025-11-05T11:30:00Z",
-    "updatedAt": "2025-11-05T11:30:00Z"
+    "updatedAt": "2025-11-05T11:30:00Z",
+    "subtitle": "Full blog content for 'Boost Bookings with Seasonal Promo Campaigns' goes here...",
+    "readTime": "4 mins. read",
+    "heroImage": "/assets/aboutus.png",
+    "imageCredit": "Image by Paule, Mikael Angelo G.",
+    "upvotes": 2847,
+    "comments": 342
   }
 ]

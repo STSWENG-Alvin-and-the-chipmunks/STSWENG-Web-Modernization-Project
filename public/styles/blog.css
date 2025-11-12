@@ -70,6 +70,32 @@
 .bk-title{font-size:20px;font-weight:700;color:#1a1a1a;margin:2px 0 6px;line-height:1.3}
 .bk-link{color:#1a1a1a;text-decoration:none}
 .bk-link:hover{color:#b9a05a}
+
+/*
+  This removes the default blue underline from the link
+  and makes it fill the space.
+*/
+.bk-link-wrapper {
+  display: block;
+  text-decoration: none;
+  color: inherit; /* Uses the parent's text color */
+}
+
+/*
+  This restores the original title color
+*/
+.bk-link-wrapper .bk-title {
+  color: #1a1a1a;
+}
+
+/*
+  This restores the hover effect. When you hover
+  ANYWHERE on the card, the title will change color.
+*/
+.bk-link-wrapper:hover .bk-title {
+  color: #b9a05a;
+}
+
 .bk-sub{color:#6b7280;font-size:14px;margin:0}
 .bk-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .bk-tag{background:#f1f3f4;color:#555;font-size:11px;padding:4px 8px;border-radius:999px}

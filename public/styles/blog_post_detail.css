@@ -1,0 +1,191 @@
+/*-------------------------------------
+  Blog Post Detail Page Styles
+-------------------------------------*/
+
+.article-wrapper {
+  background-color: #ffffff;
+  padding-top: 50px;
+  padding-bottom: 5rem;
+  
+  font-family: 'Inter', sans-serif;
+}
+
+/* 1. The CONTAINER (with the marble background) */
+.article-wrapper .post-hero-image {
+  width: 100%;
+  padding-top: 50px;
+  margin: 0;
+  
+  /* This is the marble background */
+  background-image: url('/assets/marble-background.png'); 
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  
+  padding: 2 rem; 
+}
+
+/* The main article photo*/
+.article-wrapper .post-hero-image img {
+  display: block;
+  max-width: 1000px; 
+  width: 90%;
+  margin: 0 auto; 
+  height: auto; 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+  border-radius: 4px;
+}
+
+/* The image caption */
+.article-wrapper .post-hero-caption {
+  
+  max-width: 800px; 
+  margin: 0.75rem auto 0 auto; 
+  padding: 0 1.5rem; 
+  
+  
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #000;
+  text-align: center;
+}
+
+/* Container to center all text content */
+.article-wrapper .post-content-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Title */
+.article-wrapper .post-main-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 3.25rem;
+  font-weight: 800;
+  color: #222; 
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  padding-top: 20px;
+}
+
+/* Subtitle */
+.article-wrapper .post-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #666; 
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+/* Author & Read Time */
+.article-wrapper .post-author-meta {
+  display: flex;
+  box-align: center;
+  margin-bottom: 2rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #333; /* Set color back to dark */
+}
+
+.article-wrapper .author-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #eee;
+  margin-right: 12px;
+}
+
+.article-wrapper .author-info {
+  display: flex;
+  align-items: center;
+  line-height: 1.4;
+}
+
+.article-wrapper .author-name {
+  font-weight: 500;
+}
+
+.article-wrapper .author-info .meta-separator {
+  margin: 0 0.5rem; 
+  font-size: 0.8rem; 
+  color: #000;
+}
+
+.article-wrapper .read-time {
+  color: #000;
+}
+
+/* Action Bar */
+.article-wrapper .post-action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+  margin-bottom: 3rem;
+}
+
+.article-wrapper .action-icon {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777; 
+  margin-right: 1.75rem;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.article-wrapper .action-icon img {
+  height: 25px; 
+  width: 35px;
+  margin-right: 6px; 
+}
+
+.article-wrapper .action-group:last-child .action-icon img {
+  margin-right: 0;
+}
+
+.article-wrapper .action-icon:hover {
+  color: #000;
+}
+
+/* Main Body Content */
+.article-wrapper .post-body {
+  font-family: 'Merriweather', serif;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #333; 
+}
+.article-wrapper .post-body p {
+  margin-bottom: 2rem;
+}
+
+.article-wrapper .post-body h3 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.75rem;
+  color: #222;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Comments Section Styling */
+.article-wrapper .comments-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #ececec;
+  font-family: 'Inter', sans-serif;
+  color: #333; 
+}
+
+.article-wrapper .comments-section h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #222;
+}

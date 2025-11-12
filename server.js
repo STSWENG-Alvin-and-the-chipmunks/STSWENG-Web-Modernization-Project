@@ -150,7 +150,7 @@ app.get('/newsletter', async (req, res) => {
 app.get('/blog', async (req, res) => {
     try {
     const branches = await Branches.find();
-    const blogpost = await BlogPost.find({ isPublished: true }).sort({ createdAt: -1 }); // or your dummy data
+    const blogpost = await BlogPost.find({isPublished:true}).sort({ createdAt: -1 }); // or your dummy data
 
     res.render('blog-list-view', {
       title: 'Blog',
@@ -163,6 +163,27 @@ app.get('/blog', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
+  }
+});
+
+app.get('/posts/:id', async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const post = await BlogPost.findById(postId).populate('author');
+
+    if (!post) {
+      
+      return res.status(404).send('Post not found');
+    }
+
+    res.render('blog_post_detail', {
+      layout: 'index', 
+      post: post.toObject(),      
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An internal server error occurred. Please check the console.');
   }
 });
 

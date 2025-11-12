@@ -1,6 +1,10 @@
+// models/BlogPost.js
 const mongoose = require('mongoose');
 
+// This schema now combines ALL fields from both files
 const BlogPostSchema = new mongoose.Schema({
+  
+  // --- Fields from your original 'BlogPost' schema ---
   title: {
     type: String,
     required: true,
@@ -12,10 +16,6 @@ const BlogPostSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
     trim: true
-  },
-  coverImage: {
-    type: String,
-    default: ''
   },
   content: {
     type: String,
@@ -30,16 +30,45 @@ const BlogPostSchema = new mongoose.Schema({
     type: String,
     trim: true
   }],
-  // createdAt and updatedAt automatically added by:
   isPublished: {
     type: Boolean,
     default: false
-  }
+  },
+
+  // --- Fields from your 'Posts.js' file ---
+  subtitle: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  heroImage: { // Using this instead of 'coverImage' to match your template
+    type: String,
+    default: ''
+  },
+  imageCredit: {
+    type: String,
+    default: ''
+  },
+  readTime: {
+    type: String,
+    default: ''
+  },
+  upvotes: {
+    type: Number,
+    default: 0
+  },
+  comments: {
+    type: Number,
+    default: 0
+  },
+  
 }, { 
-  collection: 'BlogPost',
-  timestamps: true 
+  // --- Options from your original 'BlogPost' schema ---
+  collection: 'BlogPost', // Ensures it uses your existing collection
+  timestamps: true        // Automatically adds createdAt/updatedAt
 });
 
+// Index from your original 'BlogPost' schema (good for performance)
 BlogPostSchema.index({ isPublished: 1, createdAt: -1 });
 
 module.exports = mongoose.model('BlogPost', BlogPostSchema);
