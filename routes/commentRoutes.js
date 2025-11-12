@@ -35,6 +35,16 @@ const validateComment = [
   },
 ];
 
+// --- Rate limiting middleware for getting comments ---
+const getCommentsLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: {
+    success: false,
+    message: 'Too many requests for comments from this IP, please try again after 15 minutes.'
+  }
+});
+
 // --- Validation middleware for GET route ---
 const validateGetComments = [
   param('blogId').isMongoId().withMessage('A valid blog post ID is required in the URL.'),
@@ -65,6 +75,7 @@ router.post('/',
 // Get comments for a specific blog post (Public)
 router.get('/:blogId',
   validateGetComments,
+  getCommentsLimiter,
   getCommentsForPost
 );
 
