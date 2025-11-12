@@ -1,9 +1,12 @@
 const express = require('express');
-const { body, validationResult } = require('express-validator');
+const { body, param, validationResult } = require('express-validator');
 const rateLimit = require('express-rate-limit');
 const router = express.Router();
 const auth = require('../auth');
-const { createComment } = require('../controllers/commentController');
+const {
+  createComment,
+  getCommentsForPost
+ } = require('../controllers/commentController');
 
 // --- Rate limiting middleware for comment creation ---
 const commentLimiter = rateLimit({
@@ -32,6 +35,22 @@ const validateComment = [
   },
 ];
 
+// --- Validation middleware for GET route ---
+const validateGetComments = [
+  param('blogId').isMongoId().withMessage('A valid blog post ID is required in the URL.'),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Validation failed', 
+        errors: errors.array() 
+      });
+    }
+    next();
+  },
+];
+
 // --- Define POST route for creating a comment ---
 // use `auth` here because any logged-in user (Admin, Manager, or User)
 // can post a comment.
@@ -40,6 +59,13 @@ router.post('/',
   auth,
   validateComment,
   createComment
+);
+
+// --- GET ROUTE ---
+// Get comments for a specific blog post (Public)
+router.get('/:blogId',
+  validateGetComments,
+  getCommentsForPost
 );
 
 
