@@ -1,6 +1,5 @@
 :root { --nav-h: 96px; }        
 
-
 .blog-wrap.under-fixed-nav { padding-top: calc(var(--nav-h) + 12px); }
 
 .blog-tabs{
@@ -71,27 +70,17 @@
 .bk-link{color:#1a1a1a;text-decoration:none}
 .bk-link:hover{color:#b9a05a}
 
-/*
-  This removes the default blue underline from the link
-  and makes it fill the space.
-*/
+/* Make the title card clickable */
 .bk-link-wrapper {
   display: block;
   text-decoration: none;
-  color: inherit; /* Uses the parent's text color */
+  color: inherit; 
 }
 
-/*
-  This restores the original title color
-*/
 .bk-link-wrapper .bk-title {
   color: #1a1a1a;
 }
 
-/*
-  This restores the hover effect. When you hover
-  ANYWHERE on the card, the title will change color.
-*/
 .bk-link-wrapper:hover .bk-title {
   color: #b9a05a;
 }
