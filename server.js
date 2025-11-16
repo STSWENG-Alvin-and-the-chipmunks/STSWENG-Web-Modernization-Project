@@ -167,49 +167,43 @@ app.get('/blog', async (req, res) => {
   }
 }); 
 
-/*
- * 1. THE 'GET' ROUTE
- * This route's only job is to SHOW your create page.
- */
 app.get('/blog/create', (req, res) => {
-  res.render('create_modal', { // Or 'create.hbs' if you renamed it
+  res.render('create_modal', { 
     title: "Create New Post" 
   });
 });
 
-/*
- * 2. THE 'POST' ROUTE
- * This route's only job is to HANDLE the form data.
- */
+
 app.post('/blog/create', async (req, res) => {
   try {
-    // 1. Get the data from the form
+    
     const { title, content, tags } = req.body;
     
-    // 2. Process the tags
     const tagsArray = tags
       .split(',')
       .map(tag => tag.trim())
       .filter(tag => tag.length > 0);
 
-    // 3. Save to database (or console.log for now)
     console.log("New Post Received:");
     console.log("Title:", title);
     console.log("Content:", content);
     console.log("Tags:", tagsArray);
     
-    // 4. Send ONE response: Redirect the user to the blog list
     res.redirect('/blog');
     
-    // ----------------------------------------------------
-    // DO NOT put res.render() here.
-    // A request can only have one response.
-    // ----------------------------------------------------
     
   } catch (error) {
     console.error("Error creating post:", error);
     res.status(500).send("Error creating post.");
   }
+});
+
+app.get('/admin/blog/edit/:id', (req, res) => {
+  
+  // Just render the new edit page
+  res.render('edit_modal', { 
+    title: "Edit Post" 
+  });
 });
 
 app.get('/posts/:id', async (req, res) => {
