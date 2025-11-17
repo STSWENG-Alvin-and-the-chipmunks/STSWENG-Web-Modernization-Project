@@ -1,14 +1,23 @@
 const express = require('express');
 const router = express.Router();
+const rateLimit = require('express-rate-limit');
 const { promoteUser, demoteUser } = require('../controllers/userController');
 const auth = require('../auth');
 const { isAdmin } = require('../auth'); // Import the new middleware
 
+// Configure rate limiter for sensitive admin routes (e.g., 10 requests per 15 min per IP)
+const adminActionsLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // limit each IP to 10 requests per windowMs
+  message: 'Too many requests, please try again later.',
+});
 // Promote User (Admin only)
 // PATCH /api/users/promote/:userId
 router.patch(
   '/promote/:userId', 
+  adminActionsLimiter, // Rate limiting middleware
   auth,        // 1. Check if logged in (and attach req.user)
+  adminActionsLimiter, // Rate limiting middleware
   isAdmin,     // 2. Check if req.user.role is 'admin'
   promoteUser
 );
