@@ -15,10 +15,9 @@ const adminActionsLimiter = rateLimit({
 // PATCH /api/users/promote/:userId
 router.patch(
   '/promote/:userId', 
-  adminActionsLimiter, // Rate limiting middleware
   auth,        // 1. Check if logged in (and attach req.user)
-  adminActionsLimiter, // Rate limiting middleware
   isAdmin,     // 2. Check if req.user.role is 'admin'
+  adminActionsLimiter, // Rate limiting middleware
   promoteUser
 );
 
@@ -28,6 +27,7 @@ router.patch(
   '/demote/:userId',
   auth,        // 1. Check if logged in (and attach req.user)
   isAdmin,     // 2. Check if req.user.role is 'admin'
+  adminActionsLimiter, // Rate limiting middleware
   demoteUser
 );
 
