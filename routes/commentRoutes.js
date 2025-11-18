@@ -5,46 +5,8 @@ const router = express.Router();
 const auth = require('../auth');
 const {
   createComment,
-  getCommentsForPost,
-  updateComment,
-  deleteComment
+  getCommentsForPost
  } = require('../controllers/commentController');
- const Comment = require('../models/Comment');
-
- // --- Middleware: Verify the logged-in user owns the comment ---
-const verifyCommentOwner = async (req, res, next) => {
-  try {
-    const { commentId } = req.params;
-    const userId = req.user.id;
-
-    const comment = await Comment.findById(commentId);
-
-    if (!comment) {
-      return res.status(404).json({
-        success: false,
-        message: "Comment not found"
-      });
-    }
-
-    if (comment.author.toString() !== userId) {
-      return res.status(403).json({
-        success: false,
-        message: "You are not allowed to modify this comment"
-      });
-    }
-
-    // Attach to req in case controller needs it
-    req.comment = comment;
-    next();
-
-  } catch (err) {
-    console.error("Ownership Error:", err);
-    res.status(500).json({
-      success: false,
-      message: "Server error"
-    });
-  }
-};
 
 // --- Rate limiting middleware for comment creation ---
 const commentLimiter = rateLimit({
@@ -117,24 +79,5 @@ router.get('/:blogId',
   getCommentsForPost
 );
 
-// Update comment (PUT/PATCH)
-router.put('/:commentId',
-  auth,
-  verifyCommentOwner,
-  updateComment
-);
-
-router.patch('/:commentId',
-  auth,
-  verifyCommentOwner,
-  updateComment
-);
-
-// delete comment
-router.delete('/:commentId',
-  auth,
-  verifyCommentOwner,
-  deleteComment
-);
 
 module.exports = router;

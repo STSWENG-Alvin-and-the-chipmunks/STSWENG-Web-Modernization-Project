@@ -15,18 +15,7 @@ const CommentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'BlogPost',
     required: true
-  },
-
-  isDeleted: {
-    type: Boolean,
-    default: false
-  },
-
-  editedAt: {
-    type: Date,
-    default: null
   }
-
 }, {
   // This automatically adds `createdAt` and `updatedAt` fields
   // for creation and edited timestamps.

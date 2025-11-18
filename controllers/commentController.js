@@ -66,7 +66,7 @@ const getCommentsForPost = async (req, res) => {
 
     // Find comments, sort by newest first (createdAt: -1),
     // and populate the author's details.
-    const comments = await Comment.find({ blogPost: blogId, isDeleted: false })
+    const comments = await Comment.find({ blogPost: blogId })
       .populate('author', 'username profilePic')
       .sort({ createdAt: -1 }); // Sorts newest first
 
@@ -97,76 +97,7 @@ const getCommentsForPost = async (req, res) => {
   }
 };
 
-
-// Update a comment
-const updateComment = async (req, res) => {
-  try {
-    const { content } = req.body;
-
-    if (!content || content.trim() === '') {
-      return res.status(400).json({
-        success: false,
-        message: 'Content is required'
-      });
-    }
-
-    const comment = req.comment; // From ownership middleware
-
-    comment.content = content;
-    comment.editedAt = new Date();
-
-    await comment.save();
-
-    const populated = await Comment.findById(comment._id)
-      .populate('author', 'username profilePic');
-
-    res.json({
-      success: true,
-      message: 'Comment updated successfully',
-      data: populated
-    });
-
-  } catch (err) {
-    console.error('Update comment error:', err);
-    res.status(500).json({
-      success: false,
-      message: 'Server error'
-    });
-  }
-};
-
-// Soft delete a comment
-const deleteComment = async (req, res) => {
-  try {
-    const comment = req.comment; // From ownership middleware
-    
-    if (comment.isDeleted) {
-      return res.status(410).json({
-        success: false,
-        message: 'Comment already deleted'
-      });
-    }
-
-    comment.isDeleted = true;
-    await comment.save();
-
-    res.json({
-      success: true,
-      message: 'Comment deleted (soft delete) successfully'
-    });
-
-  } catch (err) {
-    console.error('Delete comment error:', err);
-    res.status(500).json({
-      success: false,
-      message: 'Server error'
-    });
-  }
-};
-
 module.exports = {
   createComment,
-  getCommentsForPost,
-  updateComment,
-  deleteComment
+  getCommentsForPost
 };
