@@ -136,14 +136,9 @@ const updateBlogPost = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Blog post not found' });
     }
 
-    // Authorization check: Ensure the user is the author
-    if (blogPost.author.toString() !== req.user.id) {
-        return res.status(403).json({ success: false, message: 'User not authorized' });
-    }
-
     // If the slug is being updated, check if the new one is unique
     if (slug && slug !== blogPost.slug) {
-        const existingPost = await BlogPost.findOne({ slug });
+        const existingPost = await BlogPost.findOne({ slug: { $eq: slug } });
         if (existingPost) {
             return res.status(400).json({ success: false, message: 'New slug already exists' });
         }
@@ -193,11 +188,6 @@ const deleteBlogPost = async (req, res) => {
 
     if (!blogPost) {
       return res.status(404).json({ success: false, message: 'Blog post not found' });
-    }
-
-    // Authorization check
-    if (blogPost.author.toString() !== req.user.id) {
-      return res.status(403).json({ success: false, message: 'User not authorized' });
     }
 
     // Delete cover image from server if it exists
