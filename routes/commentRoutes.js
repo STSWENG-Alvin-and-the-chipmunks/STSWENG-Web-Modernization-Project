@@ -12,6 +12,15 @@ const {
  } = require('../controllers/commentController');
 
 // --- Rate limiting middleware for comment creation ---
+// --- Rate limiting middleware for deleting a comment ---
+const deleteCommentLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Limit to 10 delete requests per 15 min window per IP/user.
+  message: {
+    success: false,
+    message: 'Too many delete requests from this IP, please try again after 15 minutes'
+  }
+});
 const commentLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 20, // limit each IP to 20 comment creation requests per windowMs
@@ -99,6 +108,6 @@ router.put('/:commentId', updateCommentLimiter, auth, updateComment);
 
 // DELETE: Delete Comment
 // Auth: Logged in (Controller handles specific Admin vs Author logic)
-router.delete('/:commentId', auth, deleteComment);
+router.delete('/:commentId', deleteCommentLimiter, auth, deleteComment);
 
 module.exports = router;
