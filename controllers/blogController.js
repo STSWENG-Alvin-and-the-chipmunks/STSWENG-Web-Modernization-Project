@@ -1,6 +1,5 @@
 const BlogPost = require('../models/BlogPost');
 const path = require('path');
-const sanitize = require('sanitize-filename');
 const fs = require('fs/promises'); // for file deletion
 
 // Create new blog post
@@ -102,7 +101,7 @@ const getBlogPostBySlug = async (req, res) => {
   try {
     const { slug } = req.params;
     
-    const blogPost = await BlogPost.findOne({ slug, isPublished: true })
+    const blogPost = await BlogPost.findOne({ slug, isPublished: true, isDeleted: false })
       .populate('author', 'username profilePic');
 
     if (!blogPost) {
@@ -190,17 +189,13 @@ const deleteBlogPost = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Blog post not found' });
     }
 
-    // Delete cover image from server if it exists
-    if (blogPost.coverImage) {
-      const imagePath = path.join(__dirname, '../public', blogPost.coverImage);
-      try {
-        await fs.unlink(imagePath);
-      } catch (err) {
-        console.error("Error deleting image:", err.message);
-      }
-    }
+    // Note: REMOVED the file deletion code
+    // In a soft delete, we keep the image so the post can be restored later.
 
-    await blogPost.deleteOne(); // Use deleteOne() on the document
+    // Perform Soft Delete
+    blogPost.isDeleted = true;
+    blogPost.isPublished = false; // Unpublish it as well for safety
+    await blogPost.save();
 
     res.json({ success: true, message: 'Blog post deleted successfully' });
 
