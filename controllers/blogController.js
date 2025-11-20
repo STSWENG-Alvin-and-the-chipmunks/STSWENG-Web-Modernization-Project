@@ -207,9 +207,9 @@ const deleteBlogPost = async (req, res) => {
 };
 
 module.exports = {
-  createBlogPost: require('./blogController').createBlogPost, // assuming you kept the old one or copy-pasted the whole file
+  createBlogPost,
   getBlogPosts,
   getBlogPostBySlug,
-  updateBlogPost: require('./blogController').updateBlogPost, // assuming you kept the old one
+  updateBlogPost,
   deleteBlogPost
 };
