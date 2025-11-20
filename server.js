@@ -918,8 +918,7 @@ app.post('/admin-account', auth, async (req, res) => {
         user.email = email;
 
         if (newPassword && newPassword === confirmPassword) {
-            const salt = await bcrypt.genSalt(10);
-            user.password = await bcrypt.hash(newPassword, salt);
+            user.password = newPassword;
         } else if (newPassword && newPassword !== confirmPassword) {
             return res.status(400).json({ success: false, message: 'Passwords do not match' });
         }

@@ -3,9 +3,12 @@ const { body, param, validationResult } = require('express-validator');
 const rateLimit = require('express-rate-limit');
 const router = express.Router();
 const auth = require('../auth');
+const { authorizeRoles } = require('../auth');
 const {
   createComment,
-  getCommentsForPost
+  getCommentsForPost,
+  updateComment,
+  deleteComment
  } = require('../controllers/commentController');
 
 // --- Rate limiting middleware for comment creation ---
@@ -67,6 +70,7 @@ const validateGetComments = [
 router.post('/',
   commentLimiter, // Apply rate limiter.
   auth,
+  authorizeRoles('admin', 'manager', 'user'), // Any logged-in user can comment
   validateComment,
   createComment
 );
@@ -79,5 +83,12 @@ router.get('/:blogId',
   getCommentsForPost
 );
 
+// PUT: Update Comment
+// Auth: Logged in (Controller handles specific Admin vs Author logic)
+router.put('/:commentId', auth, updateComment);
+
+// DELETE: Delete Comment
+// Auth: Logged in (Controller handles specific Admin vs Author logic)
+router.delete('/:commentId', auth, deleteComment);
 
 module.exports = router;
