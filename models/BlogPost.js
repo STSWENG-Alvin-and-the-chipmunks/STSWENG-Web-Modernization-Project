@@ -34,6 +34,11 @@ const BlogPostSchema = new mongoose.Schema({
   isPublished: {
     type: Boolean,
     default: false
+  },
+  // Soft delete flag
+  isDeleted: {
+    type: Boolean,
+    default: false
   }
 }, { 
   collection: 'BlogPost',
