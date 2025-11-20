@@ -48,6 +48,16 @@ const getCommentsLimiter = rateLimit({
   }
 });
 
+// --- Rate limiting middleware for updating a comment ---
+const updateCommentLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20, // limit each IP to 20 comment update requests per windowMs
+  message: {
+    success: false,
+    message: 'Too many comment updates from this IP, please try again after 15 minutes.'
+  }
+});
+
 // --- Validation middleware for GET route ---
 const validateGetComments = [
   param('blogId').isMongoId().withMessage('A valid blog post ID is required in the URL.'),
@@ -85,7 +95,7 @@ router.get('/:blogId',
 
 // PUT: Update Comment
 // Auth: Logged in (Controller handles specific Admin vs Author logic)
-router.put('/:commentId', auth, updateComment);
+router.put('/:commentId', updateCommentLimiter, auth, updateComment);
 
 // DELETE: Delete Comment
 // Auth: Logged in (Controller handles specific Admin vs Author logic)
