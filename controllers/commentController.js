@@ -97,7 +97,58 @@ const getCommentsForPost = async (req, res) => {
   }
 };
 
+// --- Update Comment (Admin or Author only) ---
+const updateComment = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const { content } = req.body;
+
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      return res.status(404).json({ success: false, message: 'Comment not found' });
+    }
+
+    // CHECK OWNERSHIP: Allow if user is Admin OR if user is the Author
+    if (req.user.role !== 'admin' && comment.author.toString() !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'Not authorized to update this comment' });
+    }
+
+    comment.content = content || comment.content;
+    await comment.save();
+
+    res.json({ success: true, message: 'Comment updated successfully', data: comment });
+  } catch (error) {
+    console.error('Error updating comment:', error);
+    res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+};
+
+// --- Delete Comment (Admin or Author only) ---
+const deleteComment = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      return res.status(404).json({ success: false, message: 'Comment not found' });
+    }
+
+    // CHECK OWNERSHIP: Allow if user is Admin OR if user is the Author
+    if (req.user.role !== 'admin' && comment.author.toString() !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'Not authorized to delete this comment' });
+    }
+
+    await comment.deleteOne();
+    res.json({ success: true, message: 'Comment deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting comment:', error);
+    res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+};
+
 module.exports = {
   createComment,
-  getCommentsForPost
+  getCommentsForPost,
+  updateComment,
+  deleteComment
 };

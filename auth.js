@@ -34,7 +34,6 @@ const auth = async function(req, res, next) {
   }
 };
 
-// --- NEW MIDDLEWARE ---
 // This function checks if the logged-in user is an Admin
 // It MUST run *after* the 'auth' middleware
 const isAdmin = (req, res, next) => {
@@ -50,6 +49,21 @@ const isAdmin = (req, res, next) => {
   next();
 };
 
-// Export both functions
+// --- Centralized Role Authorization ---
+// Checks if the user's role matches one of the allowed roles
+const authorizeRoles = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({ 
+        success: false, 
+        message: `Access denied. Requires one of: ${allowedRoles.join(', ')}` 
+      });
+    }
+    next();
+  };
+};
+
+// Export the middleware functions
 module.exports = auth;
 module.exports.isAdmin = isAdmin;
+module.exports.authorizeRoles = authorizeRoles;

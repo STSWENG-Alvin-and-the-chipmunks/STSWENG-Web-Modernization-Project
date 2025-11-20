@@ -12,6 +12,7 @@ const {
   deleteBlogPost
 } = require('../controllers/blogController');
 const auth = require('../auth');
+const { authorizeRoles } = require('../auth');
 
 
 // --- Rate limiting for create (POST) blog post route ---
@@ -98,19 +99,9 @@ const validatePostUpdate = [
   },
 ];
 
-// --- Role-based authorization middleware ---
-const authorizeRoles = (...allowedRoles) => {
-  return (req, res, next) => {
-    if (!req.user || !allowedRoles.includes(req.user.role)) {
-      return res.status(403).json({ success: false, message: 'Access denied' });
-    }
-    next();
-  };
-};
-
 // Create new blog post (protected - admin/manager only)
 //router.post('/', auth, createBlogPost);
-router.post('/', createBlogPostLimiter, auth, authorizeRoles('Admin', 'Manager'), upload.single('coverImage'), validatePost, createBlogPost);
+router.post('/', createBlogPostLimiter, auth, authorizeRoles('admin', 'manager'), upload.single('coverImage'), validatePost, createBlogPost);
 
 // Get all published blog posts (public)
 router.get('/', getBlogPosts);
@@ -119,9 +110,9 @@ router.get('/', getBlogPosts);
 router.get('/:slug', getBlogPostBySlug);
 
 // Update blog post by slug (protected)
-router.put('/:slug', updateBlogPostLimiter, auth, authorizeRoles('Admin', 'Manager'), upload.single('coverImage'), validatePostUpdate, updateBlogPost);
+router.put('/:slug', updateBlogPostLimiter, auth, authorizeRoles('admin', 'manager'), upload.single('coverImage'), validatePostUpdate, updateBlogPost);
 
 // Delete blog post by slug (protected)
-router.delete('/:slug', deleteBlogPostLimiter, auth, authorizeRoles('Admin', 'Manager'), deleteBlogPost);
+router.delete('/:slug', deleteBlogPostLimiter, auth, authorizeRoles('admin', 'manager'), deleteBlogPost);
 
 module.exports = router;
