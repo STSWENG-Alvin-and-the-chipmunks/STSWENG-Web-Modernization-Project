@@ -11,7 +11,6 @@ const {
   deleteComment
  } = require('../controllers/commentController');
 
-// --- Rate limiting middleware for comment creation ---
 // --- Rate limiting middleware for deleting a comment ---
 const deleteCommentLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -21,6 +20,8 @@ const deleteCommentLimiter = rateLimit({
     message: 'Too many delete requests from this IP, please try again after 15 minutes'
   }
 });
+
+// --- Rate limiting middleware for comment creation ---
 const commentLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 20, // limit each IP to 20 comment creation requests per windowMs
