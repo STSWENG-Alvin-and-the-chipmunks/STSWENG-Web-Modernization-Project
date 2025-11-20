@@ -125,7 +125,18 @@ body {
 .blog-title-input {
     width: 100%;
     border: none;
-    font-size: 3em; 
+    font-size: 2em; 
+    font-weight: bold;
+    margin-bottom: 10px;
+    outline: none; 
+   
+    box-sizing: border-box;
+    padding: 5px 295px; 
+}
+.blog-slug-input {
+    width: 100%;
+    border: none;
+    font-size: 1em; 
     font-weight: bold;
     margin-bottom: 10px;
     outline: none; 
@@ -134,6 +145,22 @@ body {
     padding: 5px 295px; 
 }
 
+.blog-tags-input {
+    width: 100%;
+    border: none;
+    font-size: 1em;
+    margin-bottom: 10px;
+    outline: none; 
+   
+    box-sizing: border-box;
+    padding: 5px 295px; 
+}
+
+.is_published {
+    width: 100%;
+    margin-right: 10px;
+    padding: 5px 295px; 
+}
 .blog-title-input::placeholder {
     color: #000;
 }

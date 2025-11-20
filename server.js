@@ -198,12 +198,30 @@ app.post('/blog/create', async (req, res) => {
   }
 });
 
-app.get('/admin/blog/edit/:id', (req, res) => {
-  
-  // Just render the new edit page
-  res.render('edit_modal', { 
-    title: "Edit Post" 
-  });
+app.get('/admin/blog/edit/:id', async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+
+    // If you want author details as well:
+    // const post = await BlogPost.findById(postId).populate('author');
+    const post = await BlogPost.findById(postId);
+    if (!post) {
+      return res.status(404).send('Post not found');
+    }
+    // If you store tags as an array and want a comma-separated string for the form:
+    const tagsString = Array.isArray(post.tags) ? post.tags.join(', ') : '';
+
+    res.render('edit_modal', { 
+      title: "Edit Post",
+      post: post.toObject(),   // so Handlebars can safely read it
+      tagsString               // handy for a tags input field
+    });
+
+  } catch (err) {
+    console.error("Error fetching blog post for edit:", err);
+    res.status(500).send('Server error');
+  }
 });
 
 app.get('/posts/:id', async (req, res) => {
