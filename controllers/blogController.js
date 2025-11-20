@@ -1,6 +1,5 @@
 const BlogPost = require('../models/BlogPost');
 const path = require('path');
-const sanitize = require('sanitize-filename');
 const fs = require('fs/promises'); // for file deletion
 
 // Create new blog post
