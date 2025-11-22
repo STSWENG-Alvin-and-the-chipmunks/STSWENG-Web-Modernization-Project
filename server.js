@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const auth = require('./auth');
+const RateLimit = require('express-rate-limit');
 const app = express();
 const port = process.env.PORT || 8000;
 
@@ -228,7 +229,13 @@ app.get('/admin/blog/edit/:id', async (req, res) => {
   }
 });
 
-app.get('/posts/:id', async (req, res) => {
+// Define rate limiter for post detail route: 100 requests per 15 minutes per IP
+const postDetailLimiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+
+app.get('/posts/:id', postDetailLimiter, async (req, res) => {
   try {
     const postId = req.params.id;
     const post = await BlogPost.findById(postId).populate('author');
