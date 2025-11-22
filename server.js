@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const auth = require('./auth');
+const RateLimit = require('express-rate-limit');
 const app = express();
 const port = process.env.PORT || 8000;
 
@@ -24,7 +25,7 @@ const Promo = require('./models/Promo');
 const Service = require('./models/Service');
 const Branches = require('./models/Branches');
 const Subscriber = require('./models/Subscriber');
-
+const BlogPost = require('./models/BlogPost');
 /******************MIDDLEWARE************************/
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -53,6 +54,7 @@ app.engine('hbs', handlebars.engine);
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/api/blogposts', blogRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/users', userRoutes);
@@ -149,6 +151,130 @@ app.get('/newsletter', async (req, res) => {
         console.error('Error fetching branches:', err);
         res.status(500).send('Server error');
     }
+});
+
+// Rate limiter: max 100 requests per 15 minutes to /blog per IP
+const blogLimiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
+app.get('/blog', blogLimiter, async (req, res) => {
+    try {
+    const branches = await Branches.find();
+    const blogpost = await BlogPost.find({isPublished:true}).sort({ createdAt: -1 }); // or your dummy data
+
+    res.render('blog-list-view', {
+      title: 'Blog',
+      navTransparent: false,
+      isLoginOrAdmin: false,
+      isAdminPages: false,
+      branches,
+      blogpost
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+}); 
+
+app.get('/blog/create', (req, res) => {
+  res.render('create_modal', { 
+    title: "Create New Post" 
+  });
+});
+
+
+app.post('/blog/create', async (req, res) => {
+  try {
+    
+    const { title, content, tags } = req.body;
+    
+    const tagsArray = tags
+      .split(',')
+      .map(tag => tag.trim())
+      .filter(tag => tag.length > 0);
+
+    console.log("New Post Received:");
+    console.log("Title:", title);
+    console.log("Content:", content);
+    console.log("Tags:", tagsArray);
+    
+    res.redirect('/blog');
+    
+    
+  } catch (error) {
+    console.error("Error creating post:", error);
+    res.status(500).send("Error creating post.");
+  }
+});
+
+// Rate limiter: max 100 requests per 15 minutes to /blog per IP
+const adminEditLimiter = RateLimit({
+  windowMs: 60 * 1000, 
+  max: 10, 
+  message: 'Too many edit requests. Please slow down.'
+});
+
+app.get('/admin/blog/edit/:id', adminEditLimiter, async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+
+    // If you want author details as well:
+    // const post = await BlogPost.findById(postId).populate('author');
+    const post = await BlogPost.findById(postId);
+    if (!post) {
+      return res.status(404).send('Post not found');
+    }
+    // If you store tags as an array and want a comma-separated string for the form:
+    const tagsString = Array.isArray(post.tags) ? post.tags.join(', ') : '';
+
+    res.render('edit_modal', { 
+      title: "Edit Post",
+      post: post.toObject(),   // so Handlebars can safely read it
+      tagsString               // handy for a tags input field
+    });
+
+  } catch (err) {
+    console.error("Error fetching blog post for edit:", err);
+    res.status(500).send('Server error');
+  }
+});
+
+// Define rate limiter for post detail route: 100 requests per 15 minutes per IP
+const postDetailLimiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+
+// Define rate limiter for admin blog edit route: 50 requests per 15 minutes per IP
+const adminEditLimiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 50, // limit each IP to 50 requests per windowMs
+});
+
+app.get('/posts/:id', postDetailLimiter, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const post = await BlogPost.findById(postId).populate('author');
+
+    if (!post) {
+      
+      return res.status(404).send('Post not found');
+    }
+
+    res.render('blog_post_detail', {
+      layout: 'index', 
+      post: post.toObject(),      
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An internal server error occurred. Please check the console.');
+  }
 });
 
 app.get('/services', async (req, res) => {

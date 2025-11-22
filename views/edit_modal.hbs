@@ -1,0 +1,142 @@
+<section class="under-fixed-nav"></section>
+<div class="blog-create-container">
+  <div class="editor-area">
+    <form id="edit-post-form" enctype="multipart/form-data">
+      <div class="top-actions">
+        <button class="btn btn-secondary" type="button" aria-label="Save Draft">
+          <img src="/assets/Save_Draft.png" alt="Save Draft"> Save Draft
+        </button>
+        <button class="btn btn-outline-primary" type="button" aria-label="Preview">
+          <img src="/assets/Preview.png" alt="Preview"> Preview
+        </button>
+        <button class="btn btn-primary" type="button" id="update-post-btn" aria-label="Update">
+          <img src="/assets/Publish.png" alt="Update"> Update
+        </button>
+      </div>
+
+      {{!-- toolbar left as-is --}}
+      <div class="editor-toolbar">
+        <button class="action-icon" type="button" aria-label="Bold">
+          <img src="/assets/Bold.png" alt="Bold"> {{bold}}
+        </button>
+        <!-- ... other toolbar buttons ... -->
+      </div>
+
+      {{!-- title --}}
+      <input
+        type="text"
+        class="blog-title-input"
+        id="blog-title"
+        name="title"
+        placeholder="Title"
+        value="{{post.title}}"
+      >
+
+      {{!-- current slug (editable if you like) --}}
+      <input
+        type="text"
+        class="blog-slug-input"
+        id="blog-slug"
+        name="slug"
+        placeholder="slug-url-here"
+        value="{{post.slug}}"
+      >
+
+      <hr class="title-separator">
+
+      {{!-- content --}}
+      <div
+        class="blog-content-editor"
+        id="blog-content"
+        contenteditable="true"
+        data-placeholder="Tell your story..."
+      >
+        {{{post.content}}}
+      </div>
+
+      {{!-- tags (comma separated, optional) --}}
+      <input
+        type="text"
+        id="blog-tags"
+        class="blog-tags-input"
+        name="tags"
+        placeholder="tag1, tag2, tag3"
+        value="{{tagsString}}"
+      >
+
+      {{!-- isPublished toggle --}}
+      <label
+        class="is_published">
+        <input
+          type="checkbox"
+          id="is-published"
+          {{#if post.isPublished}}checked{{/if}}
+        >
+        Publish Now
+      </label>
+      <br> 
+      {{!-- cover image upload (optional) --}}
+      <label class="is_published">
+        Cover Image:
+        <input type="file" name="coverImage" id="cover-image-input" accept="image/*">
+      </label>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const updateBtn   = document.getElementById('update-post-btn');
+    const form        = document.getElementById('edit-post-form');
+    const titleInput  = document.getElementById('blog-title');
+    const slugInput   = document.getElementById('blog-slug');
+    const contentDiv  = document.getElementById('blog-content');
+    const tagsInput   = document.getElementById('blog-tags');
+    const publishedCb = document.getElementById('is-published');
+
+    if (!updateBtn || !form) return;
+
+    updateBtn.addEventListener('click', async () => {
+      // build FormData (multipart/form-data)
+      const formData = new FormData();
+
+      formData.append('title', titleInput.value);
+      formData.append('slug', slugInput.value);            // new slug (optional)
+      formData.append('content', contentDiv.innerHTML);
+      formData.append('tags', tagsInput.value || '');
+      formData.append('isPublished', publishedCb.checked ? 'true' : 'false');
+
+      const coverFile = document.getElementById('cover-image-input').files[0];
+      if (coverFile) {
+        formData.append('coverImage', coverFile);
+      }
+
+      // use the ORIGINAL slug in the URL, since your route is `/:slug`
+      // if you allow slug change, back end will handle it using req.body.slug
+      const currentSlug = "{{post.slug}}";
+
+      try {
+        const res = await fetch(`/api/blogposts/${encodeURIComponent(currentSlug)}`, {
+          method: 'PUT',
+          body: formData          // DO NOT set Content-Type manually
+        });
+
+        if (!res.ok) {
+          const errText = await res.text();
+          console.error('Update failed:', errText);
+          alert('Failed to update post');
+          return;
+        }
+
+        // Optional: get updated post back
+        // const updatedPost = await res.json();
+
+        // Redirect (or show a toast)
+        window.location.href = '/blog';
+      } catch (err) {
+        console.error('Error updating post:', err);
+        alert('An error occurred while updating the post.');
+      }
+    });
+  });
+</script>
