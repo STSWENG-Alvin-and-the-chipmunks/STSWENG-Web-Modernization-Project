@@ -35,6 +35,7 @@ const BlogPostSchema = new mongoose.Schema({
     default: false
   },
 
+
   // --- Fields from your 'Posts.js' file ---
   subtitle: {
     type: String,
@@ -61,7 +62,12 @@ const BlogPostSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  
+  // Soft delete flag
+  isDeleted: {
+    type: Boolean,
+    default: false
+  }
+
 }, { 
   // --- Options from your original 'BlogPost' schema ---
   collection: 'BlogPost', // Ensures it uses your existing collection

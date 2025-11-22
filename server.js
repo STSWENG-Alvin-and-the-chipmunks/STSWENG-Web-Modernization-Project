@@ -15,6 +15,8 @@ const port = process.env.PORT || 8000;
 
 /******************ROUTES************************/
 const blogRoutes = require('./routes/blogRoutes');
+const commentRoutes = require('./routes/commentRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 /******************SCHEMAS************************/
 const User = require('./models/User');
@@ -53,6 +55,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/blogposts', blogRoutes);
+app.use('/api/comments', commentRoutes);
+app.use('/api/users', userRoutes);
 
 /******************DATABASE CONNECTION************************/
 const connectDB = async () => {
@@ -872,10 +876,6 @@ app.post('/signup', async (req, res) => {
             password
         });
 
-        // Hash password
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(password, salt);
-
         await user.save();
 
         res.render('login', { 
@@ -1016,8 +1016,7 @@ app.post('/admin-account', auth, async (req, res) => {
         user.email = email;
 
         if (newPassword && newPassword === confirmPassword) {
-            const salt = await bcrypt.genSalt(10);
-            user.password = await bcrypt.hash(newPassword, salt);
+            user.password = newPassword;
         } else if (newPassword && newPassword !== confirmPassword) {
             return res.status(400).json({ success: false, message: 'Passwords do not match' });
         }
