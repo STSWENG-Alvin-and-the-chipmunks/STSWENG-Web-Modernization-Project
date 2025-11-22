@@ -153,7 +153,15 @@ app.get('/newsletter', async (req, res) => {
     }
 });
 
-app.get('/blog', async (req, res) => {
+// Rate limiter: max 100 requests per 15 minutes to /blog per IP
+const blogLimiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
+app.get('/blog', blogLimiter, async (req, res) => {
     try {
     const branches = await Branches.find();
     const blogpost = await BlogPost.find({isPublished:true}).sort({ createdAt: -1 }); // or your dummy data
