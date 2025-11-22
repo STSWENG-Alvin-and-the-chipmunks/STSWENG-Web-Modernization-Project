@@ -203,7 +203,7 @@ app.post('/blog/create', async (req, res) => {
   }
 });
 
-app.get('/admin/blog/edit/:id', async (req, res) => {
+app.get('/admin/blog/edit/:id', adminEditLimiter, async (req, res) => {
   try {
     const postId = req.params.id;
 
@@ -233,6 +233,12 @@ app.get('/admin/blog/edit/:id', async (req, res) => {
 const postDetailLimiter = RateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
+});
+
+// Define rate limiter for admin blog edit route: 50 requests per 15 minutes per IP
+const adminEditLimiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 50, // limit each IP to 50 requests per windowMs
 });
 
 app.get('/posts/:id', postDetailLimiter, async (req, res) => {
