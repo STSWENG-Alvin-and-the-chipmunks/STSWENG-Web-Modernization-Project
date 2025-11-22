@@ -211,6 +211,13 @@ app.post('/blog/create', async (req, res) => {
   }
 });
 
+// Rate limiter: max 100 requests per 15 minutes to /blog per IP
+const adminEditLimiter = RateLimit({
+  windowMs: 60 * 1000, 
+  max: 10, 
+  message: 'Too many edit requests. Please slow down.'
+});
+
 app.get('/admin/blog/edit/:id', adminEditLimiter, async (req, res) => {
   try {
     const postId = req.params.id;
