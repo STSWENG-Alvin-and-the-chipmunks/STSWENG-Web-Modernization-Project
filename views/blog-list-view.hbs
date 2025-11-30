@@ -23,7 +23,9 @@
   <div class="blog-tabs">
     <span class="active">List</span>
     <a href="/bookmarks">Bookmarks</a>
+    {{#if isAdminPages}}
     <a href="/blog/create" class="blog-create">Create</a>
+    {{/if}}
   </div>
   {{#if blogpost.length}}
     <div class="blog-list">

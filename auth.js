@@ -63,7 +63,39 @@ const authorizeRoles = (...allowedRoles) => {
   };
 };
 
+// Attach user and role flags to res.locals for all views (non-blocking)
+const attachUserToLocals = async (req, res, next) => {
+  const token = req.cookies.token;
+
+  // defaults for views
+  res.locals.currentUser = null;
+  res.locals.isAdmin = false;
+  res.locals.isManager = false;
+
+  if (!token) {
+    return next();
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const user = await User.findById(decoded.user.id).lean();
+
+    if (user) {
+      req.user = req.user || user;          // in case auth already set it
+      res.locals.currentUser = user;
+      res.locals.isAdmin = user.role === 'admin';
+      res.locals.isManager = user.role === 'manager';
+    }
+
+    next();
+  } catch (err) {
+    // token invalid, just proceed as guest
+    next();
+  }
+};
+
 // Export the middleware functions
 module.exports = auth;
 module.exports.isAdmin = isAdmin;
 module.exports.authorizeRoles = authorizeRoles;
+module.exports.attachUserToLocals = attachUserToLocals;

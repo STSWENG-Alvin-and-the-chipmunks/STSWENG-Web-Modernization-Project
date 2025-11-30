@@ -115,11 +115,11 @@
       // if you allow slug change, back end will handle it using req.body.slug
       const currentSlug = "{{post.slug}}";
 
-      try {
-        const res = await fetch(`/api/blogposts/${encodeURIComponent(currentSlug)}`, {
-          method: 'PUT',
-          body: formData          // DO NOT set Content-Type manually
-        });
+      const res = await fetch(`/api/blogs/${encodeURIComponent(currentSlug)}`, {
+        method: 'PUT',
+        body: formData   // keep FormData, don't set Content-Type manually
+      });
+
 
         if (!res.ok) {
           const errText = await res.text();
