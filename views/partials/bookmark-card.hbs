@@ -1,12 +1,13 @@
 <article class="bk-card" data-id="{{_id}}" data-slug="{{slug}}">
-
-  <div class="bk-menu">
-    <button type="button" class="bk-menu-btn" aria-haspopup="true" aria-expanded="false">•••</button>
-    <ul class="bk-menu-list" role="menu">
-      <li role="menuitem"><a class="bk-edit" href="/admin/blog/edit/{{_id}}">Edit</a></li>
-      <li role="menuitem"><button type="button" class="bk-delete" data-id="{{_id}}" data-title="{{title}}">Delete</button></li>
-    </ul>
-  </div>
+  {{#if @root.isAdminPages}}
+    <div class="bk-menu">
+      <button type="button" class="bk-menu-btn" aria-haspopup="true" aria-expanded="false">•••</button>
+      <ul class="bk-menu-list" role="menu">
+        <li role="menuitem"><a class="bk-edit" href="/admin/blog/edit/{{_id}}">Edit</a></li>
+        <li role="menuitem"><button type="button" class="bk-delete" data-id="{{_id}}" data-title="{{title}}">Delete</button></li>
+      </ul>
+    </div>
+  {{/if}}
 
     <div class="bk-meta">
       <div class="bk-avatar"></div>
@@ -30,5 +31,4 @@
       </div>
     {{/if}}
 
-  </a>
   </article>

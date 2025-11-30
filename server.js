@@ -11,8 +11,17 @@ const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const auth = require('./auth');
 const RateLimit = require('express-rate-limit');
+// Set up rate limiter: allow max 100 requests per 15 minutes per IP
+const limiter = RateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    standardHeaders: true, // Return rate limit info in the headers
+    legacyHeaders: false, // Disable the X-RateLimit headers
+});
 const app = express();
 const port = process.env.PORT || 8000;
+const { attachUserToLocals } = require('./auth');
+const { authorizeRoles } = require('./auth');
 
 /******************ROUTES************************/
 const blogRoutes = require('./routes/blogRoutes');
@@ -31,6 +40,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser()); 
 app.use(fileUpload());
+// Apply rate limiting before expensive/auth middleware and routes
+app.use(limiter);
+app.use(attachUserToLocals);
 
 // Ensure the uploads directory exists
 const uploadsDir = path.join(__dirname, 'public','uploads');
@@ -180,9 +192,39 @@ app.get('/blog', blogLimiter, async (req, res) => {
   }
 }); 
 
+app.get('/admin/blog',
+  blogLimiter,
+  auth,
+  authorizeRoles('admin', 'manager'),   // only admin/manager allowed
+  async (req, res) => {
+    try {
+      const branches = await Branches.find();
+      // Admin can see all posts, or still only published – your choice:
+      const blogpost = await BlogPost.find().sort({ createdAt: -1 });
+
+      res.render('blog-list-view', {
+        title: 'Blog (Admin)',
+        navTransparent: false,
+        isLoginOrAdmin: true,
+        isAdminPages: true,           // admin mode
+        branches,
+        blogpost
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    }
+  }
+);
+
 app.get('/blog/create', (req, res) => {
   res.render('create_modal', { 
-    title: "Create New Post" 
+    title: "Create New Post",
+    navTransparent: false,
+        isLoginOrAdmin: true,
+        isAdminPages: true,           // admin mode
+        branches,
+        blogpost
   });
 });
 
@@ -250,11 +292,6 @@ const postDetailLimiter = RateLimit({
   max: 100, // limit each IP to 100 requests per windowMs
 });
 
-// Define rate limiter for admin blog edit route: 50 requests per 15 minutes per IP
-const adminEditLimiter = RateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 50, // limit each IP to 50 requests per windowMs
-});
 
 app.get('/posts/:id', postDetailLimiter, async (req, res) => {
   try {
