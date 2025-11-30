@@ -11,6 +11,13 @@ const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const auth = require('./auth');
 const RateLimit = require('express-rate-limit');
+// Set up rate limiter: allow max 100 requests per 15 minutes per IP
+const limiter = RateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    standardHeaders: true, // Return rate limit info in the headers
+    legacyHeaders: false, // Disable the X-RateLimit headers
+});
 const app = express();
 const port = process.env.PORT || 8000;
 const { attachUserToLocals } = require('./auth');
@@ -33,6 +40,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser()); 
 app.use(fileUpload());
+// Apply rate limiting before expensive/auth middleware and routes
+app.use(limiter);
 app.use(attachUserToLocals);
 
 // Ensure the uploads directory exists
