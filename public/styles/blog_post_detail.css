@@ -176,16 +176,196 @@
 }
 
 /* Comments Section Styling */
-.article-wrapper .comments-section {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid #ececec;
-  font-family: 'Inter', sans-serif;
-  color: #333; 
+/* --- Comment Section Wrapper --- */
+.comments-section-wrapper {
+  max-width: 700px; /* Keep it readable like the screenshots */
+  margin: 40px auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-.article-wrapper .comments-section h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #222;
+/* --- Input Area --- */
+.comment-input-row {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 20px 0;
+}
+
+/* Container for the form to handle layout */
+.modern-comment-form {
+  flex: 1;
+  display: flex;
+  flex-direction: row; /* Stacks button below or keeps it aside depending on preference */
+  gap: 15px;
+  position: relative;
+}
+
+/* The Box Styling */
+.modern-comment-form textarea {
+  width: 550px; /* Wider box */
+  min-height: auto; /* Makes it "lengthy" (tall) */
+  background-color: #f0f2f5; /* Light gray box background */
+  border: 1px solid transparent;
+  border-radius: 12px; /* Rounded corners */
+  padding: 15px; /* Comfortable spacing inside */
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical; /* Allows user to drag it larger */
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+/* Effect when clicking inside */
+.modern-comment-form textarea:focus {
+  background-color: #fff;
+  border-color: #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.modern-comment-form input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.modern-comment-form input:focus {
+  border-bottom-color: #333;
+}
+
+.send-btn {
+  align-self: center; /* Pushes button to the right */
+  background: #A98B4F; /* Medium-style green, or keep your #333 */
+  color: #fff;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+  
+}
+
+.send-btn:hover {
+  background: #333;
+}
+
+.divider-line {
+  height: 1px;
+  background-color: #eee;
+  margin: 20px 0;
+}
+
+/* --- Avatar Styling --- */
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-circle.small {
+  width: 32px;
+  height: 32px;
+}
+
+.avatar-placeholder {
+  color: #888;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* --- Comment Items --- */
+.comment-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.comment-main {
+  flex: 1;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.meta-left {
+  display: flex;
+  flex-direction: column; /* Stack name and date like screenshot 1 */
+  /* OR use 'row' and 'gap' if you prefer screenshot 2 side-by-side style */
+}
+
+.comment-author-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.comment-date {
+  font-size: 0.8rem;
+  color: #757575; /* The specific grey from screenshots */
+  margin-top: 2px;
+}
+
+.comment-menu {
+  color: #757575;
+  cursor: pointer;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.comment-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #292929;
+  margin: 8px 0 12px 0;
+}
+
+/* --- Footer / Actions --- */
+.comment-footer {
+  display: flex;
+  gap: 20px;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #757575;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.action-item:hover {
+  color: #333;
+}
+
+.action-item svg {
+  stroke: #757575;
+}
+
+.no-comments {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+  margin-top: 20px;
 }

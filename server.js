@@ -1,5 +1,6 @@
 /******************DEPENDENCIES************************/
 const express = require('express');
+const session = require('express-session');
 const exphbs = require('express-handlebars');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -23,6 +24,13 @@ const port = process.env.PORT || 8000;
 const { attachUserToLocals } = require('./auth');
 const { authorizeRoles } = require('./auth');
 
+app.use(session({
+  secret: 'your_secret_key', // Change this to a random secret string
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set to true if you use https
+}));
+
 /******************ROUTES************************/
 const blogRoutes = require('./routes/blogRoutes');
 const commentRoutes = require('./routes/commentRoutes');
@@ -40,9 +48,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser()); 
 app.use(fileUpload());
-// Apply rate limiting before expensive/auth middleware and routes
-app.use(limiter);
-app.use(attachUserToLocals);
 
 // Ensure the uploads directory exists
 const uploadsDir = path.join(__dirname, 'public','uploads');
@@ -66,6 +71,31 @@ app.engine('hbs', handlebars.engine);
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Apply rate limiting before expensive/auth middleware and routes
+app.use(limiter);
+app.use(attachUserToLocals);
+
+app.use(async (req, res, next) => {
+    // 1. Make the User object available to ALL Handlebars views automatically
+    // This fixes the issue on /posts/:id where user data was missing
+    res.locals.user = req.user || null;
+    res.locals.isLoggedIn = !!req.user;
+
+    // 2. Logic for Sidebar links (from previous fix)
+    res.locals.blogLink = '/blog';
+    if (req.user && (req.user.role === 'admin' || req.user.role === 'manager')) {
+        res.locals.blogLink = '/admin/blog';
+    }
+
+    // 3. Fix the "isLoginOrAdmin" variable dynamically
+    // If the route didn't specify it manually, calculate it based on the user login state.
+    if (res.locals.isLoginOrAdmin === undefined) {
+         res.locals.isLoginOrAdmin = !!req.user;
+    }
+    
+    next();
+});
 
 app.use('/api/blogposts', blogRoutes);
 app.use('/api/comments', commentRoutes);
@@ -103,7 +133,7 @@ app.get('/', async (req, res) => {
 app.get('/home', async (req, res) => {
     try {
         const branches = await Branches.find();
-        res.render('home', { title: 'Home', navTransparent: true, isLoginOrAdmin: false, isAdminPages: false, branches });
+        res.render('home', { title: 'Home', navTransparent: true, /* isLoginOrAdmin: false, */ isAdminPages: false, branches });
     } catch (err) {
         console.error('Error fetching branches:', err);
         res.status(500).send('Server error');
@@ -113,7 +143,7 @@ app.get('/home', async (req, res) => {
 app.get('/about', async (req, res) => {
     try {
         const branches = await Branches.find();
-        res.render('about', { title: 'About', navTransparent: false, isLoginOrAdmin: false, isAdminPages: false, branches });
+        res.render('about', { title: 'About', navTransparent: false, /* isLoginOrAdmin: false, */ isAdminPages: false, branches });
     } catch (err) {
         console.error('Error fetching branches:', err);
         res.status(500).send('Server error');
@@ -124,7 +154,7 @@ app.get('/promos', async (req, res) => {
     try {
         const branches = await Branches.find();
         const promos = await Promo.find();
-        res.render('promos', { title: 'Promos', navTransparent: false, isLoginOrAdmin: false, isAdminPages: false, promos, branches });
+        res.render('promos', { title: 'Promos', navTransparent: false, /* isLoginOrAdmin: false, */ isAdminPages: false, promos, branches });
     } catch (err) {
         console.error('Error fetching promos:', err);
         res.status(500).send('Server error');
@@ -158,7 +188,7 @@ app.get('/branches/exists', async (req, res) => {
 app.get('/newsletter', async (req, res) => {
     try {
         const branches = await Branches.find();
-        res.render('newsletter', { title: 'Newsletter', navTransparent: false, isLoginOrAdmin: false, isAdminPages: false, branches });
+        res.render('newsletter', { title: 'Newsletter', navTransparent: false, /* isLoginOrAdmin: false, */ isAdminPages: false, branches });
     } catch (err) {
         console.error('Error fetching branches:', err);
         res.status(500).send('Server error');
@@ -181,7 +211,6 @@ app.get('/blog', blogLimiter, async (req, res) => {
     res.render('blog-list-view', {
       title: 'Blog',
       navTransparent: false,
-      isLoginOrAdmin: false,
       isAdminPages: false,
       branches,
       blogpost
@@ -228,7 +257,6 @@ app.get('/blog/create', (req, res) => {
   });
 });
 
-
 app.post('/blog/create', async (req, res) => {
   try {
     
@@ -250,6 +278,40 @@ app.post('/blog/create', async (req, res) => {
   } catch (error) {
     console.error("Error creating post:", error);
     res.status(500).send("Error creating post.");
+  }
+});
+
+// Route to handle adding a comment
+app.post('/blog/:id/comment', auth, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    
+    // 2. Check req.user (from JWT) instead of req.session.user
+    if (!req.user) {
+        // Optional: Redirect to login if not authorized
+        return res.status(401).send("You must be logged in.");
+    }
+
+    const post = await BlogPost.findById(postId);
+    if (!post) return res.status(404).send("Post not found");
+
+    // Create the comment object
+    const newComment = {
+      content: req.body.content,
+      author: req.user.id, // 3. Use the ID from the decoded token
+      createdAt: new Date()
+    };
+
+    // Add to array and save
+    post.comments.push(newComment);
+    await post.save();
+
+    // Redirect back to the post so they see their comment
+    res.redirect(`/posts/${postId}`); // Changed to /posts/ to match your detail route
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error adding comment");
   }
 });
 
@@ -292,11 +354,15 @@ const postDetailLimiter = RateLimit({
   max: 100, // limit each IP to 100 requests per windowMs
 });
 
-
 app.get('/posts/:id', postDetailLimiter, async (req, res) => {
   try {
     const postId = req.params.id;
-    const post = await BlogPost.findById(postId).populate('author');
+    const post = await BlogPost.findById(postId)
+      .populate('author') // Populates the writer of the blog post
+      .populate({
+        path: 'comments', // Look at the comments array
+        populate: { path: 'author', select: 'username' } // Inside comments, find the author and just get their username
+    });
 
     if (!post) {
       
@@ -326,7 +392,7 @@ app.get('/services', async (req, res) => {
         console.log('Fetched Services:', services); // Log the fetched services
         const branches = await Branches.find(); 
         
-        res.render('services', { title: 'Services', navTransparent: false, isLoginOrAdmin: false, isAdminPages: false, services, branches });
+        res.render('services', { title: 'Services', navTransparent: false, /* isLoginOrAdmin: false, */ isAdminPages: false, services, branches });
     // eslint-disable-next-line no-unused-vars
     } catch (_err) {
         res.status(500).send('Server error');
@@ -336,7 +402,7 @@ app.get('/services', async (req, res) => {
 app.get('/branches', async (req, res) => {
     try {
         const branches = await Branches.find();
-        res.render('branches', { title: 'Branches', navTransparent: false, isLoginOrAdmin: false, isAdminPages: false, branches });
+        res.render('branches', { title: 'Branches', navTransparent: false, /* isLoginOrAdmin: false, */ isAdminPages: false, branches });
     } catch (err) {
         console.error('Error fetching branches:', err);
         res.status(500).send('Server error');
@@ -996,7 +1062,7 @@ app.post('/login', async (req, res) => {
             { expiresIn: 3600 },
             (err, token) => {
                 if (err) throw err;
-                res.cookie('token', token, { httpOnly: true });
+                res.cookie('token', token, { httpOnly: true}); 
                 res.redirect('/admin-landing');  // Redirect to admin landing page after successful login
             }
         );

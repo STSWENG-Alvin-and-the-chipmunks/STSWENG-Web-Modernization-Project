@@ -1,5 +1,23 @@
 // models/BlogPost.js
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+// Sub-Schema for Comments
+const commentSchema = new Schema({
+  content: { 
+    type: String, 
+    required: true 
+  },
+  author: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'User', // Ensure this matches your User model name exactly
+    required: true 
+  },
+  createdAt: { 
+    type: Date, 
+    default: Date.now 
+  }
+});
 
 // This schema now combines ALL fields from both files
 const BlogPostSchema = new mongoose.Schema({
@@ -35,7 +53,6 @@ const BlogPostSchema = new mongoose.Schema({
     default: false
   },
 
-
   // --- Fields from your 'Posts.js' file ---
   subtitle: {
     type: String,
@@ -58,10 +75,8 @@ const BlogPostSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  comments: {
-    type: Number,
-    default: 0
-  },
+  comments: [commentSchema],
+
   // Soft delete flag
   isDeleted: {
     type: Boolean,
