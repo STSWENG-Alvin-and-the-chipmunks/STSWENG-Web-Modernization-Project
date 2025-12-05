@@ -1,22 +1,39 @@
 name: Super-Linter
 
+# This workflow runs on Pull Requests targeting main or develop,
+# and on any push to a feature or hotfix branch. This provides fast feedback.
 on:
   pull_request:
     branches:
       - main
       - develop
-      - feature/*
-      - hotfix/*
+  push:
+    branches:
+      - 'feature/**' # Note the quotes for wildcard matching
+      - 'hotfix/**'  # Note the quotes for wildcard matching
+
+permissions:
+  contents: read
+  packages: read
+  statuses: write
 
 jobs:
-  test:
-      runs-on: unbutu-latest
-      container:
-        image: node:20
-      steps:
-        - uses: actions/checkout@v3
-          with:
-            node-version: 22
-        - run: npm ci
-        - run: npm test
-        - run: npm run build
+  lint-codebase:
+    name: Lint Codebase
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the repository's code so Super-Linter can access it.
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          # This is important! It fetches the full git history, which some linters need.
+          fetch-depth: 0
+
+      # Step 2: Run the Super-Linter action.
+      # This single step does all the magic. It will automatically scan all the files
+      # in your repository and apply the correct linters.
+      - name: Run Super-Linter
+        uses: super-linter/super-linter@v6
+        env:
+          # This environment variable is required for Super-Linter to report its status back to the pull request.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

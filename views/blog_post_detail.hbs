@@ -91,6 +91,7 @@
           <form action="/api/comments" method="POST" class="modern-comment-form">
             <textarea name="content" placeholder="What are your thoughts?" required></textarea>
             <input type="hidden" name="blogId" value="{{post._id}}">
+            <input type="hidden" name="_csrf" value="{{_csrf}}">
             <button type="submit" class="send-btn">Post</button>
           </form>
 
@@ -189,6 +190,10 @@
     const commentsList = document.querySelector('.comments-list');
     if (!commentsList) return;
 
+    // Read CSRF token from meta tag
+    const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+    const csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : null;
+
     commentsList.addEventListener('click', async function (e) {
       const btn = e.target.closest('.bk-delete-comment');
       if (!btn) return;
@@ -203,7 +208,9 @@
         const res = await fetch(`/api/comments/${commentId}`, {
           method: 'DELETE',
           headers: {
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            ...(csrfToken ? { 'x-csrf-token': csrfToken } : {})
           }
         });
 
@@ -227,3 +234,4 @@
     });
   });
 </script>
+
