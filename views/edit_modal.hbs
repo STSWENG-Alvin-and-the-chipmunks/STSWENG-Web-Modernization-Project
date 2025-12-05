@@ -73,6 +73,17 @@
 </div>
 
 <script>
+  // Simple HTML-escape function
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('blogForm');
     const editor = document.getElementById('blogContentEditor');
@@ -212,8 +223,8 @@
           <html>
             <head><title>Preview</title></head>
             <body>
-              <h1>${titleInput ? (titleInput.value || '(No title)') : ''}</h1>
-              ${contentField.value || '<p>(No content)</p>'}
+              <h1>${titleInput ? escapeHtml(titleInput.value || '(No title)') : ''}</h1>
+              <div>${contentField.value ? escapeHtml(contentField.value) : '<p>(No content)</p>'}</div>
             </body>
           </html>
         `);
