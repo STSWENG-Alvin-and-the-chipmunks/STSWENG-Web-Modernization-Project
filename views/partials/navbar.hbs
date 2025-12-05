@@ -9,6 +9,9 @@
 
     <div class="nav-options">
         <a class="main active" href="/home">Home</a>
+        {{#if isLoggedIn}}
+            <a class="main" href="/admin-landing">Landing Page</a>
+        {{/if}}
         <div class="dropdown">
             <a class="dropdown-parent">Services</a>
             <div class="dropdown-child">
@@ -21,7 +24,7 @@
         <a class="main" href="/promos">Promos</a>
         <a class="main" href="https://simplybeauty.ph">Shop</a>
         <a class="main" href="/newsletter">Newsletter</a>
-        <a class = "main" href="/blog">Blog</a>
+        <a class = "main" href="{{blogLink}}">Blog</a>
         <div class="dropdown">
             <a class="main">Locations</a>
             <div class="dropdown-child">
@@ -31,7 +34,11 @@
             </div>
         </div>
         <a class = "main" href="/about">About Us</a>
-        <a class = "main" href = '/login'>Login</a>
+        {{#if isLoggedIn}}
+            <a class = "main" href='/logout'>Log out</a>
+        {{else}}
+            <a class = "main" href = '/login'>Login</a>
+        {{/if}}
     </div>
 
     <!-- Mobile Menu Button -->

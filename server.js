@@ -1,5 +1,6 @@
 /******************DEPENDENCIES************************/
 const express = require('express');
+const session = require('express-session');
 const exphbs = require('express-handlebars');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -11,6 +12,7 @@ const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const auth = require('./auth');
 const RateLimit = require('express-rate-limit');
+const lusca = require('lusca');
 // Set up rate limiter: allow max 100 requests per 15 minutes per IP
 const limiter = RateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -22,6 +24,20 @@ const app = express();
 const port = process.env.PORT || 8000;
 const { attachUserToLocals } = require('./auth');
 const { authorizeRoles } = require('./auth');
+
+app.use(session({
+  secret: 'your_secret_key', // Change this to a random secret string
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set to true if you use https
+}));
+// CSRF protection for all state-changing routes
+app.use(lusca.csrf());
+// Make CSRF token available in locals for views (e.g., handlebars)
+app.use(function(req, res, next) {
+  res.locals._csrf = req.csrfToken ? req.csrfToken() : (req.csrfToken ? req.csrfToken() : undefined);
+  next();
+});
 
 /******************ROUTES************************/
 const blogRoutes = require('./routes/blogRoutes');
@@ -39,10 +55,7 @@ const BlogPost = require('./models/BlogPost');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser()); 
-app.use(fileUpload());
-// Apply rate limiting before expensive/auth middleware and routes
-app.use(limiter);
-app.use(attachUserToLocals);
+
 
 // Ensure the uploads directory exists
 const uploadsDir = path.join(__dirname, 'public','uploads');
@@ -67,10 +80,43 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Apply rate limiting before expensive/auth middleware and routes
+app.use(limiter);
+app.use(attachUserToLocals);
+
+app.use(async (req, res, next) => {
+    // 1. Make the User object available to ALL Handlebars views automatically
+    // This fixes the issue on /posts/:id where user data was missing
+    res.locals.user = req.user || null;
+    res.locals.isLoggedIn = !!req.user;
+
+    // --- NEW: role-based booleans ---
+    const role = req.user?.role;
+    res.locals.isAdmin = role === 'admin';
+    res.locals.isManager = role === 'manager';
+    res.locals.isUser = role === 'user'; // if you use 'user' as default
+    res.locals.isAdminOrManager = res.locals.isAdmin || res.locals.isManager;
+    // --------------------------------
+
+    // 2. Logic for Sidebar links (from previous fix)
+    res.locals.blogLink = '/blog';
+    if (req.user && (req.user.role === 'admin' || req.user.role === 'manager')) {
+        res.locals.blogLink = '/admin/blog';
+    }
+
+    // 3. Fix the "isLoginOrAdmin" variable dynamically
+    // If the route didn't specify it manually, calculate it based on the user login state.
+    if (res.locals.isLoginOrAdmin === undefined) {
+         res.locals.isLoginOrAdmin = !!req.user;
+    }
+    
+    next();
+});
+
 app.use('/api/blogposts', blogRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/users', userRoutes);
-
+app.use(fileUpload());
 /******************DATABASE CONNECTION************************/
 const connectDB = async () => {
     try {
@@ -103,7 +149,7 @@ app.get('/', async (req, res) => {
 app.get('/home', async (req, res) => {
     try {
         const branches = await Branches.find();
-        res.render('home', { title: 'Home', navTransparent: true, isLoginOrAdmin: false, isAdminPages: false, branches });
+        res.render('home', { title: 'Home', navTransparent: true, /* isLoginOrAdmin: false, */ isAdminPages: false, branches });
     } catch (err) {
         console.error('Error fetching branches:', err);
         res.status(500).send('Server error');
@@ -113,7 +159,7 @@ app.get('/home', async (req, res) => {
 app.get('/about', async (req, res) => {
     try {
         const branches = await Branches.find();
-        res.render('about', { title: 'About', navTransparent: false, isLoginOrAdmin: false, isAdminPages: false, branches });
+        res.render('about', { title: 'About', navTransparent: false, /* isLoginOrAdmin: false, */ isAdminPages: false, branches });
     } catch (err) {
         console.error('Error fetching branches:', err);
         res.status(500).send('Server error');
@@ -124,7 +170,7 @@ app.get('/promos', async (req, res) => {
     try {
         const branches = await Branches.find();
         const promos = await Promo.find();
-        res.render('promos', { title: 'Promos', navTransparent: false, isLoginOrAdmin: false, isAdminPages: false, promos, branches });
+        res.render('promos', { title: 'Promos', navTransparent: false, /* isLoginOrAdmin: false, */ isAdminPages: false, promos, branches });
     } catch (err) {
         console.error('Error fetching promos:', err);
         res.status(500).send('Server error');
@@ -158,7 +204,7 @@ app.get('/branches/exists', async (req, res) => {
 app.get('/newsletter', async (req, res) => {
     try {
         const branches = await Branches.find();
-        res.render('newsletter', { title: 'Newsletter', navTransparent: false, isLoginOrAdmin: false, isAdminPages: false, branches });
+        res.render('newsletter', { title: 'Newsletter', navTransparent: false, /* isLoginOrAdmin: false, */ isAdminPages: false, branches });
     } catch (err) {
         console.error('Error fetching branches:', err);
         res.status(500).send('Server error');
@@ -176,12 +222,11 @@ const blogLimiter = RateLimit({
 app.get('/blog', blogLimiter, async (req, res) => {
     try {
     const branches = await Branches.find();
-    const blogpost = await BlogPost.find({isPublished:true}).sort({ createdAt: -1 }); // or your dummy data
+    const blogpost = await BlogPost.find({isPublished:true}).sort({ createdAt: -1 }).populate('author'); // or your dummy data
 
     res.render('blog-list-view', {
       title: 'Blog',
       navTransparent: false,
-      isLoginOrAdmin: false,
       isAdminPages: false,
       branches,
       blogpost
@@ -200,7 +245,7 @@ app.get('/admin/blog',
     try {
       const branches = await Branches.find();
       // Admin can see all posts, or still only published – your choice:
-      const blogpost = await BlogPost.find().sort({ createdAt: -1 });
+      const blogpost = await BlogPost.find({isPublished:true}).sort({ createdAt: -1 });
 
       res.render('blog-list-view', {
         title: 'Blog (Admin)',
@@ -217,17 +262,38 @@ app.get('/admin/blog',
   }
 );
 
-app.get('/blog/create', (req, res) => {
-  res.render('create_modal', { 
-    title: "Create New Post",
-    navTransparent: false,
-        isLoginOrAdmin: true,
-        isAdminPages: true,           // admin mode
-        branches,
-        blogpost
-  });
-});
+// app.get('/blog/create', (req, res) => {
+//   res.render('create_modal', { 
+//     title: "Create New Post",
+//     navTransparent: false,
+//         isLoginOrAdmin: true,
+//         isAdminPages: true,           // admin mode
+//         branches,
+//         blogpost
+//   });
+// });
 
+// SHOW CREATE BLOG PAGE (admin/manager only)
+app.get(
+  '/blog/create',
+  auth,
+  authorizeRoles('admin', 'manager'),
+  async (req, res) => {
+    try {
+      const branches = await Branches.find(); // if you still want branches in layout
+      res.render('create_modal', {
+        title: 'Create Blog Post',
+        navTransparent: false,
+        isLoginOrAdmin: true,
+        isAdminPages: true,
+        branches
+      });
+    } catch (err) {
+      console.error('Error loading create blog page:', err);
+      res.status(500).send('Server error');
+    }
+  }
+);
 
 app.post('/blog/create', async (req, res) => {
   try {
@@ -252,6 +318,7 @@ app.post('/blog/create', async (req, res) => {
     res.status(500).send("Error creating post.");
   }
 });
+
 
 // Rate limiter: max 100 requests per 15 minutes to /blog per IP
 const adminEditLimiter = RateLimit({
@@ -292,20 +359,23 @@ const postDetailLimiter = RateLimit({
   max: 100, // limit each IP to 100 requests per windowMs
 });
 
-
 app.get('/posts/:id', postDetailLimiter, async (req, res) => {
   try {
     const postId = req.params.id;
-    const post = await BlogPost.findById(postId).populate('author');
+    const post = await BlogPost.findById(postId)
+      .populate('author') // post author
+      .populate({
+        path: 'comments',
+        populate: { path: 'author', select: 'username profilePic' }
+      });
 
     if (!post) {
-      
       return res.status(404).send('Post not found');
     }
 
     res.render('blog_post_detail', {
-      layout: 'index', 
-      post: post.toObject(),      
+      layout: 'index',
+      post: post.toObject(),
     });
 
   } catch (err) {
@@ -313,6 +383,8 @@ app.get('/posts/:id', postDetailLimiter, async (req, res) => {
     res.status(500).send('An internal server error occurred. Please check the console.');
   }
 });
+
+
 
 app.get('/services', async (req, res) => {
     try {
@@ -326,7 +398,7 @@ app.get('/services', async (req, res) => {
         console.log('Fetched Services:', services); // Log the fetched services
         const branches = await Branches.find(); 
         
-        res.render('services', { title: 'Services', navTransparent: false, isLoginOrAdmin: false, isAdminPages: false, services, branches });
+        res.render('services', { title: 'Services', navTransparent: false, /* isLoginOrAdmin: false, */ isAdminPages: false, services, branches });
     // eslint-disable-next-line no-unused-vars
     } catch (_err) {
         res.status(500).send('Server error');
@@ -336,7 +408,7 @@ app.get('/services', async (req, res) => {
 app.get('/branches', async (req, res) => {
     try {
         const branches = await Branches.find();
-        res.render('branches', { title: 'Branches', navTransparent: false, isLoginOrAdmin: false, isAdminPages: false, branches });
+        res.render('branches', { title: 'Branches', navTransparent: false, /* isLoginOrAdmin: false, */ isAdminPages: false, branches });
     } catch (err) {
         console.error('Error fetching branches:', err);
         res.status(500).send('Server error');
@@ -371,6 +443,18 @@ app.get('/login', async (req, res) => {
     }
 });
 
+app.get('/logout', (req, res) => {
+  // Clear the JWT cookie
+  res.clearCookie('token'); // name must match res.cookie('token', ...) from /login
+
+  // If you ever use express-session, you can also destroy it here:
+  // req.session.destroy(() => {
+  //   res.redirect('/login');
+  // });
+
+  res.redirect('/login'); // or '/' or wherever you want after logout
+});
+
 app.get('/signup', async (req, res) => {
     try {
         const branches = await Branches.find();
@@ -389,7 +473,7 @@ app.get('/admin-landing', auth, async (req, res) => {
         }
         const branches = await Branches.find();
         const user = await User.findById(req.user.id);
-        res.render('admin-landing', { title: 'Admin Landing Page', navTransparent: false, isLoginOrAdmin: true, isAdminPages: true, branches, user });
+        res.render('admin-landing', { title: 'Landing Page', navTransparent: false, isLoginOrAdmin: true, isAdminPages: true, branches, user });
     } catch (err) {
         console.error('Error fetching branches:', err);
         res.status(500).send('Server error');
@@ -996,7 +1080,7 @@ app.post('/login', async (req, res) => {
             { expiresIn: 3600 },
             (err, token) => {
                 if (err) throw err;
-                res.cookie('token', token, { httpOnly: true });
+                res.cookie('token', token, { httpOnly: true}); 
                 res.redirect('/admin-landing');  // Redirect to admin landing page after successful login
             }
         );

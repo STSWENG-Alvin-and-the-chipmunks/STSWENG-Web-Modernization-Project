@@ -1,142 +1,235 @@
 <section class="under-fixed-nav"></section>
+
 <div class="blog-create-container">
   <div class="editor-area">
-    <form id="edit-post-form" enctype="multipart/form-data">
+
+    <div id="errorBox" class="blog-error-box" style="display:none; color:red; margin-bottom:1rem;"></div>
+
+    {{!-- NOTE: same action & enctype; we'll override with fetch() anyway --}}
+    <form
+      id="blogForm"
+      method="POST"
+      action="/api/blogposts"
+      enctype="multipart/form-data"
+      data-mode="edit"
+    >
+      {{!-- Hidden original slug so backend knows which post to update --}}
+      <input type="hidden" id="originalSlug" value="{{post.slug}}">
+
       <div class="top-actions">
-        <button class="btn btn-secondary" type="button" aria-label="Save Draft">
-          <img src="/assets/Save_Draft.png" alt="Save Draft"> Save Draft
-        </button>
-        <button class="btn btn-outline-primary" type="button" aria-label="Preview">
-          <img src="/assets/Preview.png" alt="Preview"> Preview
-        </button>
-        <button class="btn btn-primary" type="button" id="update-post-btn" aria-label="Update">
-          <img src="/assets/Publish.png" alt="Update"> Update
+        <button type="button" id="publishBtn" class="btn btn-primary" aria-label="Publish">
+          <img src="/assets/Publish.png" alt="Publish"> Update
         </button>
       </div>
 
-      {{!-- toolbar left as-is --}}
-      <div class="editor-toolbar">
-        <button class="action-icon" type="button" aria-label="Bold">
-          <img src="/assets/Bold.png" alt="Bold"> {{bold}}
-        </button>
-        <!-- ... other toolbar buttons ... -->
-      </div>
+      {{!-- toolbar stays the same --}}
 
-      {{!-- title --}}
+
+      {{!-- Title --}}
       <input
         type="text"
         class="blog-title-input"
-        id="blog-title"
+        id="titleInput"
         name="title"
         placeholder="Title"
         value="{{post.title}}"
+        required
       >
-
-      {{!-- current slug (editable if you like) --}}
+      <hr class="title-separator">
+      {{!-- Slug (can be edited) --}}
       <input
         type="text"
         class="blog-slug-input"
-        id="blog-slug"
+        id="slugInput"
         name="slug"
-        placeholder="slug-url-here"
+        placeholder="Slug (e.g. my-first-post)"
         value="{{post.slug}}"
+      >
+
+      {{!-- Tags --}}
+      <input
+        type="text"
+        class="blog-tags-input"
+        name="tags"
+        placeholder="Tags (comma-separated, e.g. hair, promo, new)"
+        value="{{tagsString}}"
       >
 
       <hr class="title-separator">
 
-      {{!-- content --}}
+      {{!-- Contenteditable with existing content --}}
       <div
+        id="blogContentEditor"
         class="blog-content-editor"
-        id="blog-content"
         contenteditable="true"
         data-placeholder="Tell your story..."
-      >
-        {{{post.content}}}
-      </div>
+      >{{{post.content}}}</div>
 
-      {{!-- tags (comma separated, optional) --}}
-      <input
-        type="text"
-        id="blog-tags"
-        class="blog-tags-input"
-        name="tags"
-        placeholder="tag1, tag2, tag3"
-        value="{{tagsString}}"
-      >
-
-      {{!-- isPublished toggle --}}
-      <label
-        class="is_published">
-        <input
-          type="checkbox"
-          id="is-published"
-          {{#if post.isPublished}}checked{{/if}}
-        >
-        Publish Now
-      </label>
-      <br> 
-      {{!-- cover image upload (optional) --}}
-      <label class="is_published">
-        Cover Image:
-        <input type="file" name="coverImage" id="cover-image-input" accept="image/*">
-      </label>
+      <textarea id="contentField" name="content" hidden></textarea>
+      <input type="hidden" id="isPublishedField" name="isPublished" value="{{#if post.isPublished}}true{{else}}false{{/if}}">
     </form>
+
   </div>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const updateBtn   = document.getElementById('update-post-btn');
-    const form        = document.getElementById('edit-post-form');
-    const titleInput  = document.getElementById('blog-title');
-    const slugInput   = document.getElementById('blog-slug');
-    const contentDiv  = document.getElementById('blog-content');
-    const tagsInput   = document.getElementById('blog-tags');
-    const publishedCb = document.getElementById('is-published');
+  // Simple HTML-escape function
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
 
-    if (!updateBtn || !form) return;
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('blogForm');
+    const editor = document.getElementById('blogContentEditor');
+    const contentField = document.getElementById('contentField');
+    const isPublishedField = document.getElementById('isPublishedField');
 
-    updateBtn.addEventListener('click', async () => {
-      // build FormData (multipart/form-data)
-      const formData = new FormData();
+    const saveDraftBtn = document.getElementById('saveDraftBtn');
+    const publishBtn = document.getElementById('publishBtn');
+    const previewBtn = document.getElementById('previewBtn');
 
-      formData.append('title', titleInput.value);
-      formData.append('slug', slugInput.value);            // new slug (optional)
-      formData.append('content', contentDiv.innerHTML);
-      formData.append('tags', tagsInput.value || '');
-      formData.append('isPublished', publishedCb.checked ? 'true' : 'false');
+    const titleInput = document.getElementById('titleInput');
+    const slugInput = document.getElementById('slugInput');
+    const errorBox = document.getElementById('errorBox');
 
-      const coverFile = document.getElementById('cover-image-input').files[0];
-      if (coverFile) {
-        formData.append('coverImage', coverFile);
-      }
+    const originalSlugInput = document.getElementById('originalSlug'); // only exists in edit
+    const isEdit = !!originalSlugInput; // true if on edit page
 
-      // use the ORIGINAL slug in the URL, since your route is `/:slug`
-      // if you allow slug change, back end will handle it using req.body.slug
-      const currentSlug = "{{post.slug}}";
+    let slugManuallyEdited = false;
 
-      const res = await fetch(`/api/blogs/${encodeURIComponent(currentSlug)}`, {
-        method: 'PUT',
-        body: formData   // keep FormData, don't set Content-Type manually
+    function slugify(text) {
+      return text
+        .toString()
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+    }
+
+    if (titleInput) {
+      titleInput.addEventListener('input', function () {
+        if (!slugManuallyEdited) {
+          slugInput.value = slugify(titleInput.value);
+        }
       });
+    }
 
+    if (slugInput) {
+      slugInput.addEventListener('input', function () {
+        slugManuallyEdited = slugInput.value.trim().length > 0;
+      });
+    }
 
-        if (!res.ok) {
-          const errText = await res.text();
-          console.error('Update failed:', errText);
-          alert('Failed to update post');
-          return;
+    function syncEditorToTextarea() {
+      if (editor && contentField) {
+        contentField.value = editor.innerHTML.trim();
+      }
+    }
+
+    function showError(message, errorsArray) {
+      if (!errorBox) return;
+      let html = `<p>${message}</p>`;
+      if (errorsArray && errorsArray.length) {
+        html += '<ul>';
+        errorsArray.forEach(e => {
+          html += `<li>${e.msg || e}</li>`;
+        });
+        html += '</ul>';
+      }
+      errorBox.innerHTML = html;
+      errorBox.style.display = 'block';
+    }
+
+    function clearError() {
+      if (!errorBox) return;
+      errorBox.innerHTML = '';
+      errorBox.style.display = 'none';
+    }
+
+    // Draft: you can keep this as POST or also make it fetch() to /api/blogposts (up to you)
+    if (saveDraftBtn) {
+      saveDraftBtn.addEventListener('click', function () {
+        clearError();
+        syncEditorToTextarea();
+        isPublishedField.value = 'false';
+        form.submit(); // simplest; if you want draft-as-API, we can refactor this too
+      });
+    }
+
+    if (publishBtn) {
+      publishBtn.addEventListener('click', async function (event) {
+        event.preventDefault();
+        clearError();
+
+        syncEditorToTextarea();
+        isPublishedField.value = 'true';
+
+        const formData = new FormData(form);
+
+        // Decide URL + method
+        let url = '/api/blogposts';
+        let method = 'POST';
+
+        if (isEdit) {
+          const originalSlug = originalSlugInput.value;
+          url = `/api/blogposts/${encodeURIComponent(originalSlug)}`; // matches router.put('/:slug', ...)
+          method = 'PUT';
         }
 
-        // Optional: get updated post back
-        // const updatedPost = await res.json();
+        try {
+          const res = await fetch(url, {
+            method,
+            body: formData
+          });
 
-        // Redirect (or show a toast)
-        window.location.href = '/blog';
-      } catch (err) {
-        console.error('Error updating post:', err);
-        alert('An error occurred while updating the post.');
-      }
-    });
+          const data = await res.json().catch(() => ({}));
+
+          if (!res.ok || !data.success) {
+            const msg =
+              data && data.message
+                ? data.message
+                : 'Failed to save the post. Please try again.';
+            showError(msg, data.errors);
+            return;
+          }
+
+          // On success, redirect to the post page
+          if (data.post && data.post._id) {
+            window.location.href = `/posts/${data.post._id}`;
+          } else if (data.post && data.post.slug) {
+            window.location.href = `/blog/${data.post.slug}`;
+          } else {
+            window.location.href = '/admin/blog';
+          }
+        } catch (err) {
+          console.error(err);
+          showError('An unexpected error occurred. Please try again.');
+        }
+      });
+    }
+
+    if (previewBtn) {
+      previewBtn.addEventListener('click', function () {
+        syncEditorToTextarea();
+        const previewWin = window.open('', '_blank', 'width=800,height=600');
+        previewWin.document.write(`
+          <html>
+            <head><title>Preview</title></head>
+            <body>
+              <h1>${titleInput ? escapeHtml(titleInput.value || '(No title)') : ''}</h1>
+              <div>${contentField.value ? escapeHtml(contentField.value) : '<p>(No content)</p>'}</div>
+            </body>
+          </html>
+        `);
+        previewWin.document.close();
+      });
+    }
   });
 </script>

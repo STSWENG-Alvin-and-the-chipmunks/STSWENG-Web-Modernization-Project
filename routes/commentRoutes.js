@@ -33,20 +33,45 @@ const commentLimiter = rateLimit({
 
 // --- Validation middleware for creating a comment ---
 const validateComment = [
-  body('content').notEmpty().withMessage('Content is required.'),
-  body('blogId').isMongoId().withMessage('A valid blog post ID is required.'),
+  body('content')
+    .trim()
+    .notEmpty()
+    .withMessage('Content is required.'),
+
+  body('blogId')
+    .custom((value) => {
+      if (!value) {
+        throw new Error('blogId is required.');
+      }
+
+      const cleaned = String(value)
+        .trim()
+        .replace(/[^0-9a-fA-F]/g, ''); // strip any junk like '>'
+
+      if (!/^[0-9a-fA-F]{24}$/.test(cleaned)) {
+        throw new Error('A valid blog post ID is required.');
+      }
+
+      // store cleaned value back into body so controller can use it
+      return true;
+    }),
+
   (req, res, next) => {
+    console.log('Incoming comment body:', req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Validation failed', 
-        errors: errors.array() 
+      console.log('Validation errors:', errors.array());
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors: errors.array(),
       });
     }
     next();
   },
 ];
+
+
 
 // --- Rate limiting middleware for getting comments ---
 const getCommentsLimiter = rateLimit({

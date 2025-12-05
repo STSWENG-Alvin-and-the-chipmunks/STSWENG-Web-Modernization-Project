@@ -47,7 +47,7 @@
             <img src="/assets/Upvote.png" alt="Upvote"> {{upvotes}}
           </button>
           <button class="action-icon" aria-label="Comment">
-            <img src="/assets/Comment.png" alt="Comment"> {{comments}}
+          <img src="/assets/Comment.png" alt="Comment"> {{comments.length}} 
           </button>
         </div>
         <div class="action-group">
@@ -70,12 +70,160 @@
   </div>
   {{/with}}
 
-  {{!-- Comments Section --}}
+    {{!-- Comments Section --}}
   <div class="post-content-container">
-    <div class="comments-section">
-      <h3>Comments</h3>
-      <p><i>(Comment section placeholder)</i></p>
+    <div class="comments-section-wrapper">
+
+      {{!-- A. The "Add Comment" Area --}}
+      <div class="comment-input-row">
+        {{!-- User Avatar (Placeholder or Real) --}}
+        <div class="avatar-circle">
+          {{#if user.profilePic}}
+             <img src="{{user.profilePic}}" alt="User">
+          {{else}}
+             <div class="avatar-placeholder">{{user.username.[0]}}</div>
+          {{/if}}
+        </div>
+
+        <div class="input-container">
+          {{#if user}}
+
+          <form action="/api/comments" method="POST" class="modern-comment-form">
+            <textarea name="content" placeholder="What are your thoughts?" required></textarea>
+            <input type="hidden" name="blogId" value="{{post._id}}">
+            <button type="submit" class="send-btn">Post</button>
+          </form>
+
+          {{else}}
+            <div class="login-prompt-bar">
+              <span><a href="/login">Log in</a> to share your thoughts.</span>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+
+      <div class="divider-line"></div>
+
+      {{!-- B. The List of Comments --}}
+      <div class="comments-list">
+        {{#if post.comments}}
+          {{#each post.comments}}
+            <div class="comment-item">
+
+              {{!-- Left: Avatar --}}
+              <div class="comment-avatar-col">
+                 <div class="avatar-circle small">
+                   {{#if this.author.profilePic}}
+                     <img src="{{this.author.profilePic}}" alt="User">
+                   {{else}}
+                     {{!-- Fallback if no image --}}
+                     <div class="avatar-placeholder">{{this.author.username.[0]}}</div>
+                   {{/if}}
+                 </div>
+              </div>
+
+              {{!-- Right: Content --}}
+              <div class="comment-main">
+                <div class="comment-header">
+                  <div class="meta-left">
+                    <span class="comment-author-name">{{this.author.username}}</span>
+                    {{!-- Format this date using JS or a helper later --}}
+                    <span class="comment-date">{{this.createdAt}}</span>
+                    
+           
+                  </div>
+                  {{#if @root.isAdminOrManager}}
+                  <div class="meta-right">
+                    <div class="bk-menu">
+                      <button
+                        type="button"
+                        class="bk-menu-btn"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        •••
+                      </button>
+                      <ul class="bk-menu-list" role="menu">
+                        <li role="menuitem">
+                        <button
+                          type="button"
+                          class="bk-delete-comment"
+                          data-comment-id="{{this._id}}"
+                        >
+                          Delete
+                        </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  {{/if}}
+                        
+                </div>
+                <div class="comment-text">
+                  {{this.content}}
+                </div>
+
+                {{!-- Footer: Replies / Actions --}}
+                <div class="comment-footer">
+                  <div class="action-item">
+                    <button class="action-icon" aria-label="Comment-reply">
+                      <img src="/assets/Comment.png" alt="Comment-reply"> {{comments-reply}}
+                      <span>Reply</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          {{/each}}
+        {{else}}
+          <p class="no-comments">No comments yet.</p>
+        {{/if}}
+      </div>
     </div>
   </div>
-
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const commentsList = document.querySelector('.comments-list');
+    if (!commentsList) return;
+
+    commentsList.addEventListener('click', async function (e) {
+      const btn = e.target.closest('.bk-delete-comment');
+      if (!btn) return;
+
+      const commentId = btn.getAttribute('data-comment-id');
+      if (!commentId) return;
+
+      const confirmed = window.confirm('Are you sure you want to delete this comment?');
+      if (!confirmed) return;
+
+      try {
+        const res = await fetch(`/api/comments/${commentId}`, {
+          method: 'DELETE',
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok || !data.success) {
+          alert(data.message || 'Failed to delete comment.');
+          return;
+        }
+
+        // Remove the comment block from DOM
+        const commentItem = btn.closest('.comment-item');
+        if (commentItem) {
+          commentItem.remove();
+        }
+
+      } catch (err) {
+        console.error('Error deleting comment:', err);
+        alert('An unexpected error occurred while deleting the comment.');
+      }
+    });
+  });
+</script>

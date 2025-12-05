@@ -1,5 +1,6 @@
 const Comment = require('../models/Comment');
 const BlogPost = require('../models/BlogPost');
+const mongoose = require('mongoose');
 
 // Create a new comment
 const createComment = async (req, res) => {
@@ -8,50 +9,46 @@ const createComment = async (req, res) => {
     const author = req.user.id; // From auth middleware
 
     // Validate blogId to prevent NoSQL injection
-    if (
-      typeof blogId !== 'string' ||
-      !blogId.match(/^[a-fA-F0-9]{24}$/)
-    ) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Invalid blogId' 
+    if (!mongoose.Types.ObjectId.isValid(blogId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'A valid blog post ID is required.'
       });
     }
 
     // Check if the blog post exists
     const post = await BlogPost.findById(blogId);
     if (!post) {
-      return res.status(404).json({ 
-        success: false, 
-        message: 'Blog post not found' 
+      return res.status(404).json({
+        success: false,
+        message: 'Blog post not found'
       });
     }
 
-    const comment = new Comment({
+    // 1) Create and save the comment
+    const comment = await Comment.create({
       content,
       author,
       blogPost: blogId
     });
 
-    await comment.save();
+    // 2) Attach comment ID to the BlogPost document
+    post.comments.push(comment._id);
+    await post.save();
 
-    // Populate author info before sending back
-    // The frontend will want to display the user's name/pic
-    const populatedComment = await Comment.findById(comment._id)
-      .populate('author', 'username profilePic');
+    // 3) If this came from a normal HTML form, redirect back to the post page
+    // (which will refresh and show the new comment)
+    return res.redirect(`/posts/${blogId}`);
 
-    res.status(201).json({
-      success: true,
-      message: 'Comment posted successfully',
-      data: populatedComment
-    });
+    // If later you need JSON for an API, you can add a branch like:
+    // if (req.headers.accept && req.headers.accept.includes('application/json')) { ... }
 
   } catch (error) {
     console.error('Error creating comment:', error);
-    res.status(500).json({ 
-      success: false, 
+    return res.status(500).json({
+      success: false,
       message: 'Server error',
-      error: error.message 
+      error: error.message
     });
   }
 };
@@ -123,7 +120,7 @@ const updateComment = async (req, res) => {
   }
 };
 
-// --- Delete Comment (Admin or Author only) ---
+// --- Delete Comment (Admin, Manager, or Author only) ---
 const deleteComment = async (req, res) => {
   try {
     const { commentId } = req.params;
@@ -133,18 +130,33 @@ const deleteComment = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Comment not found' });
     }
 
-    // CHECK OWNERSHIP: Allow if user is Admin OR if user is the Author
-    if (req.user.role !== 'admin' && comment.author.toString() !== req.user.id) {
+    // Allow Admin, Manager, or the Author to delete
+    const role = req.user.role;
+    if (!['admin', 'manager'].includes(role) &&
+        comment.author.toString() !== req.user.id) {
       return res.status(403).json({ success: false, message: 'Not authorized to delete this comment' });
     }
 
-    await comment.deleteOne();
-    res.json({ success: true, message: 'Comment deleted successfully' });
+    // 1) Remove the comment ID from the BlogPost.comments array
+    await BlogPost.updateOne(
+      { _id: comment.blogPost },
+      { $pull: { comments: comment._id } }
+    );
+
+    // 2) Hard delete the comment document itself
+    await Comment.deleteOne({ _id: commentId });
+
+    return res.json({ success: true, message: 'Comment deleted successfully' });
   } catch (error) {
     console.error('Error deleting comment:', error);
-    res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    return res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message
+    });
   }
 };
+
 
 module.exports = {
   createComment,
