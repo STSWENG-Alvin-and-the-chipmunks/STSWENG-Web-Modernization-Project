@@ -47,7 +47,7 @@ const BlogPost = require('./models/BlogPost');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser()); 
-app.use(fileUpload());
+
 
 // Ensure the uploads directory exists
 const uploadsDir = path.join(__dirname, 'public','uploads');
@@ -82,6 +82,14 @@ app.use(async (req, res, next) => {
     res.locals.user = req.user || null;
     res.locals.isLoggedIn = !!req.user;
 
+    // --- NEW: role-based booleans ---
+    const role = req.user?.role;
+    res.locals.isAdmin = role === 'admin';
+    res.locals.isManager = role === 'manager';
+    res.locals.isUser = role === 'user'; // if you use 'user' as default
+    res.locals.isAdminOrManager = res.locals.isAdmin || res.locals.isManager;
+    // --------------------------------
+
     // 2. Logic for Sidebar links (from previous fix)
     res.locals.blogLink = '/blog';
     if (req.user && (req.user.role === 'admin' || req.user.role === 'manager')) {
@@ -100,7 +108,7 @@ app.use(async (req, res, next) => {
 app.use('/api/blogposts', blogRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/users', userRoutes);
-
+app.use(fileUpload());
 /******************DATABASE CONNECTION************************/
 const connectDB = async () => {
     try {
@@ -206,7 +214,7 @@ const blogLimiter = RateLimit({
 app.get('/blog', blogLimiter, async (req, res) => {
     try {
     const branches = await Branches.find();
-    const blogpost = await BlogPost.find({isPublished:true}).sort({ createdAt: -1 }); // or your dummy data
+    const blogpost = await BlogPost.find({isPublished:true}).sort({ createdAt: -1 }).populate('author'); // or your dummy data
 
     res.render('blog-list-view', {
       title: 'Blog',
@@ -229,7 +237,7 @@ app.get('/admin/blog',
     try {
       const branches = await Branches.find();
       // Admin can see all posts, or still only published – your choice:
-      const blogpost = await BlogPost.find().sort({ createdAt: -1 });
+      const blogpost = await BlogPost.find({isPublished:true}).sort({ createdAt: -1 });
 
       res.render('blog-list-view', {
         title: 'Blog (Admin)',
@@ -246,16 +254,38 @@ app.get('/admin/blog',
   }
 );
 
-app.get('/blog/create', (req, res) => {
-  res.render('create_modal', { 
-    title: "Create New Post",
-    navTransparent: false,
+// app.get('/blog/create', (req, res) => {
+//   res.render('create_modal', { 
+//     title: "Create New Post",
+//     navTransparent: false,
+//         isLoginOrAdmin: true,
+//         isAdminPages: true,           // admin mode
+//         branches,
+//         blogpost
+//   });
+// });
+
+// SHOW CREATE BLOG PAGE (admin/manager only)
+app.get(
+  '/blog/create',
+  auth,
+  authorizeRoles('admin', 'manager'),
+  async (req, res) => {
+    try {
+      const branches = await Branches.find(); // if you still want branches in layout
+      res.render('create_modal', {
+        title: 'Create Blog Post',
+        navTransparent: false,
         isLoginOrAdmin: true,
-        isAdminPages: true,           // admin mode
-        branches,
-        blogpost
-  });
-});
+        isAdminPages: true,
+        branches
+      });
+    } catch (err) {
+      console.error('Error loading create blog page:', err);
+      res.status(500).send('Server error');
+    }
+  }
+);
 
 app.post('/blog/create', async (req, res) => {
   try {
@@ -281,39 +311,6 @@ app.post('/blog/create', async (req, res) => {
   }
 });
 
-// Route to handle adding a comment
-app.post('/blog/:id/comment', auth, async (req, res) => {
-  try {
-    const postId = req.params.id;
-    
-    // 2. Check req.user (from JWT) instead of req.session.user
-    if (!req.user) {
-        // Optional: Redirect to login if not authorized
-        return res.status(401).send("You must be logged in.");
-    }
-
-    const post = await BlogPost.findById(postId);
-    if (!post) return res.status(404).send("Post not found");
-
-    // Create the comment object
-    const newComment = {
-      content: req.body.content,
-      author: req.user.id, // 3. Use the ID from the decoded token
-      createdAt: new Date()
-    };
-
-    // Add to array and save
-    post.comments.push(newComment);
-    await post.save();
-
-    // Redirect back to the post so they see their comment
-    res.redirect(`/posts/${postId}`); // Changed to /posts/ to match your detail route
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error adding comment");
-  }
-});
 
 // Rate limiter: max 100 requests per 15 minutes to /blog per IP
 const adminEditLimiter = RateLimit({
@@ -358,20 +355,19 @@ app.get('/posts/:id', postDetailLimiter, async (req, res) => {
   try {
     const postId = req.params.id;
     const post = await BlogPost.findById(postId)
-      .populate('author') // Populates the writer of the blog post
+      .populate('author') // post author
       .populate({
-        path: 'comments', // Look at the comments array
-        populate: { path: 'author', select: 'username' } // Inside comments, find the author and just get their username
-    });
+        path: 'comments',
+        populate: { path: 'author', select: 'username profilePic' }
+      });
 
     if (!post) {
-      
       return res.status(404).send('Post not found');
     }
 
     res.render('blog_post_detail', {
-      layout: 'index', 
-      post: post.toObject(),      
+      layout: 'index',
+      post: post.toObject(),
     });
 
   } catch (err) {
@@ -379,6 +375,8 @@ app.get('/posts/:id', postDetailLimiter, async (req, res) => {
     res.status(500).send('An internal server error occurred. Please check the console.');
   }
 });
+
+
 
 app.get('/services', async (req, res) => {
     try {
@@ -437,6 +435,18 @@ app.get('/login', async (req, res) => {
     }
 });
 
+app.get('/logout', (req, res) => {
+  // Clear the JWT cookie
+  res.clearCookie('token'); // name must match res.cookie('token', ...) from /login
+
+  // If you ever use express-session, you can also destroy it here:
+  // req.session.destroy(() => {
+  //   res.redirect('/login');
+  // });
+
+  res.redirect('/login'); // or '/' or wherever you want after logout
+});
+
 app.get('/signup', async (req, res) => {
     try {
         const branches = await Branches.find();
@@ -455,7 +465,7 @@ app.get('/admin-landing', auth, async (req, res) => {
         }
         const branches = await Branches.find();
         const user = await User.findById(req.user.id);
-        res.render('admin-landing', { title: 'Admin Landing Page', navTransparent: false, isLoginOrAdmin: true, isAdminPages: true, branches, user });
+        res.render('admin-landing', { title: 'Landing Page', navTransparent: false, isLoginOrAdmin: true, isAdminPages: true, branches, user });
     } catch (err) {
         console.error('Error fetching branches:', err);
         res.status(500).send('Server error');

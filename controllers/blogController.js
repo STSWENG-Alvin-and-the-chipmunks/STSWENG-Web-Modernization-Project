@@ -2,69 +2,91 @@ const BlogPost = require('../models/BlogPost');
 const path = require('path');
 const fs = require('fs/promises'); // for file deletion
 
-// Create new blog post
+// --- CREATE BLOG POST ---
 const createBlogPost = async (req, res) => {
   try {
-    const { title, slug, content, tags, isPublished } = req.body;
-    
-    // Check if slug already exists
-    const existingPost = await BlogPost.findOne({ slug: { $eq: slug } });
-    if (existingPost) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Slug already exists' 
+    const { title, content, tags, isPublished, slug } = req.body;
+
+    // Basic server-side checks (in case client-side missed something)
+    if (!title || !content) {
+      return res.status(400).json({
+        success: false,
+        message: 'Title and content are required.',
       });
     }
 
-    // Handle cover image URL
-    let coverImage = '';
-    if (req.file) {
-      coverImage = `/uploads/${req.file.filename}`;
+    // Tags: "tag1, tag2" -> ["tag1","tag2"]
+    const tagsArray = tags
+      ? tags.split(',').map(t => t.trim()).filter(Boolean)
+      : [];
+
+    // Slug: use provided or derive from title
+    let finalSlug = slug && slug.trim()
+      ? slug.trim().toLowerCase()
+      : title.toLowerCase();
+
+    finalSlug = finalSlug
+      .replace(/[^a-z0-9\s-]/g, '') // remove invalid chars
+      .replace(/\s+/g, '-')         // spaces -> dashes
+      .replace(/-+/g, '-');         // no double dashes
+
+    // Enforce unique slug by erroring if taken
+    const existingPost = await BlogPost.findOne({ slug: finalSlug });
+    if (existingPost) {
+      return res.status(400).json({
+        success: false,
+        message: 'Slug already exists. Please choose a different one.',
+      });
     }
 
-    const blogPost = new BlogPost({
+    const coverImageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+
+    const post = await BlogPost.create({
       title,
-      slug,
+      slug: finalSlug,
       content,
-      author: req.user.id, // From auth middleware
-      tags: tags ? (Array.isArray(tags) ? tags : tags.split(',')) : [],
+      tags: tagsArray,
+      coverImage: coverImageUrl,
       isPublished: isPublished === 'true',
-      coverImage
+      author: req.user._id, // auth middleware attaches req.user
     });
 
-    await blogPost.save();
-
-    res.json({ 
-      success: true, 
-      message: 'Blog post created successfully',
-      data: blogPost 
+    return res.status(201).json({
+      success: true,
+      message: 'Post created successfully.',
+      post: {
+        _id: post._id,
+        slug: post.slug,
+        title: post.title,
+      },
     });
-  } catch (error) {
-    console.error('Error creating blog post:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Server error',
-      error: error.message 
+  } catch (err) {
+    console.error('Error creating blog post:', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error while creating blog post.',
+      error: err.message,
     });
   }
 };
 
-// Get all published blog posts with optional filtering
+// --- GET ALL PUBLISHED BLOG POSTS ---
 const getBlogPosts = async (req, res) => {
   try {
     const { page = 1, limit = 10, search, tag } = req.query;
-    
+
+    const pageNum = parseInt(page, 10);
+    const limitNum = parseInt(limit, 10);
+
     const query = { isPublished: true };
-    
-    // Add search filter
+
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: 'i' } },
-        { content: { $regex: search, $options: 'i' } }
+        { content: { $regex: search, $options: 'i' } },
       ];
     }
-    
-    // Add tag filter
+
     if (tag) {
       query.tags = { $in: [tag] };
     }
@@ -72,8 +94,8 @@ const getBlogPosts = async (req, res) => {
     const blogPosts = await BlogPost.find(query)
       .populate('author', 'username profilePic')
       .sort({ createdAt: -1 })
-      .limit(limit * 1)
-      .skip((page - 1) * limit);
+      .limit(limitNum)
+      .skip((pageNum - 1) * limitNum);
 
     const total = await BlogPost.countDocuments(query);
 
@@ -81,127 +103,147 @@ const getBlogPosts = async (req, res) => {
       success: true,
       data: blogPosts,
       pagination: {
-        currentPage: parseInt(page),
-        totalPages: Math.ceil(total / limit),
-        totalPosts: total
-      }
+        currentPage: pageNum,
+        totalPages: Math.ceil(total / limitNum),
+        totalPosts: total,
+      },
     });
   } catch (error) {
     console.error('Error fetching blog posts:', error);
-    res.status(500).json({ 
-      success: false, 
+    res.status(500).json({
+      success: false,
       message: 'Server error',
-      error: error.message 
+      error: error.message,
     });
   }
 };
 
-// Get single blog post by slug
+// --- GET SINGLE POST BY SLUG ---
 const getBlogPostBySlug = async (req, res) => {
   try {
     const { slug } = req.params;
-    
-    const blogPost = await BlogPost.findOne({ slug, isPublished: true, isDeleted: false })
-      .populate('author', 'username profilePic');
+
+    const blogPost = await BlogPost.findOne({
+      slug,
+      isPublished: true,
+      isDeleted: false,
+    }).populate('author', 'username profilePic');
 
     if (!blogPost) {
-      return res.status(404).json({ 
-        success: false, 
-        message: 'Blog post not found' 
+      return res.status(404).json({
+        success: false,
+        message: 'Blog post not found',
       });
     }
 
     res.json({
       success: true,
-      data: blogPost
+      data: blogPost,
     });
   } catch (error) {
     console.error('Error fetching blog post:', error);
-    res.status(500).json({ 
-      success: false, 
+    res.status(500).json({
+      success: false,
       message: 'Server error',
-      error: error.message 
+      error: error.message,
     });
   }
 };
 
-// Update blog post by slug
+// --- UPDATE BLOG POST BY SLUG ---
 const updateBlogPost = async (req, res) => {
   try {
     const { title, slug, content, tags, isPublished } = req.body;
     const blogPost = await BlogPost.findOne({ slug: req.params.slug });
 
     if (!blogPost) {
-      return res.status(404).json({ success: false, message: 'Blog post not found' });
+      return res.status(404).json({
+        success: false,
+        message: 'Blog post not found',
+      });
     }
 
-    // If the slug is being updated, check if the new one is unique
+    // If slug is being updated, ensure uniqueness
     if (slug && slug !== blogPost.slug) {
-        const existingPost = await BlogPost.findOne({ slug: { $eq: slug } });
-        if (existingPost) {
-            return res.status(400).json({ success: false, message: 'New slug already exists' });
-        }
-        blogPost.slug = slug;
+      const existingPost = await BlogPost.findOne({ slug: { $eq: slug } });
+      if (existingPost) {
+        return res.status(400).json({
+          success: false,
+          message: 'New slug already exists',
+        });
+      }
+      blogPost.slug = slug;
     }
-    
-    // Handle new cover image upload
+
+    // New cover image
     if (req.file) {
-      // If there's an old image, delete it
       if (blogPost.coverImage) {
         const oldImagePath = path.join(__dirname, '../public', blogPost.coverImage);
         try {
           await fs.unlink(oldImagePath);
         } catch (err) {
-          console.error("Error deleting old image:", err.message);
+          console.error('Error deleting old image:', err.message);
         }
       }
       blogPost.coverImage = `/uploads/${req.file.filename}`;
     }
 
-    // Update fields
+    // Update other fields
     blogPost.title = title || blogPost.title;
     blogPost.content = content || blogPost.content;
-    blogPost.tags = tags ? (Array.isArray(tags) ? tags : tags.split(',')) : blogPost.tags;
+    blogPost.tags = tags
+      ? (Array.isArray(tags) ? tags : tags.split(','))
+      : blogPost.tags;
+
     if (isPublished !== undefined) {
       blogPost.isPublished = isPublished === 'true';
     }
 
     const updatedPost = await blogPost.save();
 
-    res.json({ 
-      success: true, 
-      message: 'Blog post updated successfully', 
-      data: updatedPost 
+    res.json({
+      success: true,
+      message: 'Blog post updated successfully',
+      data: updatedPost,
     });
-
   } catch (error) {
     console.error('Error updating blog post:', error);
-    res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message,
+    });
   }
 };
 
-// Delete blog post by slug
+// --- SOFT DELETE BLOG POST BY SLUG ---
+// "Delete" = Unpublish blog post by slug
 const deleteBlogPost = async (req, res) => {
   try {
-    const blogPost = await BlogPost.findOne({ slug: req.params.slug });
+    const { slug } = req.params;
+
+    const blogPost = await BlogPost.findOne({ slug });
 
     if (!blogPost) {
-      return res.status(404).json({ success: false, message: 'Blog post not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Blog post not found' });
     }
 
-    // Note: REMOVED the file deletion code
-    // In a soft delete, we keep the image so the post can be restored later.
-
-    // Perform Soft Delete
-    blogPost.isDeleted = true;
-    blogPost.isPublished = false; // Unpublish it as well for safety
+    blogPost.isPublished = false;
     await blogPost.save();
 
-    res.json({ success: true, message: 'Blog post deleted successfully' });
-
+    return res.json({
+      success: true,
+      message: 'Blog post unpublished successfully',
+    });
   } catch (error) {
-    console.error('Error deleting blog post:', error);
-    res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    console.error('Error unpublishing blog post:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message,
+    });
   }
 };
 
@@ -210,5 +252,5 @@ module.exports = {
   getBlogPosts,
   getBlogPostBySlug,
   updateBlogPost,
-  deleteBlogPost
+  deleteBlogPost,
 };

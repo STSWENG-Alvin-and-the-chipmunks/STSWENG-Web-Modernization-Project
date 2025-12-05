@@ -1,3 +1,47 @@
+
+<article class="bk-card" data-id="{{_id}}" data-slug="{{slug}}">
+  {{#if @root.isAdminPages}}
+    <div class="bk-menu">
+      <button type="button" class="bk-menu-btn" aria-haspopup="true" aria-expanded="false">•••</button>
+      <ul class="bk-menu-list" role="menu">
+        <li role="menuitem">
+          <a class="bk-edit" href="/admin/blog/edit/{{_id}}">Edit</a>
+        </li>
+        <li role="menuitem">
+          <button
+            type="button"
+            class="bk-delete"
+            data-id="{{_id}}"
+            data-slug="{{slug}}"
+            data-title="{{title}}"
+          >
+            Delete
+          </button>
+        </li>
+      </ul>
+    </div>
+  {{/if}}
+
+  <div class="bk-meta">
+    <div class="bk-avatar"></div>
+    <span class="bk-author">{{author}}</span>
+    <span class="bk-dot"></span>
+    <span class="bk-date">{{createdAt}}</span>
+  </div>
+
+  <a class="bk-link-wrapper" href="/posts/{{_id}}">
+    <h3 class="bk-title">{{title}}</h3>
+  </a>
+
+  {{#if content}}<p class="bk-sub">{{content}}</p>{{/if}}
+
+  {{#if tags}}
+    <div class="bk-tags">
+      {{#each tags}}<span class="bk-tag">#{{this}}</span>{{/each}}
+    </div>
+  {{/if}}
+</article>
+
 {{!-- TEMP inline styles to ensure it looks right; you can move this to /public/css/blog.css later --}}
 <style>
   .blog-wrap{max-width:900px;margin:0 auto;padding:24px 20px 60px;}
@@ -22,9 +66,8 @@
 <section class="blog-wrap under-fixed-nav">
   <div class="blog-tabs">
     <span class="active">List</span>
-    <a href="/bookmarks">Bookmarks</a>
     {{#if isAdminPages}}
-    <a href="/blog/create" class="blog-create">Create</a>
+      <a href="/blog/create" class="blog-create">Create</a>
     {{/if}}
   </div>
   {{#if blogpost.length}}
@@ -37,4 +80,50 @@
     <p>No blog posts available.</p>
   {{/if}}
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Event delegation: single listener for all .bk-delete buttons
+    document.body.addEventListener('click', async function (e) {
+      const btn = e.target.closest('.bk-delete');
+      if (!btn) return;
+
+      const title = btn.dataset.title || 'this post';
+      const slug  = btn.dataset.slug;
+
+      if (!slug) {
+        console.error('No slug found on delete button');
+        return;
+      }
+
+      const confirmed = window.confirm(`Unpublish "${title}"?`);
+      if (!confirmed) return;
+
+      try {
+        const res = await fetch(`/api/blogposts/${encodeURIComponent(slug)}`, {
+          method: 'DELETE',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok || !data.success) {
+          alert(data.message || 'Failed to unpublish post.');
+          return;
+        }
+
+        // Remove the card from the DOM on success
+        const article = btn.closest('.bk-card');
+        if (article) article.remove();
+
+      } catch (err) {
+        console.error('Error while unpublishing:', err);
+        alert('An unexpected error occurred while unpublishing this post.');
+      }
+    });
+  });
+</script>
+
 

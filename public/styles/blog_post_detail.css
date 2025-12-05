@@ -1,56 +1,47 @@
-/*-------------------------------------
-  Blog Post Detail Page Styles
--------------------------------------*/
+/* -------------------------------------
+  BLOG POST DETAIL PAGE
+------------------------------------- */
 
 .article-wrapper {
   background-color: #ffffff;
   padding-top: 50px;
   padding-bottom: 5rem;
-  
   font-family: 'Inter', sans-serif;
 }
 
-/* 1. The CONTAINER (with the marble background) */
+/* Hero Image & Marble Background */
 .article-wrapper .post-hero-image {
   width: 100%;
-  padding-top: 50px;
   margin: 0;
-  
-  /* This is the marble background */
-  background-image: url('/assets/marble-background.png'); 
+  padding-top: 50px;
+  padding-bottom: 2rem;
+  background-image: url('/assets/marble-background.png');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  
-  padding: 2 rem; 
 }
 
-/* The main article photo*/
 .article-wrapper .post-hero-image img {
   display: block;
-  max-width: 1000px; 
+  max-width: 1000px;
   width: 90%;
-  margin: 0 auto; 
-  height: auto; 
-  box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+  margin: 0 auto;
+  height: auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
   border-radius: 4px;
 }
 
-/* The image caption */
 .article-wrapper .post-hero-caption {
-  
-  max-width: 800px; 
-  margin: 0.75rem auto 0 auto; 
-  padding: 0 1.5rem; 
-  
-  
+  max-width: 800px;
+  margin: 0.75rem auto 0 auto;
+  padding: 0 1.5rem;
   font-family: 'Inter', sans-serif;
   font-size: 0.85rem;
   color: #000;
   text-align: center;
 }
 
-/* Container to center all text content */
+/* Main Content Container */
 .article-wrapper .post-content-container {
   max-width: 1000px;
   margin: 0 auto;
@@ -62,7 +53,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 3.25rem;
   font-weight: 800;
-  color: #222; 
+  color: #222;
   line-height: 1.2;
   margin-bottom: 1rem;
   padding-top: 20px;
@@ -73,7 +64,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 1.5rem;
   font-weight: 400;
-  color: #666; 
+  color: #666;
   margin-bottom: 2rem;
   line-height: 1.5;
 }
@@ -81,11 +72,11 @@
 /* Author & Read Time */
 .article-wrapper .post-author-meta {
   display: flex;
-  box-align: center;
+  align-items: center;
   margin-bottom: 2rem;
   font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
-  color: #333; /* Set color back to dark */
+  color: #333;
 }
 
 .article-wrapper .author-avatar {
@@ -107,8 +98,8 @@
 }
 
 .article-wrapper .author-info .meta-separator {
-  margin: 0 0.5rem; 
-  font-size: 0.8rem; 
+  margin: 0 0.5rem;
+  font-size: 0.8rem;
   color: #000;
 }
 
@@ -127,6 +118,11 @@
   margin-bottom: 3rem;
 }
 
+.article-wrapper .action-group {
+  display: flex;
+  align-items: center;
+}
+
 .article-wrapper .action-icon {
   font-family: 'Inter', sans-serif;
   font-weight: 500;
@@ -134,7 +130,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #777; 
+  color: #777;
   margin-right: 1.75rem;
   transition: color 0.2s ease;
   display: inline-flex;
@@ -142,9 +138,9 @@
 }
 
 .article-wrapper .action-icon img {
-  height: 25px; 
+  height: 25px;
   width: 35px;
-  margin-right: 6px; 
+  margin-right: 6px;
 }
 
 .article-wrapper .action-group:last-child .action-icon img {
@@ -160,8 +156,9 @@
   font-family: 'Merriweather', serif;
   font-size: 1.15rem;
   line-height: 1.8;
-  color: #333; 
+  color: #333;
 }
+
 .article-wrapper .post-body p {
   margin-bottom: 2rem;
 }
@@ -175,15 +172,17 @@
   margin-bottom: 1rem;
 }
 
-/* Comments Section Styling */
-/* --- Comment Section Wrapper --- */
+/* -------------------------------------
+  COMMENTS SECTION
+------------------------------------- */
+
 .comments-section-wrapper {
-  max-width: 700px; /* Keep it readable like the screenshots */
+  max-width: 700px;
   margin: 40px auto;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-/* --- Input Area --- */
+/* Input Row */
 .comment-input-row {
   display: flex;
   gap: 15px;
@@ -191,35 +190,33 @@
   padding: 20px 0;
 }
 
-/* Container for the form to handle layout */
+/* Comment Form */
 .modern-comment-form {
   flex: 1;
   display: flex;
-  flex-direction: row; /* Stacks button below or keeps it aside depending on preference */
+  flex-direction: row;
   gap: 15px;
   position: relative;
 }
 
-/* The Box Styling */
 .modern-comment-form textarea {
-  width: 550px; /* Wider box */
-  min-height: auto; /* Makes it "lengthy" (tall) */
-  background-color: #f0f2f5; /* Light gray box background */
+  width: 550px;
+  min-height: auto;
+  background-color: #f0f2f5;
   border: 1px solid transparent;
-  border-radius: 12px; /* Rounded corners */
-  padding: 15px; /* Comfortable spacing inside */
+  border-radius: 12px;
+  padding: 15px;
   font-family: inherit;
   font-size: 0.95rem;
-  resize: vertical; /* Allows user to drag it larger */
+  resize: vertical;
   outline: none;
   transition: all 0.2s ease;
 }
 
-/* Effect when clicking inside */
 .modern-comment-form textarea:focus {
   background-color: #fff;
   border-color: #333;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .modern-comment-form input {
@@ -237,8 +234,8 @@
 }
 
 .send-btn {
-  align-self: center; /* Pushes button to the right */
-  background: #A98B4F; /* Medium-style green, or keep your #333 */
+  align-self: center;
+  background: #A98B4F;
   color: #fff;
   border: none;
   padding: 6px 16px;
@@ -246,7 +243,6 @@
   cursor: pointer;
   font-weight: 500;
   transition: background 0.2s;
-  
 }
 
 .send-btn:hover {
@@ -259,7 +255,7 @@
   margin: 20px 0;
 }
 
-/* --- Avatar Styling --- */
+/* Avatar */
 .avatar-circle {
   width: 40px;
   height: 40px;
@@ -289,7 +285,7 @@
   text-transform: uppercase;
 }
 
-/* --- Comment Items --- */
+/* Comment List */
 .comment-item {
   display: flex;
   gap: 15px;
@@ -300,17 +296,18 @@
   flex: 1;
 }
 
+/* Header of Each Comment (name + date + menu) */
 .comment-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 5px;
+  position: relative; /* anchor for absolute menu */
 }
 
 .meta-left {
   display: flex;
-  flex-direction: column; /* Stack name and date like screenshot 1 */
-  /* OR use 'row' and 'gap' if you prefer screenshot 2 side-by-side style */
+  flex-direction: column;
 }
 
 .comment-author-name {
@@ -321,17 +318,17 @@
 
 .comment-date {
   font-size: 0.8rem;
-  color: #757575; /* The specific grey from screenshots */
+  color: #757575;
   margin-top: 2px;
 }
 
-.comment-menu {
-  color: #757575;
-  cursor: pointer;
-  letter-spacing: 1px;
-  font-weight: bold;
+.meta-right {
+  display: flex;
+  align-items: center;
+  position: relative; /* also valid anchor */
 }
 
+/* Comment Text */
 .comment-text {
   font-size: 0.95rem;
   line-height: 1.5;
@@ -339,7 +336,7 @@
   margin: 8px 0 12px 0;
 }
 
-/* --- Footer / Actions --- */
+/* Comment Footer / Actions */
 .comment-footer {
   display: flex;
   gap: 20px;
@@ -368,4 +365,85 @@
   font-style: italic;
   text-align: center;
   margin-top: 20px;
+}
+
+/* -------------------------------------
+  3-DOT MENU (bk-menu)
+------------------------------------- */
+
+.bk-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.bk-menu-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid #e3e3e3;
+  background: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  line-height: 0;
+  font-size: 16px;
+  color: #777;
+}
+
+.bk-menu-btn:hover {
+  background: #f6f6f6;
+}
+
+.bk-menu-list {
+  position: absolute;
+  top: 34px;
+  right: 0;
+  min-width: 140px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  padding: 6px;
+  list-style: none;
+  margin: 0;
+  display: none;
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+.bk-menu.open .bk-menu-list {
+  display: block;
+}
+
+.bk-menu-list li {
+  margin: 0;
+}
+
+.bk-menu-list a,
+.bk-menu-list button {
+  width: 100%;
+  text-align: left;
+  display: block;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 0;
+  background: none;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.bk-menu-list a:hover,
+.bk-menu-list button:hover {
+  background: #f5f5f5;
+}
+
+.bk-menu-list .bk-delete {
+  color: #b94a48;
+}
+
+.bk-menu-list .bk-delete:hover {
+  background: #fde8e8;
 }
