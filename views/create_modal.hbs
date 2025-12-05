@@ -5,6 +5,7 @@
 
     <div id="errorBox" class="blog-error-box" style="display:none; color:red; margin-bottom:1rem;"></div>
     <form id="blogForm" method="POST" action="/api/blogposts" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="{{_csrf}}">
       <div class="top-actions">
         <button type="button" id="publishBtn" class="btn btn-primary" aria-label="Publish">
           <img src="/assets/Publish.png" alt="Publish"> Publish
@@ -128,10 +129,18 @@
 
       const formData = new FormData(form);
 
+      // 👇 Get CSRF token from hidden input
+      const csrfInput = form.querySelector('input[name="_csrf"]');
+      const csrfToken = csrfInput ? csrfInput.value : null;
+
       try {
         const res = await fetch('/api/blogposts', {
           method: 'POST',
-          body: formData
+          body: formData,
+          credentials: 'same-origin',         // ensure cookies (session) are sent
+          headers: csrfToken ? {
+            'x-csrf-token': csrfToken        // 👈 Lusca will check this header
+          } : {}
         });
 
         const data = await res.json().catch(() => ({}));
@@ -147,13 +156,11 @@
         }
 
         // SUCCESS: redirect to the new post page
-        // You can choose slug or _id depending on what your frontend detail route uses
         if (data.post && data.post._id) {
           window.location.href = `/posts/${data.post._id}`;
         } else if (data.post && data.post.slug) {
           window.location.href = `/blog/${data.post.slug}`;
         } else {
-          // Fallback if API didn't return a post object
           window.location.href = '/admin/blog';
         }
       } catch (err) {

@@ -26,16 +26,23 @@ const { attachUserToLocals } = require('./auth');
 const { authorizeRoles } = require('./auth');
 
 app.use(session({
-  secret: 'your_secret_key', // Change this to a random secret string
+  secret: 'your_secret_key',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // Set to true if you use https
+  cookie: { secure: false }
 }));
-// CSRF protection for all state-changing routes
+
+// Parse body + cookies first
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// Then CSRF
 app.use(lusca.csrf());
-// Make CSRF token available in locals for views (e.g., handlebars)
+
+// Make CSRF token available to views
 app.use(function(req, res, next) {
-  res.locals._csrf = req.csrfToken ? req.csrfToken() : (req.csrfToken ? req.csrfToken() : undefined);
+  res.locals._csrf = req.csrfToken ? req.csrfToken() : undefined;
   next();
 });
 
