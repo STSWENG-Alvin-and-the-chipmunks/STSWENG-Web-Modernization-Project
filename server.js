@@ -58,10 +58,6 @@ const Service = require('./models/Service');
 const Branches = require('./models/Branches');
 const Subscriber = require('./models/Subscriber');
 const BlogPost = require('./models/BlogPost');
-/******************MIDDLEWARE************************/
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser()); 
 
 
 // Ensure the uploads directory exists
@@ -338,27 +334,23 @@ app.get('/admin/blog/edit/:id', adminEditLimiter, async (req, res) => {
   try {
     const postId = req.params.id;
 
-
-    // If you want author details as well:
-    // const post = await BlogPost.findById(postId).populate('author');
     const post = await BlogPost.findById(postId);
     if (!post) {
       return res.status(404).send('Post not found');
     }
-    // If you store tags as an array and want a comma-separated string for the form:
     const tagsString = Array.isArray(post.tags) ? post.tags.join(', ') : '';
 
     res.render('edit_modal', { 
       title: "Edit Post",
-      post: post.toObject(),   // so Handlebars can safely read it
-      tagsString               // handy for a tags input field
+      post: post.toObject(),
+      tagsString
     });
-
   } catch (err) {
     console.error("Error fetching blog post for edit:", err);
     res.status(500).send('Server error');
   }
 });
+
 
 // Define rate limiter for post detail route: 100 requests per 15 minutes per IP
 const postDetailLimiter = RateLimit({

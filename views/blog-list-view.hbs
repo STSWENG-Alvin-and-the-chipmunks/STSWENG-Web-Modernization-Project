@@ -79,11 +79,11 @@
   {{else}}
     <p>No blog posts available.</p>
   {{/if}}
+  <input type="hidden" id="globalCsrf" value="{{_csrf}}">
 </section>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Event delegation: single listener for all .bk-delete buttons
     document.body.addEventListener('click', async function (e) {
       const btn = e.target.closest('.bk-delete');
       if (!btn) return;
@@ -91,19 +91,18 @@
       const title = btn.dataset.title || 'this post';
       const slug  = btn.dataset.slug;
 
-      if (!slug) {
-        console.error('No slug found on delete button');
-        return;
-      }
-
       const confirmed = window.confirm(`Unpublish "${title}"?`);
       if (!confirmed) return;
+
+      const csrfToken = document.getElementById('globalCsrf')?.value;
 
       try {
         const res = await fetch(`/api/blogposts/${encodeURIComponent(slug)}`, {
           method: 'DELETE',
+          credentials: 'same-origin',
           headers: {
-            'X-Requested-With': 'XMLHttpRequest'
+            'X-Requested-With': 'XMLHttpRequest',
+            'x-csrf-token': csrfToken
           }
         });
 
@@ -114,16 +113,16 @@
           return;
         }
 
-        // Remove the card from the DOM on success
         const article = btn.closest('.bk-card');
         if (article) article.remove();
 
       } catch (err) {
         console.error('Error while unpublishing:', err);
-        alert('An unexpected error occurred while unpublishing this post.');
+        alert('An unexpected error occurred.');
       }
     });
   });
 </script>
+
 
 
