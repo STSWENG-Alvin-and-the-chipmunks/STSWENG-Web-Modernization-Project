@@ -12,6 +12,7 @@ const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const auth = require('./auth');
 const RateLimit = require('express-rate-limit');
+const lusca = require('lusca');
 // Set up rate limiter: allow max 100 requests per 15 minutes per IP
 const limiter = RateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -30,6 +31,13 @@ app.use(session({
   saveUninitialized: false,
   cookie: { secure: false } // Set to true if you use https
 }));
+// CSRF protection for all state-changing routes
+app.use(lusca.csrf());
+// Make CSRF token available in locals for views (e.g., handlebars)
+app.use(function(req, res, next) {
+  res.locals._csrf = req.csrfToken ? req.csrfToken() : (req.csrfToken ? req.csrfToken() : undefined);
+  next();
+});
 
 /******************ROUTES************************/
 const blogRoutes = require('./routes/blogRoutes');
