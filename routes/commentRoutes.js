@@ -109,6 +109,24 @@ const validateGetComments = [
   },
 ];
 
+// --- Validation middleware for UPDATING a comment ---
+const validateUpdateComment = [
+  body('content')
+    .notEmpty()
+    .withMessage('Content cannot be empty'), // Specific error message for QA
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // Return 400 Bad Request if content is empty
+      return res.status(400).json({ 
+        success: false, 
+        message: errors.array()[0].msg 
+      });
+    }
+    next();
+  },
+];
+
 // --- Define POST route for creating a comment ---
 // use `auth` here because any logged-in user (Admin, Manager, or User)
 // can post a comment.
@@ -130,7 +148,7 @@ router.get('/:blogId',
 
 // PUT: Update Comment
 // Auth: Logged in (Controller handles specific Admin vs Author logic)
-router.put('/:commentId', updateCommentLimiter, auth, updateComment);
+router.put('/:commentId', updateCommentLimiter, auth, validateUpdateComment, updateComment);
 
 // DELETE: Delete Comment
 // Auth: Logged in (Controller handles specific Admin vs Author logic)
