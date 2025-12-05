@@ -14,6 +14,7 @@
       data-mode="edit"
     >
       {{!-- Hidden original slug so backend knows which post to update --}}
+      <input type="hidden" id="csrfField" name="_csrf" value="{{_csrf}}">
       <input type="hidden" id="originalSlug" value="{{post.slug}}">
 
       <div class="top-actions">
@@ -85,21 +86,27 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('blogForm');
-    const editor = document.getElementById('blogContentEditor');
-    const contentField = document.getElementById('contentField');
-    const isPublishedField = document.getElementById('isPublishedField');
+    console.log('[EDIT BLOG] DOMContentLoaded fired');
 
-    const saveDraftBtn = document.getElementById('saveDraftBtn');
-    const publishBtn = document.getElementById('publishBtn');
-    const previewBtn = document.getElementById('previewBtn');
+    const form            = document.getElementById('blogForm');
+    const editor          = document.getElementById('blogContentEditor');
+    const contentField    = document.getElementById('contentField');
+    const isPublishedField= document.getElementById('isPublishedField');
 
-    const titleInput = document.getElementById('titleInput');
-    const slugInput = document.getElementById('slugInput');
-    const errorBox = document.getElementById('errorBox');
+    const saveDraftBtn    = document.getElementById('saveDraftBtn');
+    const publishBtn      = document.getElementById('publishBtn');
+    const previewBtn      = document.getElementById('previewBtn');
 
-    const originalSlugInput = document.getElementById('originalSlug'); // only exists in edit
-    const isEdit = !!originalSlugInput; // true if on edit page
+    const titleInput      = document.getElementById('titleInput');
+    const slugInput       = document.getElementById('slugInput');
+    const errorBox        = document.getElementById('errorBox');
+
+    const originalSlugInput = document.getElementById('originalSlug'); 
+    const isEdit            = !!originalSlugInput;
+
+    // 💉 CSRF token straight from handlebars
+    const csrfToken = '{{_csrf}}';
+    console.log('[EDIT BLOG] CSRF token from template:', csrfToken ? '(present)' : '(missing)');
 
     let slugManuallyEdited = false;
 
@@ -153,67 +160,75 @@
       errorBox.style.display = 'none';
     }
 
-    // Draft: you can keep this as POST or also make it fetch() to /api/blogposts (up to you)
+    // Draft button (if you add it later)
     if (saveDraftBtn) {
       saveDraftBtn.addEventListener('click', function () {
         clearError();
         syncEditorToTextarea();
         isPublishedField.value = 'false';
-        form.submit(); // simplest; if you want draft-as-API, we can refactor this too
+        form.submit();
       });
     }
 
-    if (publishBtn) {
-      publishBtn.addEventListener('click', async function (event) {
-        event.preventDefault();
-        clearError();
+if (publishBtn) {
+  publishBtn.addEventListener('click', async function (event) {
+    event.preventDefault();
+    clearError();
 
-        syncEditorToTextarea();
-        isPublishedField.value = 'true';
+    syncEditorToTextarea();
+    isPublishedField.value = 'true';
 
-        const formData = new FormData(form);
+    const formData = new FormData(form);
 
-        // Decide URL + method
-        let url = '/api/blogposts';
-        let method = 'POST';
+    // Decide URL + method
+    let url = '/api/blogposts';
+    let method = 'POST';
 
-        if (isEdit) {
-          const originalSlug = originalSlugInput.value;
-          url = `/api/blogposts/${encodeURIComponent(originalSlug)}`; // matches router.put('/:slug', ...)
-          method = 'PUT';
-        }
+    if (isEdit) {
+      const originalSlug = originalSlugInput.value;
+      url = `/api/blogposts/${encodeURIComponent(originalSlug)}`;
+      method = 'PUT';
+    }
 
-        try {
-          const res = await fetch(url, {
-            method,
-            body: formData
-          });
+    // Take the CSRF token from the hidden field we just added
+    const csrfToken = document.getElementById('csrfField')?.value;
 
-          const data = await res.json().catch(() => ({}));
-
-          if (!res.ok || !data.success) {
-            const msg =
-              data && data.message
-                ? data.message
-                : 'Failed to save the post. Please try again.';
-            showError(msg, data.errors);
-            return;
-          }
-
-          // On success, redirect to the post page
-          if (data.post && data.post._id) {
-            window.location.href = `/posts/${data.post._id}`;
-          } else if (data.post && data.post.slug) {
-            window.location.href = `/blog/${data.post.slug}`;
-          } else {
-            window.location.href = '/admin/blog';
-          }
-        } catch (err) {
-          console.error(err);
-          showError('An unexpected error occurred. Please try again.');
+    try {
+      const res = await fetch(url, {
+        method,
+        body: formData,
+        credentials: 'same-origin', // send cookies (session)
+        headers: {
+          'x-csrf-token': csrfToken,          // header token for lusca
+          'X-Requested-With': 'XMLHttpRequest'
         }
       });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok || !data.success) {
+        const msg =
+          data && data.message
+            ? data.message
+            : 'Failed to save the post. Please try again.';
+        showError(msg, data.errors);
+        return;
+      }
+
+      // On success, redirect to the post page
+      if (data.post && data.post._id) {
+        window.location.href = `/posts/${data.post._id}`;
+      } else if (data.post && data.post.slug) {
+        window.location.href = `/blog/${data.post.slug}`;
+      } else {
+        window.location.href = '/admin/blog';
+      }
+    } catch (err) {
+      console.error(err);
+      showError('An unexpected error occurred. Please try again.');
     }
+  });
+}
 
     if (previewBtn) {
       previewBtn.addEventListener('click', function () {
@@ -233,3 +248,4 @@
     }
   });
 </script>
+

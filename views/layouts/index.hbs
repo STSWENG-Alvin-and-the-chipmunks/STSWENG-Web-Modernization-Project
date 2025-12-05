@@ -52,6 +52,8 @@
     {{#if isAdminPages}} 
         {{> sidebar }}
     {{/if}}
+    
+    <input type="hidden" id="globalCsrf" value="{{_csrf}}">
 
     {{{body}}}
 
